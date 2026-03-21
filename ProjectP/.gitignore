@@ -3,9 +3,7 @@
 # Get latest from https://github.com/github/gitignore/blob/main/Unity.gitignore
 #
 
-00.ImportAssets
-XNode.csproj
-XNodeEditor.csproj
+
 
 .utmp/
 /[Ll]ibrary/
@@ -105,3 +103,7 @@ InitTestScene*.unity*
 
 # Ignore imported assets
 Assets/Imports/**
+
+# xnode
+XNode.csproj
+XNodeEditor.csproj
