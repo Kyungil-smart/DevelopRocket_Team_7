@@ -107,3 +107,6 @@ Assets/Imports/**
 # xnode
 XNode.csproj
 XNodeEditor.csproj
+
+# ingore imported assets
+00.ImportAssets
