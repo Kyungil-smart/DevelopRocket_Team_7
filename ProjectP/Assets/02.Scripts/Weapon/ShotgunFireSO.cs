@@ -2,21 +2,11 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-/// <summary>
-/// [구현 원리 요약]
-/// 여러 투사체 각각에 무기 공격력을 전달하여 퍼지게 발사
-/// </summary>
 [CreateAssetMenu(menuName = "Weapon/Fire/Shotgun")]
-public class ShotgunFire : WeaponFireStrategy
+public class ShotgunFireSO : WeaponFireStrategy
 {
-    [Header("샷건 설정")]
-
-    [Tooltip("발사 탄 수")]
-    public int pelletCount = 5;
-
-    [Tooltip("퍼짐 각도")]
-    public float spreadAngle = 30f;
-
+    // 구현 원리 요약:
+    // 여러 개 투사체를 퍼짐 각도로 발사하는 구조
 
     public override void Fire(Transform firePoint, WeaponDataSO data)
     {
@@ -28,23 +18,40 @@ public class ShotgunFire : WeaponFireStrategy
 
         Vector2 baseDir = (mousePos - firePoint.position).normalized;
 
-        float startAngle = -spreadAngle / 2f;
+        int pelletCount = Mathf.Max(1, data.pelletCount);
+        float spread = data.spreadAngle;
+
+        float startAngle = -spread * 0.5f;
 
         for (int i = 0; i < pelletCount; i++)
         {
-            float angle = startAngle + (spreadAngle / (pelletCount - 1)) * i;
+            float t = pelletCount == 1 ? 0.5f : (float)i / (pelletCount - 1);
+            float angle = Mathf.Lerp(startAngle, -startAngle, t);
 
             Vector2 dir = Rotate(baseDir, angle);
 
-            GameObject bullet = Instantiate(
+            GameObject bullet = GameObject.Instantiate(
                 data.projectilePrefab,
                 firePoint.position,
                 Quaternion.identity
             );
 
             Projectile proj = bullet.GetComponent<Projectile>();
-            proj.Init(dir, data.projectileSpeed, data.damage);
+            proj.Init(dir, data.projectileSpeed, CalculateDamage(data));
         }
+    }
+
+    private int CalculateDamage(WeaponDataSO data)
+    {
+        float dmg = data.damage;
+
+        // 치명타 적용
+        if (Random.value < data.critRate)
+        {
+            dmg *= data.critMultiplier;
+        }
+
+        return Mathf.RoundToInt(dmg);
     }
 
     private Vector2 Rotate(Vector2 dir, float angle)
