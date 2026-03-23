@@ -157,3 +157,66 @@ PR은 작업 내용을 명확하게 전달하는 문서다.
 - 기능 설명 3
   - 확인 사항 1
   ```
+
+
+
+  ---
+
+  #  ★★★★★ 유니티 프로젝트 폴더 구조 가이드 ★★★★★
+
+
+
+##  1. 핵심 원칙
+
+1. **기능(Feature) 기준으로 폴더를 나눈다**
+2. 각 기능 내부에서 객체(Player, Monster 등)를 관리한다
+3. 공통 로직은 반드시 따로 분리한다 (Core)
+ 
+---
+
+##  2. 추천 폴더 구조
+
+```
+Assets/
+├── 01_Scenes/
+├── 02_Scripts/
+│   ├── Core/                # 공통 시스템
+│   │   ├── Managers/
+│   │   ├── Utilities/
+│   │   ├── Extensions/
+│   │
+│   ├── Feature/
+│   │   ├── Player/
+│   │   │   ├── Controller/
+│   │   │   ├── Movement/
+│   │   │   ├── Combat/
+│   │   │   ├── State/
+│   │   │   ├── Animation/
+│   │   │
+│   │   ├── Monster/
+│   │   │   ├── AI/
+│   │   │   ├── Combat/
+│   │   │   ├── State/
+│   │   │
+│   │   ├── Skill/
+│   │   │   ├── PlayerSkill/
+│   │   │   ├── MonsterSkill/
+│   │   │   ├── System/      # 쿨타임, 데미지 계산 등
+│   │   │
+│   │   ├── UI/
+│   │   │   ├── HUD/
+│   │   │   ├── Popup/
+│   │   │
+│   │   ├── Map/
+│   │   │   ├── Procedural/
+│   │   │   ├── Tile/
+│   │
+│   ├── Data/
+│   │   ├── ScriptableObjects/
+│   │   ├── DTO/
+│
+├── 03_Prefabs/
+├── 04_Art/
+├── 05_Audio/
+├── 06_Resources/
+```
