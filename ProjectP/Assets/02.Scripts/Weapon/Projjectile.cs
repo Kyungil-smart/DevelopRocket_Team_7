@@ -1,10 +1,5 @@
-// UTF-8
 using UnityEngine;
 
-/// <summary>
-/// [구현 원리 요약]
-/// 무기 데이터에서 전달받은 공격력을 사용하여 몬스터에게 데미지 적용
-/// </summary>
 public class Projectile : MonoBehaviour
 {
     private Vector2 direction;
