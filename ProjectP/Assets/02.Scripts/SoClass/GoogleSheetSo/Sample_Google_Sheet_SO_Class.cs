@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
 [CreateAssetMenu(menuName ="chardata",fileName ="test")]
-public class Char2Data : BaseDataSO
+public class Sample_Google_Sheet_SO_Class : BaseDataSO
 {
     private SheetLoader<Attackinfo> data;
     [SerializeField] public List<Attackinfo> Ldata = new List<Attackinfo>();

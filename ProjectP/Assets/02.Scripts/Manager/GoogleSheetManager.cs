@@ -2,14 +2,15 @@ using NUnit.Framework;
 using UnityEngine;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-public class DataManager : MonoBehaviour
+public class GoogleSheetManager : Singleton<GoogleSheetManager>
 {
     public List<BaseDataSO> m_Listdata = new List<BaseDataSO>();
     public BaseDataSO m_datasss;
 
-    public static DataManager instance;
+     
     async void Awake()
     {
+        base.Awake();
         List<Task> tasks = new List<Task>();
         foreach (var item in m_Listdata)
         {
@@ -19,7 +20,7 @@ public class DataManager : MonoBehaviour
     }
     private void Start()
     {
-        m_datasss = GetData<Char2Data>();
+        m_datasss = GetData<Sample_Google_Sheet_SO_Class>();
     }
     public BaseDataSO GetData<T>() where T : BaseDataSO
     {
