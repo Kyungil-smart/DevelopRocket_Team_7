@@ -9,12 +9,13 @@ public class NodeEnemyDamaged : EnemyBaseNode
     [Output] public EnemyStateConnection exitToDead;
     [Output] public EnemyStateConnection exitToAttackPlayer;
     [Output] public EnemyStateConnection exitToFollowingPlayer;
+    
     public override string Execute(EnemyBlackboard blackboard)
     {
         Debug.Log("지금은 적이 두두려 맞고 있습니다?");
-        if (blackboard.isDead) return "exitToDead";
-        if (blackboard.isFollowing) return "exitToFollowing";
-        if (blackboard.isAttacking) return "exitToAttackPlayer";
+        if (blackboard.IsDead) return "exitToDead";
+        if (blackboard.IsFollowing) return "exitToFollowing";
+        if (blackboard.IsAttacking) return "exitToAttackPlayer";
         return null;
     }
 }

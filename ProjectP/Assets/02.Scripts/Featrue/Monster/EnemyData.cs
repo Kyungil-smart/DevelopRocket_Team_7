@@ -5,4 +5,5 @@ public class EnemyData : ScriptableObject
 {
     public string name;
     public int maxHp;
+    public float damage;
 }

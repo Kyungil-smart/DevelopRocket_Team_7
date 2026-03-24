@@ -6,13 +6,52 @@ public class EnemyBlackboard
     public int currentHp;
     
     // state 변화를 위한 flagements
-    public bool isAttacking;
+    private bool _isAttacking;
+    public bool IsAttacking
+    {
+        get { return _isAttacking; }
+        set
+        {
+            _isAttacking = value;
+            OnAttacked?.Invoke();
+        }
+    }
     public Action OnAttacked;
-    public bool isDead;
+
+    private bool _isDead;
+    public bool IsDead
+    {
+        get { return _isDead; }
+        set
+        {
+            _isDead = value;
+            OnDead?.Invoke();
+        }
+    }
     public Action OnDead;
-    public bool isFollowing;
+
+    private bool _isFollowing;
+    public bool IsFollowing
+    {
+        get { return _isFollowing; }
+        set
+        {
+            _isFollowing = value;
+            OnFollowed?.Invoke();
+        }
+    }
     public Action OnFollowed;
-    public bool isDamaged;
+    
+    private bool _isDamaged;
+    public bool IsDamaged
+    {
+        get { return _isDamaged; }
+        set
+        {
+            _isDamaged = value;
+            OnDamaged?.Invoke();
+        }
+    }
     public Action OnDamaged;
     
     // Action 을 위한 Agent
