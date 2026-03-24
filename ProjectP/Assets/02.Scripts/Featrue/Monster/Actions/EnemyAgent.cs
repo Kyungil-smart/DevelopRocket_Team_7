@@ -21,7 +21,7 @@ public class EnemyAgent : MonoBehaviour
         
         // Pure C# Classes
         if (_damagedScript == null) _damagedScript = new EnemyDamaged();
-        if (_findTargetScript == null) _findTargetScript = GetComponent<EnemyFindTarget>();
+        if (_findTargetScript == null) _findTargetScript = new EnemyFindTarget();
     }
 
     private void OnDisable()
@@ -53,21 +53,22 @@ public class EnemyAgent : MonoBehaviour
 
     public void OnMoveToPlayer()
     {
-        
+        Vector2 nxPos = _findTargetScript.GetNextPosition(null);
+        _movementScript.Move(nxPos);
     }
     
     public void OnAttack()
     {
-        
+        _attackScript.Attack(_blackboard.origin.damage, null);
     }
 
     public void OnDamaged()
     {
-        
+        _damagedScript.TakeDamage(100);
     }
     
     public void OnDead()
     {
-        
+        _deadScript.Dead();
     }
 }

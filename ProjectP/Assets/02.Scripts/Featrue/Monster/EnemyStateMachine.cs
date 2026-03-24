@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -13,7 +14,12 @@ public class EnemyStateMachine : MonoBehaviour
     private Coroutine _coroutine;
     private WaitForSeconds _wait = new WaitForSeconds(0.1f);
     private EnemyBlackboard _blackboard;
-    
+
+    private void Awake()
+    {
+        _agent = GetComponent<EnemyAgent>();
+    }
+
     private void OnEnable()
     {
         Init();
@@ -57,6 +63,30 @@ public class EnemyStateMachine : MonoBehaviour
             }
             yield return _wait;
         }
-        
+        yield return null;
+    }
+
+    [ContextMenu("Debug/Attack")]
+    private void DebugOnAttack()
+    {
+        _blackboard.IsAttacking = !_blackboard.IsAttacking;
+    }
+    
+    [ContextMenu("Debug/Following")]
+    private void DebugOnFollowing()
+    {
+        _blackboard.IsFollowing = !_blackboard.IsFollowing;
+    }
+    
+    [ContextMenu("Debug/BeingDamaged")]
+    private void DebugOnDamaged()
+    {
+        _blackboard.IsDamaged = !_blackboard.IsDamaged;
+    }
+    
+    [ContextMenu("Debug/Dead")]
+    private void DebugOnDead()
+    {
+        _blackboard.IsDead = !_blackboard.IsDead;
     }
 }
