@@ -7,10 +7,7 @@ public class charData :ISheetParsable, IIdentifiable
     [field: SerializeField] public string Name { get; set; }
     public float HP;
     public int Attack;
-    public charData()
-    {
-
-    }
+    
     public void ApplyRowData(string [] Data)
     {
       
