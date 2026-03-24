@@ -1,14 +1,12 @@
-// UTF-8
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-/// <summary>
-/// [구현 원리 요약]
-/// 스나이퍼 투사체에 무기 공격력을 전달하여 발사
-/// </summary>
 [CreateAssetMenu(menuName = "Weapon/Fire/Sniper")]
-public class SniperFire : WeaponFireStrategy
+public class SniperFireSO : WeaponFireStrategy
 {
+    // 구현 원리 요약:
+    // 단일 고속 관통 탄 발사
+
     public override void Fire(Transform firePoint, WeaponDataSO data)
     {
         Camera cam = Camera.main;
@@ -19,13 +17,29 @@ public class SniperFire : WeaponFireStrategy
 
         Vector2 dir = (mousePos - firePoint.position).normalized;
 
-        GameObject bullet = Instantiate(
+        GameObject bullet = GameObject.Instantiate(
             data.projectilePrefab,
             firePoint.position,
             Quaternion.identity
         );
 
         SniperProjectile proj = bullet.GetComponent<SniperProjectile>();
-        proj.Init(dir, data.projectileSpeed, data.damage);
+
+        int finalDamage = CalculateDamage(data);
+
+        proj.Init(dir, data.projectileSpeed, finalDamage, data.pierceCount);
+    }
+
+    private int CalculateDamage(WeaponDataSO data)
+    {
+        float dmg = data.damage;
+
+        // 치명타 적용
+        if (Random.value < data.critRate)
+        {
+            dmg *= data.critMultiplier;
+        }
+
+        return Mathf.RoundToInt(dmg);
     }
 }
