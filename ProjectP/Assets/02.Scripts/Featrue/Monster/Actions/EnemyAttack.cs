@@ -2,15 +2,6 @@ using UnityEngine;
 
 public class EnemyAttack : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    // ToDO: 유저에게 공격하는 행위에 대한 정의.
+    // 함수로 Melee 와 Range 를 나눌지 Component 로 나눌지 애매함.
 }

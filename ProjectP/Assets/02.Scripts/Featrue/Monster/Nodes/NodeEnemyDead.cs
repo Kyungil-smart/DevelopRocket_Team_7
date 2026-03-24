@@ -11,9 +11,4 @@ public class NodeEnemyDead : EnemyBaseNode
 		Debug.Log("난 죽어써");
 		return null;
 	}
-
-	public override string ToNodeName()
-	{
-		return "NodeEnemyDead";
-	}
 }

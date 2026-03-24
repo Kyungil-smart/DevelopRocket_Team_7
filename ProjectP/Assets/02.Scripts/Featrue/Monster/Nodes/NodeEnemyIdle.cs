@@ -11,15 +11,11 @@ public class NodeEnemyIdle : EnemyBaseNode
 
 	public override string Execute(EnemyBlackboard blackboard)
 	{
-		Debug.Log("지금은 Idle 상태 입니다?");
+		// ToDo: Idle 상태에서 어떻게 있을 것인지 정해야함.
+		// 그것에 따라 Trigger 가 변경됨.
 		if (blackboard.isDamaged) return "exitToDamaged";
 		if (blackboard.isAttacking) return "exitToAttackPlayer";
 		if (blackboard.isFollowing) return "exitToFollowingPlayer";
 		return null;
-	}
-
-	public override string ToNodeName()
-	{
-		return "NodeEnemyIdle";
 	}
 }

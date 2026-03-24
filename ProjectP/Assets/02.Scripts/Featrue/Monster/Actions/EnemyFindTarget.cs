@@ -1,16 +1,7 @@
 using UnityEngine;
 
-public class EnemyFindTarget : MonoBehaviour
+public class EnemyFindTarget
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    // ToDo. A* 알고리즘으로 타겟과의 위치 파악 및 다음 움직일 포인트 계산. 
+    // 계산된 결과값을 Movement 로 전달할 방법 연구 필요.
 }

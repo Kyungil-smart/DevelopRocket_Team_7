@@ -17,9 +17,4 @@ public class NodeEnemyDamaged : EnemyBaseNode
         if (blackboard.isAttacking) return "exitToAttackPlayer";
         return null;
     }
-
-    public override string ToNodeName()
-    {
-        return "NodeEnemyDamaged";
-    }
 }

@@ -1,11 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using XNode;
 
 public class EnemyStateMachine : MonoBehaviour
 {
     [SerializeField] private EnemyData _originData;
+    [SerializeField] private EnemyAgent _agent;
     [SerializeField] private EnemyNodeGraph _graph;
     private Node _currentNode;
     private Coroutine _coroutine;
@@ -26,7 +28,8 @@ public class EnemyStateMachine : MonoBehaviour
 
     private void Init()
     {
-        _blackboard = new EnemyBlackboard(_originData);
+        _blackboard = new EnemyBlackboard(_originData, _agent);
+        _agent.SetBlackBoard(_blackboard);
     }
     
     private void SetIdleNode()
