@@ -13,6 +13,6 @@ public class QuestData : ISheetParsable, IIdentifiable
         this.Descritction = Data[2];
        
 
-
+        //
     }
 }
