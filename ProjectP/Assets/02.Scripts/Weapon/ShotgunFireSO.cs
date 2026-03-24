@@ -1,4 +1,3 @@
-// UTF-8
 using UnityEngine;
 using UnityEngine.InputSystem;
 

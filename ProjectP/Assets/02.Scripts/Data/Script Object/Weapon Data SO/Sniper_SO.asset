@@ -13,9 +13,25 @@ MonoBehaviour:
   m_Name: Sniper_SO
   m_EditorClassIdentifier: Assembly-CSharp::WeaponDataSO
   weaponName: 
-  attackCooldown: 3
+  attackSpeed: 4
   damage: 50
+  magazineSize: 5
+  currentAmmo: 30
+  reloadTime: 1.5
   projectilePrefab: {fileID: 7611560951116735793, guid: ff1b58166a27bb94ba1d0f3b021a488b, type: 3}
   projectileSpeed: 30
+  projectileCount: 1
+  bounceCount: 0
+  moveSpeedBonus: 0
+  dodgeRate: 5
+  critRate: 0.1
+  critMultiplier: 2
   weaponColor: {r: 0.9181919, g: 0.9433962, b: 0.07416617, a: 1}
   fireStrategy: {fileID: 11400000, guid: 7b9d1824a0d8f554d9206689886ed7c3, type: 2}
+  pelletCount: 5
+  spreadAngle: 30
+  pierceCount: 3
+  meleeRadius: 2.5
+  meleeAngle: 90
+  knockbackForce: 5
+  hitStopTime: 0.05
