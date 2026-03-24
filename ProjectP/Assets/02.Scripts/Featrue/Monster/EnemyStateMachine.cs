@@ -34,7 +34,10 @@ public class EnemyStateMachine : MonoBehaviour
 
     private void Init()
     {
-        _blackboard = new EnemyBlackboard(_originData, _agent);
+        if (_blackboard == null)
+            _blackboard = new EnemyBlackboard(_originData, _agent);
+        
+        _blackboard.Init();
         _agent.SetBlackBoard(_blackboard);
     }
     

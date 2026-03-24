@@ -60,8 +60,11 @@ public class EnemyBlackboard
     public EnemyBlackboard(EnemyData origin, EnemyAgent agent)
     {
         this.origin = origin;
-        currentHp = origin.maxHp;
-        
         this.agent = agent;
+    }
+
+    public void Init()
+    {
+        currentHp = origin.maxHp;
     }
 }
