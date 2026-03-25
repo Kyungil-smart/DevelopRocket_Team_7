@@ -13,14 +13,10 @@ public class NodeEnemyIdle : EnemyBaseNode
 		// ToDo: Idle 상태에서 어떻게 있을 것인지 정해야함.
 		// 그것에 따라 Trigger 가 변경됨.
 		Debug.Log("난 Idle 상태여");
-		// Trigger Player 에게 데미지를 입음
-		// blackboard.IsDamaged = true;
-		
-		// Trigger Player 가 가까움
-		// blackboard.IsFollowing = true;
-		
+		// Damage 에 대한 것은 EnemyDamaged 클래스에서 제어됨.
 		if (blackboard.IsDamaged) return "exitToDamaged";
-		if (blackboard.IsFollowing) return "exitToFollowingPlayer";
-		return null;
+		
+		// 인식 범위안에 있는지 확인
+		return ToFollowingToPlayer(blackboard);
 	}
 }

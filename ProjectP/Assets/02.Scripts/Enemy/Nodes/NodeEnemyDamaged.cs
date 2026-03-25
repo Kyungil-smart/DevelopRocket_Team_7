@@ -14,6 +14,8 @@ public class NodeEnemyDamaged : EnemyBaseNode
     {
         Debug.Log("지금은 적이 두두려 맞고 있습니다?");
         blackboard.IsDamaged = false;
+
+        string transitionName;
         
         // 사망시
         if (blackboard.currentHp <= 0)
@@ -23,23 +25,10 @@ public class NodeEnemyDamaged : EnemyBaseNode
         }
         
         // 공격 범위 밖에 있고 인식 범위 안에 있으면
-        float distance = Mathf.Abs(Vector2.Distance(
-            blackboard.agent.target.transform.position,
-            blackboard.agent.transform.position));
-        
-        if (blackboard.origin.attackRange > distance &&
-            blackboard.origin.detectRadius <= distance)
-        {
-            blackboard.IsFollowing = true;
-            return "exitToFollowing";
-        }
+        transitionName = ToFollowingToPlayer(blackboard); 
+        if (transitionName != null) return transitionName; 
         
         // 공격범위 안에 있으면
-        if (blackboard.origin.attackRange <= distance)
-        {
-            blackboard.IsAttacking = true;
-            return "exitToAttackPlayer";
-        }
-        return null;
+        return ToAttackDelay(blackboard);
     }
 }
