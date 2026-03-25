@@ -1,0 +1,305 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-5686399384165551817
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2297a2bb836396641a218978f602c4e1, type: 3}
+  m_Name: Node Enemy Dead
+  m_EditorClassIdentifier: Assembly-CSharp::NodeEnemyDead
+  graph: {fileID: 11400000}
+  position: {x: 40, y: -184}
+  ports:
+    keys:
+    - entry
+    values:
+    - _fieldName: entry
+      _node: {fileID: -5686399384165551817}
+      _typeQualifiedName: EnemyStateConnection, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections:
+      - fieldName: exitToDead
+        node: {fileID: 2722111316460701387}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+--- !u!114 &-3176087032482948115
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fa97633619b5ac441a132fc09ef8d8b6, type: 3}
+  m_Name: Node Enemy Idle
+  m_EditorClassIdentifier: Assembly-CSharp::NodeEnemyIdle
+  graph: {fileID: 11400000}
+  position: {x: -616, y: -120}
+  ports:
+    keys:
+    - exitToDamaged
+    - exitToFollowingPlayer
+    - exitToAttackPlayer
+    values:
+    - _fieldName: exitToDamaged
+      _node: {fileID: -3176087032482948115}
+      _typeQualifiedName: EnemyStateConnection, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections:
+      - fieldName: entry
+        node: {fileID: 2722111316460701387}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: exitToFollowingPlayer
+      _node: {fileID: -3176087032482948115}
+      _typeQualifiedName: EnemyStateConnection, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections:
+      - fieldName: entry
+        node: {fileID: 6165675899065066637}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: exitToAttackPlayer
+      _node: {fileID: -3176087032482948115}
+      _typeQualifiedName: EnemyStateConnection, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections:
+      - fieldName: entry
+        node: {fileID: 1499346376892698385}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 47faa9a6187c10c43832b257324498d5, type: 3}
+  m_Name: Enemy Node Graph
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyNodeGraph
+  nodes:
+  - {fileID: 1499346376892698385}
+  - {fileID: -3176087032482948115}
+  - {fileID: 6165675899065066637}
+  - {fileID: -5686399384165551817}
+  - {fileID: 2722111316460701387}
+--- !u!114 &1499346376892698385
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 800f8f4ff32cb2c46be32779bae04957, type: 3}
+  m_Name: Node Enemy Attack Player
+  m_EditorClassIdentifier: Assembly-CSharp::NodeEnemyAttackPlayer
+  graph: {fileID: 11400000}
+  position: {x: -312, y: 168}
+  ports:
+    keys:
+    - entry
+    - exitToDamaged
+    - exitToFollowingPlayer
+    values:
+    - _fieldName: entry
+      _node: {fileID: 1499346376892698385}
+      _typeQualifiedName: EnemyStateConnection, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections:
+      - fieldName: exitToAttackPlayer
+        node: {fileID: -3176087032482948115}
+        reroutePoints: []
+      - fieldName: exitToAttackPlayer
+        node: {fileID: 2722111316460701387}
+        reroutePoints: []
+      - fieldName: exitToAttackPlayer
+        node: {fileID: 6165675899065066637}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: exitToDamaged
+      _node: {fileID: 1499346376892698385}
+      _typeQualifiedName: EnemyStateConnection, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections:
+      - fieldName: entry
+        node: {fileID: 2722111316460701387}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: exitToFollowingPlayer
+      _node: {fileID: 1499346376892698385}
+      _typeQualifiedName: EnemyStateConnection, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections:
+      - fieldName: entry
+        node: {fileID: 6165675899065066637}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+--- !u!114 &2722111316460701387
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 912de9f6a2f01eb439733260c588d9e6, type: 3}
+  m_Name: Node Enemy Damaged
+  m_EditorClassIdentifier: Assembly-CSharp::NodeEnemyDamaged
+  graph: {fileID: 11400000}
+  position: {x: -328, y: -200}
+  ports:
+    keys:
+    - entry
+    - exitToDead
+    - exitToAttackPlayer
+    - exitToFollowingPlayer
+    values:
+    - _fieldName: entry
+      _node: {fileID: 2722111316460701387}
+      _typeQualifiedName: EnemyStateConnection, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections:
+      - fieldName: exitToDamaged
+        node: {fileID: -3176087032482948115}
+        reroutePoints: []
+      - fieldName: exitToDamaged
+        node: {fileID: 6165675899065066637}
+        reroutePoints: []
+      - fieldName: exitToDamaged
+        node: {fileID: 1499346376892698385}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: exitToDead
+      _node: {fileID: 2722111316460701387}
+      _typeQualifiedName: EnemyStateConnection, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections:
+      - fieldName: entry
+        node: {fileID: -5686399384165551817}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: exitToAttackPlayer
+      _node: {fileID: 2722111316460701387}
+      _typeQualifiedName: EnemyStateConnection, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections:
+      - fieldName: entry
+        node: {fileID: 1499346376892698385}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: exitToFollowingPlayer
+      _node: {fileID: 2722111316460701387}
+      _typeQualifiedName: EnemyStateConnection, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections:
+      - fieldName: entry
+        node: {fileID: 6165675899065066637}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+--- !u!114 &6165675899065066637
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ab964723c9621cc43b2ec605276a011c, type: 3}
+  m_Name: Node Enemy Tracking Player
+  m_EditorClassIdentifier: Assembly-CSharp::NodeEnemyTrackingPlayer
+  graph: {fileID: 11400000}
+  position: {x: -296, y: -40}
+  ports:
+    keys:
+    - entry
+    - exitToAttackPlayer
+    - exitToDamaged
+    values:
+    - _fieldName: entry
+      _node: {fileID: 6165675899065066637}
+      _typeQualifiedName: EnemyStateConnection, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections:
+      - fieldName: exitToFollowingPlayer
+        node: {fileID: -3176087032482948115}
+        reroutePoints: []
+      - fieldName: exitToFollowingPlayer
+        node: {fileID: 2722111316460701387}
+        reroutePoints: []
+      - fieldName: exitToFollowingPlayer
+        node: {fileID: 1499346376892698385}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: exitToAttackPlayer
+      _node: {fileID: 6165675899065066637}
+      _typeQualifiedName: EnemyStateConnection, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections:
+      - fieldName: entry
+        node: {fileID: 1499346376892698385}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: exitToDamaged
+      _node: {fileID: 6165675899065066637}
+      _typeQualifiedName: EnemyStateConnection, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections:
+      - fieldName: entry
+        node: {fileID: 2722111316460701387}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0

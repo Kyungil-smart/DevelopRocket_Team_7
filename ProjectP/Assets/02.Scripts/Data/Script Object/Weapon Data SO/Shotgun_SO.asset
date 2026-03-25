@@ -1,0 +1,37 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 989a21a957ecb994da667ff5811dd02e, type: 3}
+  m_Name: Shotgun_SO
+  m_EditorClassIdentifier: Assembly-CSharp::WeaponDataSO
+  weaponName: 
+  attackSpeed: 1
+  damage: 5
+  magazineSize: 6
+  currentAmmo: 6
+  reloadTime: 2
+  projectilePrefab: {fileID: 7611560951116735793, guid: a6f2ef457f8056e4484fe87f52d55b8b, type: 3}
+  projectileSpeed: 15
+  projectileCount: 1
+  bounceCount: 0
+  moveSpeedBonus: 0
+  dodgeRate: 5
+  critRate: 0.15
+  critMultiplier: 0.5
+  weaponColor: {r: 0.7501612, g: 0.03908056, b: 0.9559748, a: 1}
+  fireStrategy: {fileID: 11400000, guid: 072ad7cb88207104897cdac08e649fde, type: 2}
+  pelletCount: 5
+  spreadAngle: 50
+  pierceCount: 3
+  meleeRadius: 2.5
+  meleeAngle: 90
+  knockbackForce: 5
+  hitStopTime: 0.05
