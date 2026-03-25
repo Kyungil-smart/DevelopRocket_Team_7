@@ -6,6 +6,18 @@ public class EnemyBlackboard
     public int currentHp;
     
     // state 변화를 위한 flagements
+    private bool _isAttackDelay;
+    public bool IsAttackDelay
+    {
+        get { return _isAttackDelay; }
+        set
+        {
+            _isAttackDelay = value;
+            if (value) OnAttackDelay?.Invoke();
+        }
+    }
+    public Action OnAttackDelay;
+    
     private bool _isAttacking;
     public bool IsAttacking
     {
@@ -13,7 +25,7 @@ public class EnemyBlackboard
         set
         {
             _isAttacking = value;
-            OnAttacked?.Invoke();
+            if (value) OnAttacked?.Invoke();
         }
     }
     public Action OnAttacked;
@@ -25,7 +37,7 @@ public class EnemyBlackboard
         set
         {
             _isDead = value;
-            OnDead?.Invoke();
+            if (value) OnDead?.Invoke();
         }
     }
     public Action OnDead;
@@ -37,7 +49,7 @@ public class EnemyBlackboard
         set
         {
             _isFollowing = value;
-            OnFollowed?.Invoke();
+            if (value) OnFollowed?.Invoke();
         }
     }
     public Action OnFollowed;
@@ -49,7 +61,7 @@ public class EnemyBlackboard
         set
         {
             _isDamaged = value;
-            OnDamaged?.Invoke();
+            if (value) OnDamaged?.Invoke();
         }
     }
     public Action OnDamaged;

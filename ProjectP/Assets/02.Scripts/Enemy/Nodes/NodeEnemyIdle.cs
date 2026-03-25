@@ -7,7 +7,6 @@ public class NodeEnemyIdle : EnemyBaseNode
 {
 	[Output] public EnemyStateConnection exitToDamaged;
 	[Output] public EnemyStateConnection exitToFollowingPlayer;
-	[Output] public EnemyStateConnection exitToAttackPlayer;
 
 	public override string Execute(EnemyBlackboard blackboard)
 	{
@@ -17,14 +16,10 @@ public class NodeEnemyIdle : EnemyBaseNode
 		// Trigger Player 에게 데미지를 입음
 		// blackboard.IsDamaged = true;
 		
-		// Trigger Player 가 사정거리내 있음
-		// blackboard.IsAttacking = true;
-		
-		// Trigger Player 가 방에 진입함
+		// Trigger Player 가 가까움
 		// blackboard.IsFollowing = true;
 		
 		if (blackboard.IsDamaged) return "exitToDamaged";
-		if (blackboard.IsAttacking) return "exitToAttackPlayer";
 		if (blackboard.IsFollowing) return "exitToFollowingPlayer";
 		return null;
 	}

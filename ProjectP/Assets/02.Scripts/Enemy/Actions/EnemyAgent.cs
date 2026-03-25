@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class EnemyAgent : MonoBehaviour
 {
+    public GameObject target;
+    
     private EnemyAttack _attackScript;
     private EnemyDead _deadScript;
     private EnemyFindTarget _findTargetScript;
@@ -12,7 +14,7 @@ public class EnemyAgent : MonoBehaviour
     
     private EnemyBlackboard _blackboard;
 
-    private void Start()
+    private void OnEnable()
     {
         // MonoBehavior Classes
         if (_attackScript == null) _attackScript = GetComponent<EnemyAttack>();
@@ -32,6 +34,9 @@ public class EnemyAgent : MonoBehaviour
     public void SetBlackBoard(EnemyBlackboard blackboard)
     {
         _blackboard = blackboard;
+        // blackboard 가 필요한 스크립트에 blackboard 전달하기.
+        _damagedScript.SetBlackboard(blackboard);
+        
         AddListeners();
     }
 
