@@ -8,6 +8,7 @@ public class NodeEnemyTrackingPlayer : EnemyBaseNode
 	[Input] public EnemyStateConnection entry;
 	[Output] public EnemyStateConnection exitToAttackDelay;
 	[Output] public EnemyStateConnection exitToDead;
+	[Output] public EnemyStateConnection exitToIdle;
 	
 	public override string Execute(EnemyBlackboard blackboard)
 	{
@@ -15,6 +16,9 @@ public class NodeEnemyTrackingPlayer : EnemyBaseNode
 		blackboard.IsFollowing = false;
 		
 		// AttackRange 이내로 들어오면 공격 모션
-		return ToAttackDelay(blackboard);
+		string transitionName = ToAttackDelay(blackboard);
+		if (transitionName != null) return transitionName;
+		
+		return ToIdle(blackboard);
 	}
 }

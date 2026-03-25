@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class EnemyDamaged : IEnemyDamagable, INeedBlackboard
+public class EnemyDamaged : MonoBehaviour, IEnemyDamagable, INeedBlackboard
 {   // State 독립 트리거. 
     private EnemyBlackboard blackboard;
     

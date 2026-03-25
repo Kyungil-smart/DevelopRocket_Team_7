@@ -6,6 +6,18 @@ public class EnemyBlackboard
     public int currentHp;
     
     // state 변화를 위한 flagements
+    private bool _isIdle;
+    public bool IsIdle
+    {
+        get { return _isIdle; }
+        set
+        {
+            _isIdle = value;
+            if (value) OnIdle?.Invoke();
+        }
+    }
+    public Action OnIdle;
+    
     private bool _isAttackDelay;
     public bool IsAttackDelay
     {

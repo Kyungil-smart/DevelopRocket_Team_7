@@ -6,22 +6,21 @@ public class EnemyAgent : MonoBehaviour
 {
     public GameObject target;
     
-    private EnemyAttack _attackScript;
-    private EnemyDead _deadScript;
-    private EnemyMovement _movementScript;
-    private EnemyDamaged _damagedScript;
+    [SerializeField] private EnemyAttack _attackScript;
+    [SerializeField] private EnemyDead _deadScript;
+    [SerializeField] private EnemyMovement _movementScript;
+    [SerializeField] private EnemyDamaged _damagedScript;
     
     private EnemyBlackboard _blackboard;
 
-    private void OnEnable()
+    private void Awake()
     {
         // MonoBehavior Classes
-        if (_attackScript == null) _attackScript = GetComponent<EnemyAttack>();
-        if (_deadScript == null) _deadScript = GetComponent<EnemyDead>();
-        if (_movementScript == null) _movementScript = GetComponent<EnemyMovement>();
-        
+        _attackScript = GetComponent<EnemyAttack>();
+        _deadScript = GetComponent<EnemyDead>();
+        _movementScript = GetComponent<EnemyMovement>();
+        _damagedScript = GetComponent<EnemyDamaged>();
         // Pure C# Classes
-        if (_damagedScript == null) _damagedScript = new EnemyDamaged();
     }
 
     private void OnDisable()
@@ -33,10 +32,9 @@ public class EnemyAgent : MonoBehaviour
     {
         _blackboard = blackboard;
         // blackboard 가 필요한 스크립트에 blackboard 전달하기.
-        _damagedScript.SetBlackboard(blackboard);
+        if (_damagedScript != null) _damagedScript.SetBlackboard(blackboard);
         
         AddListeners();
-        Patrol();
     }
 
     private void AddListeners()
@@ -53,24 +51,24 @@ public class EnemyAgent : MonoBehaviour
         _blackboard.OnFollowed -= OnMoveToPlayer;
     }
 
-    private void Patrol()
+    public void Patrol()
     {
-        _movementScript.Patrol(_blackboard.origin.speed);
+        if (_movementScript != null) _movementScript.Patrol(_blackboard);
     }
     
     public void OnMoveToPlayer()
     {
-        _movementScript.Move(target.transform.position, _blackboard.origin.speed);
+        if (_movementScript != null) _movementScript.GoToPlayer(_blackboard);
     }
     
     public void OnAttack()
     {
-        _attackScript.Attack(_blackboard.origin.damage, target);
+        if (_attackScript != null) _attackScript.Attack(_blackboard.origin.damage, target);
     }
     
     public void OnDead()
     {
-        _deadScript.Dead();
+        if (_deadScript != null) _deadScript.Dead();
     }
 
     private void OnDrawGizmos()

@@ -55,7 +55,7 @@ MonoBehaviour:
   m_Name: Node Enemy Attack Delay
   m_EditorClassIdentifier: Assembly-CSharp::NodeEnemyAttackDelay
   graph: {fileID: 11400000}
-  position: {x: 24, y: 24}
+  position: {x: 8, y: 56}
   ports:
     keys:
     - entry
@@ -114,11 +114,12 @@ MonoBehaviour:
   m_Name: Node Enemy Idle
   m_EditorClassIdentifier: Assembly-CSharp::NodeEnemyIdle
   graph: {fileID: 11400000}
-  position: {x: -488, y: -280}
+  position: {x: -392, y: -264}
   ports:
     keys:
     - exitToFollowingPlayer
     - exitToDead
+    - entry
     values:
     - _fieldName: exitToFollowingPlayer
       _node: {fileID: -3176087032482948115}
@@ -141,6 +142,18 @@ MonoBehaviour:
         node: {fileID: -5686399384165551817}
         reroutePoints: []
       _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: entry
+      _node: {fileID: -3176087032482948115}
+      _typeQualifiedName: EnemyStateConnection, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections:
+      - fieldName: exitToIdle
+        node: {fileID: 6165675899065066637}
+        reroutePoints: []
+      _direction: 0
       _connectionType: 0
       _typeConstraint: 0
       _dynamic: 0
@@ -175,7 +188,7 @@ MonoBehaviour:
   m_Name: Node Enemy Attack Player
   m_EditorClassIdentifier: Assembly-CSharp::NodeEnemyAttackPlayer
   graph: {fileID: 11400000}
-  position: {x: -216, y: 216}
+  position: {x: -344, y: 104}
   ports:
     keys:
     - entry
@@ -322,12 +335,13 @@ MonoBehaviour:
   m_Name: Node Enemy Tracking Player
   m_EditorClassIdentifier: Assembly-CSharp::NodeEnemyTrackingPlayer
   graph: {fileID: 11400000}
-  position: {x: -328, y: -104}
+  position: {x: -296, y: -104}
   ports:
     keys:
     - entry
     - exitToAttackDelay
     - exitToDead
+    - exitToIdle
     values:
     - _fieldName: entry
       _node: {fileID: 6165675899065066637}
@@ -366,6 +380,18 @@ MonoBehaviour:
       connections:
       - fieldName: entry
         node: {fileID: -5686399384165551817}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: exitToIdle
+      _node: {fileID: 6165675899065066637}
+      _typeQualifiedName: EnemyStateConnection, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections:
+      - fieldName: entry
+        node: {fileID: -3176087032482948115}
         reroutePoints: []
       _direction: 1
       _connectionType: 0

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using XNode;
+using Object = System.Object;
 
 public class EnemyStateMachine : MonoBehaviour
 {
@@ -46,8 +47,8 @@ public class EnemyStateMachine : MonoBehaviour
         // idle state 먼저 실행
         foreach (var node in _graph.nodes)
         {
-            NodePort inputPort = node.GetInputPort("entry");
-            if (inputPort == null)
+            // ToDo. 이름 변경시 동작 안됨. 주의. 
+            if (node.name == "Node Enemy Idle") 
             {
                 _currentNode = node;
                 break;

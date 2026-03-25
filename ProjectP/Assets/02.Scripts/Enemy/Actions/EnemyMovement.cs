@@ -6,21 +6,22 @@ using Random = UnityEngine.Random;
 public class EnemyMovement : MonoBehaviour
 {
     [SerializeField] private Animator _animator;
-    private EnemyFindTarget _findTargetScript;
+    [SerializeField] private LayerMask _layerMask;
+    private EnemyBlackboard _blackboard;
     private CircleCollider2D _collider2D;
-    private Vector3 _nextPosition;
+    private Vector2 _targetPos;
+    private Transform _targetTransform;
     private bool _isChasing;
-    private float _speed;
     private Coroutine _nxPosCoroutine;
-    private WaitForSeconds _waitForSeconds = new WaitForSeconds(2.0f);
+    private WaitForSeconds _waitFor2Sec = new WaitForSeconds(2.0f);
     private Vector2[] _patrolDirections = new Vector2[4] { Vector2.right, Vector2.left, Vector2.down, Vector2.up };
     private Ray2D _ray;
+    private float _detectDistance = 0.2f;
 
     private void Awake()
     {
         _animator = GetComponent<Animator>();
         _collider2D = GetComponent<CircleCollider2D>();
-        if (_findTargetScript == null) _findTargetScript = new EnemyFindTarget();
     }
 
     private void Update()
@@ -30,44 +31,62 @@ public class EnemyMovement : MonoBehaviour
 
     private void Move()
     {
-        float step = _speed * Time.deltaTime;
-        transform.position = Vector3.MoveTowards(transform.position, _nextPosition, step);
+        if (_blackboard == null) return;
+        float distance = Mathf.Abs(
+            Vector2.Distance(transform.position, _blackboard.agent.target.transform.position));
+        if (distance <= _blackboard.origin.attackRange) return;
+
+        float step = _blackboard.origin.speed * Time.deltaTime;
+        if (_targetTransform != null && _isChasing)
+        {
+            _ray = GetRay(_targetTransform.position.normalized);
+            RaycastHit2D hit = Physics2D.Raycast(_ray.origin, _ray.direction, _detectDistance, _layerMask);
+            if (!hit) transform.position = Vector3.MoveTowards(transform.position, _targetTransform.position, step);
+        }  
+        else transform.position = Vector3.MoveTowards(transform.position, _targetPos, step);
     }
     
-    public void Move(Vector2 nextPosition, float speed)
-    {  // ToDo. 연산된 방향으로만 움직이도록 할 것.
+    public void GoToPlayer(EnemyBlackboard blackboard) {  
+        if (_blackboard == null) _blackboard = blackboard;
         _isChasing = true;
+        _targetTransform = _blackboard.agent.target.transform;
         if (_nxPosCoroutine != null) StopCoroutine(_nxPosCoroutine);
-        _nextPosition = nextPosition;
-        _speed = speed;
+        _nxPosCoroutine = null;
+        Debug.Log("점마 딱 대라이");
     }
 
-    public void Patrol(float speed)
+    public void Patrol(EnemyBlackboard blackboard)
     {  // Init 상태에서 실행할 것.
-        _speed = speed;
+        if (_blackboard == null) _blackboard = blackboard;
         _isChasing = false;
-        if (_nxPosCoroutine != null) StopCoroutine(_nxPosCoroutine);
-        _nxPosCoroutine = StartCoroutine(ChoiceNextPositionCoroutine());
+        if (_nxPosCoroutine == null)
+        {
+            _nxPosCoroutine = StartCoroutine(ChoiceNextPositionInPatrolCoroutine());    
+        }
     }
     
-    private IEnumerator ChoiceNextPositionCoroutine()
+    private IEnumerator ChoiceNextPositionInPatrolCoroutine()
     {
         while (!_isChasing)
         {
             Vector2 direction = _patrolDirections[Random.Range(0, _patrolDirections.Length)];
-            _nextPosition = transform.position + new Vector3(direction.x, direction.y);
-            Vector3 rayOriginPos = transform.position + 
-                                   new Vector3(direction.x * _collider2D.radius, direction.y * _collider2D.radius);
-            
-            _ray = new Ray2D(rayOriginPos, direction);
-            RaycastHit2D hits = Physics2D.Raycast(_ray.origin, _ray.direction, 1, LayerMask.GetMask("Wall"));
-            if (!hits) yield return _waitForSeconds;
+            _targetPos = transform.position + new Vector3(direction.x, direction.y);
+            Ray2D ray = GetRay(direction);
+            RaycastHit2D hit = Physics2D.Raycast(ray.origin, ray.direction, 1, LayerMask.GetMask("Wall"));
+            if (!hit) yield return _waitFor2Sec;
         }
     }
 
-    private void OnDrawGizmos()
+    private Ray2D GetRay(Vector2 direction)
     {
-        Gizmos.color = Color.white;
-        Gizmos.DrawLine(_ray.origin, _ray.origin + _ray.direction);
+        Vector3 rayOriginPos = transform.position + 
+                               new Vector3(direction.x * _collider2D.radius, direction.y * _collider2D.radius);
+        return new Ray2D(rayOriginPos, direction);
     }
+    
+    // private void OnDrawGizmos()
+    // {
+    //     Gizmos.color = Color.white;
+    //     Gizmos.DrawLine(_ray.origin, _ray.origin + _ray.direction);
+    // }
 }
