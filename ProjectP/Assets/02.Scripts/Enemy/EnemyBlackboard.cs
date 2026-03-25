@@ -54,18 +54,6 @@ public class EnemyBlackboard
     }
     public Action OnFollowed;
     
-    private bool _isDamaged;
-    public bool IsDamaged
-    {
-        get { return _isDamaged; }
-        set
-        {
-            _isDamaged = value;
-            if (value) OnDamaged?.Invoke();
-        }
-    }
-    public Action OnDamaged;
-    
     // Action 을 위한 Agent
     public EnemyAgent agent;
 

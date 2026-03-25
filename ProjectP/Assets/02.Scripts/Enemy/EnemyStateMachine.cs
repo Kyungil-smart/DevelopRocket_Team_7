@@ -57,7 +57,7 @@ public class EnemyStateMachine : MonoBehaviour
 
     private IEnumerator StateMachine()
     {
-        while (true)
+        while (!_blackboard.IsDead)
         {
             string portName = (_currentNode as EnemyBaseNode)?.Execute(_blackboard);
             if (portName != null)
@@ -75,16 +75,16 @@ public class EnemyStateMachine : MonoBehaviour
         _blackboard.IsAttacking = !_blackboard.IsAttacking;
     }
     
+    [ContextMenu("Debug/AttackDelay")]
+    private void DebugOnAttackDelay()
+    {
+        _blackboard.IsAttackDelay = !_blackboard.IsAttackDelay;
+    }
+    
     [ContextMenu("Debug/Following")]
     private void DebugOnFollowing()
     {
         _blackboard.IsFollowing = !_blackboard.IsFollowing;
-    }
-    
-    [ContextMenu("Debug/BeingDamaged")]
-    private void DebugOnDamaged()
-    {
-        _blackboard.IsDamaged = !_blackboard.IsDamaged;
     }
     
     [ContextMenu("Debug/Dead")]

@@ -5,18 +5,19 @@ using XNode;
 
 public class NodeEnemyIdle : EnemyBaseNode 
 {
-	[Output] public EnemyStateConnection exitToDamaged;
 	[Output] public EnemyStateConnection exitToFollowingPlayer;
+	[Output] public EnemyStateConnection exitToDead;
 
 	public override string Execute(EnemyBlackboard blackboard)
 	{
-		// ToDo: Idle 상태에서 어떻게 있을 것인지 정해야함.
-		// 그것에 따라 Trigger 가 변경됨.
 		Debug.Log("난 Idle 상태여");
-		// Damage 에 대한 것은 EnemyDamaged 클래스에서 제어됨.
-		if (blackboard.IsDamaged) return "exitToDamaged";
 		
-		// 인식 범위안에 있는지 확인
-		return ToFollowingToPlayer(blackboard);
+		// 1. 인식 범위안에 있는지 확인
+		string transitionName;
+		transitionName = ToFollowingToPlayer(blackboard);
+		if (transitionName != null) return transitionName;
+		
+		// 2. Patrol => 행위는 Agent 에서 하고 있음.
+		return null;
 	}
 }

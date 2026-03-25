@@ -8,7 +8,6 @@ public class EnemyAgent : MonoBehaviour
     
     private EnemyAttack _attackScript;
     private EnemyDead _deadScript;
-    private EnemyFindTarget _findTargetScript;
     private EnemyMovement _movementScript;
     private EnemyDamaged _damagedScript;
     
@@ -23,7 +22,6 @@ public class EnemyAgent : MonoBehaviour
         
         // Pure C# Classes
         if (_damagedScript == null) _damagedScript = new EnemyDamaged();
-        if (_findTargetScript == null) _findTargetScript = new EnemyFindTarget();
     }
 
     private void OnDisable()
@@ -38,12 +36,12 @@ public class EnemyAgent : MonoBehaviour
         _damagedScript.SetBlackboard(blackboard);
         
         AddListeners();
+        Patrol();
     }
 
     private void AddListeners()
     {
         _blackboard.OnAttacked += OnAttack;
-        _blackboard.OnDamaged += OnDamaged;
         _blackboard.OnDead += OnDead;
         _blackboard.OnFollowed += OnMoveToPlayer;
     }
@@ -51,29 +49,36 @@ public class EnemyAgent : MonoBehaviour
     private void RemoveListeners()
     {
         _blackboard.OnAttacked -= OnAttack;
-        _blackboard.OnDamaged -= OnDamaged;
         _blackboard.OnDead -= OnDead;
         _blackboard.OnFollowed -= OnMoveToPlayer;
     }
 
+    private void Patrol()
+    {
+        _movementScript.Patrol(_blackboard.origin.speed);
+    }
+    
     public void OnMoveToPlayer()
     {
-        Vector2 nxPos = _findTargetScript.GetNextPosition(null);
-        _movementScript.Move(nxPos);
+        _movementScript.Move(target.transform.position, _blackboard.origin.speed);
     }
     
     public void OnAttack()
     {
-        _attackScript.Attack(_blackboard.origin.damage, null);
-    }
-
-    public void OnDamaged()
-    {
-        _damagedScript.TakeDamage(100);
+        _attackScript.Attack(_blackboard.origin.damage, target);
     }
     
     public void OnDead()
     {
         _deadScript.Dead();
+    }
+
+    private void OnDrawGizmos()
+    {
+        if (_blackboard == null) return;
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawWireSphere(transform.position, _blackboard.origin.attackRange);
+        Gizmos.color = Color.blue;
+        Gizmos.DrawWireSphere(transform.position, _blackboard.origin.detectRadius);
     }
 }

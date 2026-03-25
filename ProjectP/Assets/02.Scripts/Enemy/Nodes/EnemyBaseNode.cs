@@ -8,6 +8,7 @@ public abstract class EnemyBaseNode : Node
 
     protected static string ToFollowingToPlayer(EnemyBlackboard blackboard)
     {
+        if (blackboard.agent.target == null) return null;
         float distance = Mathf.Abs(Vector2.Distance(
             blackboard.agent.target.transform.position,
             blackboard.agent.transform.position));
@@ -22,6 +23,7 @@ public abstract class EnemyBaseNode : Node
     
     protected static string ToAttackDelay(EnemyBlackboard blackboard)
     {
+        if (blackboard.agent.target == null) return null;
         float distance = Mathf.Abs(Vector2.Distance(
             blackboard.agent.target.transform.position,
             blackboard.agent.transform.position));
