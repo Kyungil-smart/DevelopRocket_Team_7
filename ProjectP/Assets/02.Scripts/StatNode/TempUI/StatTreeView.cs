@@ -10,7 +10,7 @@ public class StatTreeView : MonoBehaviour
 
     private VisualElement _container;
     private VisualElement _root;
-    private bool _isOpened = false; // 현재 창이 열려있는지 확인
+    private bool _isOpened = false; // 현재 창이 열려있는지 확인, 처음 시작시에는 비활성화
 
     void OnEnable()
     {
@@ -20,13 +20,12 @@ public class StatTreeView : MonoBehaviour
         
         // 처음 시작할 때는 화면에서 숨김
         _root.style.display = DisplayStyle.None;
-
-        if (statGraph != null) GenerateTree();
+        
     }
     
     void Update()
     {
-        // 키 입력 감지
+        // 테스트를 위하여 키 입력 감지시 ui 열리게끔 설계, 추후 변경 예정
         if (Keyboard.current != null && Keyboard.current.kKey.wasPressedThisFrame)
         {
             ToggleSkillTree();
@@ -43,12 +42,13 @@ public class StatTreeView : MonoBehaviour
         UnityEngine.Cursor.lockState = _isOpened ? CursorLockMode.None : CursorLockMode.Locked;
     }
 
-    void GenerateTree()
+    public void GenerateTree()
     {
         _container.Clear(); // 기존 UI 삭제
 
         foreach (Node node in statGraph.nodes)
         {
+            /*
             if (node is StatNode statNode)
             {
                 // 템플릿(Label + Button)을 새로 만듬
@@ -75,6 +75,35 @@ public class StatTreeView : MonoBehaviour
 
                 _container.Add(nodeUI);
             }
+            */
+            
+            if (node is StatNode movementNode)
+            {
+                // 템플릿(Label + Button)을 새로 만듬
+                VisualElement nodeUI = nodeTemplate.Instantiate();
+                
+                // 데이터 연결 (UXML 내부의 이름과 일치해야 함)
+                nodeUI.Q<Label>("StatName").text = movementNode.GetNodeName(); 
+                // 만약 Label에 이름을 지어줬다면 .Q<Label>("MyLabelName") 로 작성
+                
+                // 버튼 찾아서 로그 찍기 (Hierarchy에 있는 이름 기준)
+                Button btn = nodeUI.Q<Button>("UnlockBtn");
+                if (btn != null)
+                {
+                    btn.clicked += () => {
+                        // 임시로 클릭시 로그로 노드 이름과 값 출력
+                        Debug.Log($"스킬 노드 type: {movementNode.GetNodeStatType()}");
+                    };
+                }
+
+                // xnode Editor position을 Scene에 설정 
+                nodeUI.style.position = Position.Absolute;
+                nodeUI.style.left = node.position.x;
+                nodeUI.style.top = node.position.y;
+
+                _container.Add(nodeUI);
+            }
+            
         }
     }
 }
