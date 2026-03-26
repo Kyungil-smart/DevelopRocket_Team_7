@@ -6,14 +6,18 @@ using XNode;
 public class NodeEnemyAttackPlayer : EnemyBaseNode
 {
 	[Input] public EnemyStateConnection entry;
-	[Output] public EnemyStateConnection exitToDamaged;
+	[Output] public EnemyStateConnection exitToAttackDelay;
 	[Output] public EnemyStateConnection exitToFollowingPlayer;
+	[Output] public EnemyStateConnection exitToDead;
 	
 	public override string Execute(EnemyBlackboard blackboard)
 	{
-		Debug.Log("겁나 패고 있음");
-		if (blackboard.IsFollowing) return "exitToFollowingPlayer";
-		if (blackboard.IsDamaged) return "exitToDamaged";
-		return null;
+		string transitionName;
+		// 1. 공격 범위를 벗어남
+		transitionName = ToFollowingToPlayer(blackboard);
+		if (transitionName != null) return transitionName;
+		
+		// 2. 공격 볌위 안에 있음
+		return ToAttackDelay(blackboard);
 	}
 }

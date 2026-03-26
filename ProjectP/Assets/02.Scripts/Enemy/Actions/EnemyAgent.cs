@@ -2,26 +2,38 @@ using System;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
+/// <summary>
+/// Enemy 의 동작에 대한 중심 역할. State 에서 해야할 역할에 대한 것들은 모두 Agent 에 존재.
+/// State 는 직접적으로 agent 를 호출 하는 것은 "되도록"지양하되, 필요시에는 호출 가능.
+/// Blackboard 내 Bool Flag 변경으로 Observer Pattern 으로 구현되어 있음.
+/// </summary>
 public class EnemyAgent : MonoBehaviour
 {
-    private EnemyAttack _attackScript;
-    private EnemyDead _deadScript;
-    private EnemyFindTarget _findTargetScript;
-    private EnemyMovement _movementScript;
-    private EnemyDamaged _damagedScript;
+    public GameObject target;
+    
+    [SerializeField] private EnemyAttack _attackScript;
+    [SerializeField] private EnemyDead _deadScript;
+    [SerializeField] private EnemyMovement _movementScript;
+    [SerializeField] private EnemyDamaged _damagedScript;
     
     private EnemyBlackboard _blackboard;
 
-    private void Start()
+    private void Awake()
     {
         // MonoBehavior Classes
-        if (_attackScript == null) _attackScript = GetComponent<EnemyAttack>();
-        if (_deadScript == null) _deadScript = GetComponent<EnemyDead>();
-        if (_movementScript == null) _movementScript = GetComponent<EnemyMovement>();
-        
+        _attackScript = GetComponent<EnemyAttack>();
+        _deadScript = GetComponent<EnemyDead>();
+        _movementScript = GetComponent<EnemyMovement>();
+        _damagedScript = GetComponent<EnemyDamaged>();
         // Pure C# Classes
-        if (_damagedScript == null) _damagedScript = new EnemyDamaged();
-        if (_findTargetScript == null) _findTargetScript = new EnemyFindTarget();
+    }
+
+    private void OnEnable()
+    {
+        // ToDo. for test. 추후 Player Object 를 받아올 수 있는 static 값이 있으면 변경 예정.
+        if (_blackboard != null) _blackboard.IsDead = false;
+        if (target == null)
+            target = GameObject.FindWithTag("Player");
     }
 
     private void OnDisable()
@@ -32,43 +44,54 @@ public class EnemyAgent : MonoBehaviour
     public void SetBlackBoard(EnemyBlackboard blackboard)
     {
         _blackboard = blackboard;
+        // blackboard 가 필요한 스크립트에 blackboard 전달하기.
+        if (_damagedScript != null) _damagedScript.SetBlackboard(blackboard);
+        
         AddListeners();
     }
 
     private void AddListeners()
     {
+        _blackboard.OnIdle += Patrol;
         _blackboard.OnAttacked += OnAttack;
-        _blackboard.OnDamaged += OnDamaged;
         _blackboard.OnDead += OnDead;
         _blackboard.OnFollowed += OnMoveToPlayer;
     }
 
     private void RemoveListeners()
     {
+        _blackboard.OnIdle -= Patrol;
         _blackboard.OnAttacked -= OnAttack;
-        _blackboard.OnDamaged -= OnDamaged;
         _blackboard.OnDead -= OnDead;
         _blackboard.OnFollowed -= OnMoveToPlayer;
     }
 
+    public void Patrol()
+    {
+        if (_movementScript != null) _movementScript.Patrol(_blackboard);
+    }
+    
     public void OnMoveToPlayer()
     {
-        Vector2 nxPos = _findTargetScript.GetNextPosition(null);
-        _movementScript.Move(nxPos);
+        if (_movementScript != null) _movementScript.GoToPlayer(_blackboard);
     }
     
     public void OnAttack()
     {
-        _attackScript.Attack(_blackboard.origin.damage, null);
-    }
-
-    public void OnDamaged()
-    {
-        _damagedScript.TakeDamage(100);
+        if (_attackScript != null) _attackScript.Attack(_blackboard.origin.damage, target);
     }
     
     public void OnDead()
     {
-        _deadScript.Dead();
+        if (_deadScript != null) _deadScript.Dead();
     }
+
+    // private void OnDrawGizmos()
+    // {
+    //     if (_blackboard == null) return;
+    //     Gizmos.color = Color.yellow;
+    //     Gizmos.DrawWireSphere(transform.position, _blackboard.origin.attackRange);
+    //     Gizmos.color = Color.blue;
+    //     Gizmos.DrawWireSphere(transform.position, _blackboard.origin.detectRadius);
+    // }
 }
