@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using XNode;
+using Object = System.Object;
 
 public class EnemyStateMachine : MonoBehaviour
 {
@@ -46,8 +47,8 @@ public class EnemyStateMachine : MonoBehaviour
         // idle state 먼저 실행
         foreach (var node in _graph.nodes)
         {
-            NodePort inputPort = node.GetInputPort("entry");
-            if (inputPort == null)
+            // ToDo. 이름 변경시 동작 안됨. 주의. 
+            if (node.name == "Node Enemy Idle") 
             {
                 _currentNode = node;
                 break;
@@ -57,7 +58,7 @@ public class EnemyStateMachine : MonoBehaviour
 
     private IEnumerator StateMachine()
     {
-        while (true)
+        while (!_blackboard.IsDead)
         {
             string portName = (_currentNode as EnemyBaseNode)?.Execute(_blackboard);
             if (portName != null)
@@ -75,16 +76,16 @@ public class EnemyStateMachine : MonoBehaviour
         _blackboard.IsAttacking = !_blackboard.IsAttacking;
     }
     
+    [ContextMenu("Debug/AttackDelay")]
+    private void DebugOnAttackDelay()
+    {
+        _blackboard.IsAttackDelay = !_blackboard.IsAttackDelay;
+    }
+    
     [ContextMenu("Debug/Following")]
     private void DebugOnFollowing()
     {
         _blackboard.IsFollowing = !_blackboard.IsFollowing;
-    }
-    
-    [ContextMenu("Debug/BeingDamaged")]
-    private void DebugOnDamaged()
-    {
-        _blackboard.IsDamaged = !_blackboard.IsDamaged;
     }
     
     [ContextMenu("Debug/Dead")]

@@ -6,14 +6,19 @@ using XNode;
 public class NodeEnemyTrackingPlayer : EnemyBaseNode 
 {
 	[Input] public EnemyStateConnection entry;
-	[Output] public EnemyStateConnection exitToAttackPlayer;
-	[Output] public EnemyStateConnection exitToDamaged;
+	[Output] public EnemyStateConnection exitToAttackDelay;
+	[Output] public EnemyStateConnection exitToDead;
+	[Output] public EnemyStateConnection exitToIdle;
 	
 	public override string Execute(EnemyBlackboard blackboard)
 	{
 		Debug.Log("겁나 쫒아가고 있긔");
-		if (blackboard.IsAttacking) return "exitToAttackPlayer";
-		if (blackboard.IsDamaged) return "exitToDamaged";
-		return null;
+		blackboard.IsFollowing = false;
+		
+		// AttackRange 이내로 들어오면 공격 모션
+		string transitionName = ToAttackDelay(blackboard);
+		if (transitionName != null) return transitionName;
+		
+		return ToIdle(blackboard);
 	}
 }
