@@ -32,7 +32,7 @@ namespace sadsmile
 
       
         private void CloseDoors()
-        {            // 방의 테두리(상하좌우 1칸 밖)를 스캔합니다.
+        {            // 방의 테두리(상하좌우 1칸 밖)를 스캔
             for (int x = roomRect.x -1; x <= roomRect.xMax; x++)
             {
                 for (int y = roomRect.y -1; y <= roomRect.yMax; y++)
@@ -42,14 +42,14 @@ namespace sadsmile
                     {
                         Vector3Int pos = new Vector3Int(x, y, 0);
 
-                        // 테두리인데 바닥 타일(floorTile)이 깔려있다면, 그곳이 바로 입구!
+                        // 테두리인데 바닥 타일(floorTile)이 깔려있다면 입구여서 이부분 막아야 함
                         var tilename = tilemap.GetTile(pos);
                         if (tilename == floorTile)
                         {
-                            // 1. 나중에 문을 열기 위해 위치를 기억해둡니다.
+                            // 1. 나중에 문을 열기 위해 위치를 기억
                             doorPositions.Add(pos);
 
-                            // 2. 입구를 벽 타일로 바꿔서 쾅! 닫아버립니다.
+                            // 2. 입구를 벽 타일로 바꾸서 길 막기
                             tilemap.SetTile(pos, wallTile);
                         }
                     }

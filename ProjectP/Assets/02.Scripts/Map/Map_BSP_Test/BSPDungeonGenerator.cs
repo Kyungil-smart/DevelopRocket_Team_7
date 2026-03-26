@@ -10,7 +10,6 @@ public class BSPDungeonGenerator : MonoBehaviour
   [SerializeField]private Tilemap tilemap;
   [SerializeField]private TileBase floorTile;
   [SerializeField]private TileBase wallTile;
-    [SerializeField] private TileBase wayTile;
     [Header("맵 크기 및 방설정")]
     public int mapWidth;
     public int mapHeight;
@@ -33,7 +32,7 @@ public class BSPDungeonGenerator : MonoBehaviour
 
     private void GenerateDungeon()
     {
-
+         
         currentRoomCount = 1;
         leafRooms.Clear();
 
@@ -47,6 +46,7 @@ public class BSPDungeonGenerator : MonoBehaviour
 
     private void Divide(BSPNode node)
     {
+        if (currentRoomCount >= maxRooms) return;
         // 방의 가로 세로 길이가 minRoomSize*2 보다 작거나 같으면 그만 재귀하고 돌아가라
         // can_not_Divide_Further : 더 이상 나눌 수 없습니다
         bool can_not_Divide_Further = node.rect.width <= minRoomSize * 2 && node.rect.height <= minRoomSize * 2;
@@ -118,7 +118,7 @@ public class BSPDungeonGenerator : MonoBehaviour
             int roomWidth  = Random.Range(minRoomSize - 2, node.rect.width - 2);
             int roomHeight = Random.Range(minRoomSize - 2, node.rect.height - 2);
 
-            int x = node.rect.x + (node.rect.width - roomWidth) / 2;
+            int x = node.rect.x + (node.rect.width - roomWidth)   / 2;
             int y = node.rect.y + (node.rect.height - roomHeight) / 2;
 
             node.roomRect = new RectInt(x, y, roomWidth, roomHeight);
@@ -182,22 +182,7 @@ public class BSPDungeonGenerator : MonoBehaviour
             }
         }
     }
-    private void SetFloorTile2(int x, int y)
-    {
-        tilemap.SetTile(new Vector3Int(x, y, 0), wayTile);
-        for (int i = -1; i <= 1; i++)
-        {
-            for (int j = -1; j <= 1; j++)
-            {
-                Vector3Int pos = new Vector3Int(x + i, y + j, 0);
-                if (tilemap.GetTile(pos) == null)
-                {
-                    tilemap.SetTile(pos, wallTile);
-
-                }
-            }
-        }
-    }
+    
     private void AssignRoomTypes()
     {
         if (leafRooms.Count == 0) return;
@@ -214,18 +199,24 @@ public class BSPDungeonGenerator : MonoBehaviour
         for (int i = 0; i < leafRooms.Count; i++)
         {
             if (i == 0)
+            {
                 leafRooms[i].roomType = RoomType.StartNode;
+            }
             else if (i == 1 && leafRooms.Count > 2)
+            {
                 leafRooms[i].roomType = RoomType.RestNode;
+            }
             else if (i == leafRooms.Count - 1 && leafRooms.Count > 3)
+            {
                 leafRooms[i].roomType = RoomType.BossNode;
+            }
             else
             {
-                leafRooms[i].roomType = Random.value > 0.4f ? RoomType.MiddleNode : RoomType.NULL;
+              leafRooms[i].roomType = Random.value > 0.4f ? RoomType.MiddleNode : RoomType.NULL;
             }
         }
     }
-    // 리스트를 랜덤하게 섞는 유틸리티 함수 (Fisher-Yates Shuffle)
+    // 리스트를 랜덤하게 섞는 유틸리티 함수  
     private void ShuffleList<T>(List<T> list)
     {
         for (int i = 0; i < list.Count; i++)
@@ -241,8 +232,8 @@ public class BSPDungeonGenerator : MonoBehaviour
         foreach (BSPNode room in leafRooms)
         {
             Vector3 centerPos = new Vector3(room.roomRect.center.x, room.roomRect.center.y, 0);
-
-            if(room.roomType ==RoomType.MiddleNode)
+            
+            if (room.roomType ==RoomType.MiddleNode)
             {
                 var obj = new GameObject();
                 var data = obj.AddComponent<BoxCollider2D>();
@@ -255,8 +246,25 @@ public class BSPDungeonGenerator : MonoBehaviour
                 manager.wallTile = wallTile;
                 manager.floorTile = floorTile;
                 manager.roomRect = room.roomRect;
+            }
+            else if (room.roomType == RoomType.StartNode)
+            {
+                //플레이어 프리팹을 받아서 생성 해야 할거 같다.
+                //시작 노드의 중앙에 스폰 예정
+                var SponPos = room.roomRect.center;
+                
+            }
+            else if(room.roomType == RoomType.RestNode)
+            {
 
-               
+            }
+            else if(room.roomType == RoomType.BossNode)
+            {
+
+            }
+            else if(room.roomType == RoomType.NULL)
+            {
+
             }
         }
     }
