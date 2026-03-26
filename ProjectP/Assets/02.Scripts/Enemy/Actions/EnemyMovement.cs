@@ -9,6 +9,7 @@ public class EnemyMovement : MonoBehaviour
     [SerializeField] private LayerMask _layerMask;
     private EnemyBlackboard _blackboard;
     private CircleCollider2D _collider2D;
+    private SpriteRenderer _spriteRenderer;
     private Vector2 _targetPos;
     private Transform _targetTransform;
     private bool _isChasing;
@@ -22,6 +23,7 @@ public class EnemyMovement : MonoBehaviour
     {
         _animator = GetComponent<Animator>();
         _collider2D = GetComponent<CircleCollider2D>();
+        _spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
     private void Update()
@@ -44,6 +46,9 @@ public class EnemyMovement : MonoBehaviour
             if (!hit) transform.position = Vector3.MoveTowards(transform.position, _targetTransform.position, step);
         }  
         else transform.position = Vector3.MoveTowards(transform.position, _targetPos, step);
+        
+        // ToDo. 우선적으로 이렇게 처리하지만, 추후 자연스럽게 하기 위해 어떻게 해야할지 연구 필요.
+        _spriteRenderer.sortingOrder = Mathf.RoundToInt(transform.position.y);
     }
     
     public void GoToPlayer(EnemyBlackboard blackboard) {  
@@ -72,7 +77,7 @@ public class EnemyMovement : MonoBehaviour
             Vector2 direction = _patrolDirections[Random.Range(0, _patrolDirections.Length)];
             _targetPos = transform.position + new Vector3(direction.x, direction.y);
             Ray2D ray = GetRay(direction);
-            RaycastHit2D hit = Physics2D.Raycast(ray.origin, ray.direction, 1, LayerMask.GetMask("Wall"));
+            RaycastHit2D hit = Physics2D.Raycast(ray.origin, ray.direction, 1, _layerMask);
             if (!hit) yield return _waitFor2Sec;
         }
     }
