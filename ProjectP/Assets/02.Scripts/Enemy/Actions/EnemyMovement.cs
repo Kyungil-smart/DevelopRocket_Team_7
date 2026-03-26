@@ -28,7 +28,18 @@ public class EnemyMovement : MonoBehaviour
 
     private void Update()
     {
-        Move();
+        if (gameObject.activeSelf) Move();
+    }
+
+    private void OnEnable()
+    {
+        _targetPos = transform.position;
+    }
+
+    private void OnDisable()
+    {
+        if (_nxPosCoroutine != null) StopCoroutine(_nxPosCoroutine);
+        _nxPosCoroutine = null;
     }
 
     private void Move()
@@ -48,7 +59,7 @@ public class EnemyMovement : MonoBehaviour
         else transform.position = Vector3.MoveTowards(transform.position, _targetPos, step);
         
         // ToDo. 우선적으로 이렇게 처리하지만, 추후 자연스럽게 하기 위해 어떻게 해야할지 연구 필요.
-        _spriteRenderer.sortingOrder = Mathf.RoundToInt(transform.position.y);
+        _spriteRenderer.sortingOrder = Mathf.RoundToInt(transform.position.y) * -1;
     }
     
     public void GoToPlayer(EnemyBlackboard blackboard) {  
@@ -64,7 +75,7 @@ public class EnemyMovement : MonoBehaviour
     {  // Init 상태에서 실행할 것.
         if (_blackboard == null) _blackboard = blackboard;
         _isChasing = false;
-        if (_nxPosCoroutine == null)
+        if (_nxPosCoroutine == null && !_blackboard.IsDead)
         {
             _nxPosCoroutine = StartCoroutine(ChoiceNextPositionInPatrolCoroutine());    
         }
@@ -72,20 +83,23 @@ public class EnemyMovement : MonoBehaviour
     
     private IEnumerator ChoiceNextPositionInPatrolCoroutine()
     {
+        yield return _waitFor2Sec; // 잠깐 기다렸다 시작.
         while (!_isChasing)
         {
             Vector2 direction = _patrolDirections[Random.Range(0, _patrolDirections.Length)];
             _targetPos = transform.position + new Vector3(direction.x, direction.y);
-            Ray2D ray = GetRay(direction);
-            RaycastHit2D hit = Physics2D.Raycast(ray.origin, ray.direction, 1, _layerMask);
-            if (!hit) yield return _waitFor2Sec;
+            if (_collider2D != null)
+            {
+                Ray2D ray = GetRay(direction);
+                RaycastHit2D hit = Physics2D.Raycast(ray.origin, ray.direction, 1, _layerMask);
+                if (!hit) yield return _waitFor2Sec;
+            }
+            else yield return null;
         }
     }
 
     private Ray2D GetRay(Vector2 direction)
-    {
-        
-        Debug.Log(_collider2D.radius);
+    { 
         Vector3 rayOriginPos = transform.position + 
                                new Vector3(direction.x * _collider2D.radius, direction.y * _collider2D.radius);
         return new Ray2D(rayOriginPos, direction);

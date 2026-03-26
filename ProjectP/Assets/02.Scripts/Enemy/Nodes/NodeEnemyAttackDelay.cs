@@ -8,7 +8,6 @@ public class NodeEnemyAttackDelay : EnemyBaseNode
     
     public override string Execute(EnemyBlackboard blackboard)
     {
-        Debug.Log("자, 이제 어금니 꽉 깨물거릐");
         blackboard.IsAttackDelay = false;
         
         // 1. 공격하기

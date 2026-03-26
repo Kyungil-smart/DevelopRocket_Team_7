@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -5,7 +6,9 @@ using UnityEngine.Pool;
 
 public class EnemySpawner : Singleton<EnemySpawner>
 {
-    [SerializeField] List<GameObject> enemyPrefabs;
+    [SerializeField] List<GameObject> _enemyPrefabs;
+    [SerializeField] GameObject _spawnEffectPrefab;
+    [SerializeField] private int _maxNumPerEnemy = 10;
     public Dictionary<string, Queue<GameObject>> objectDict = new();
 
     private void Start()
@@ -15,20 +18,31 @@ public class EnemySpawner : Singleton<EnemySpawner>
     
     private void Init()
     {
-        foreach (var prefab in enemyPrefabs)
+        // 몬스터 미리 생성
+        foreach (var prefab in _enemyPrefabs)
         {
             if (!objectDict.ContainsKey(prefab.name))
             {
                 objectDict[prefab.name] = new Queue<GameObject>();
             }
 
-            for (int i = 0; i < 10; i++)
+            for (int i = 0; i < _maxNumPerEnemy; i++)
             {
                 GameObject obj = Instantiate(prefab, gameObject.transform, true);
-                obj.name = prefab.name;
+                obj.name = $"{prefab.name}_{i:D3}";
                 obj.SetActive(false);
                 objectDict[prefab.name].Enqueue(obj);    
             }
+        }
+        
+        // 몬스터 팝업시 이팩트 미리 생성
+        objectDict[_spawnEffectPrefab.name] = new Queue<GameObject>();
+        for (int i = 0; i < 15; i++)
+        {
+            GameObject obj = Instantiate(_spawnEffectPrefab, gameObject.transform, true);
+            obj.name = _spawnEffectPrefab.name;
+            obj.SetActive(false);
+            objectDict[_spawnEffectPrefab.name].Enqueue(obj);
         }
     }
 
@@ -48,7 +62,11 @@ public class EnemySpawner : Singleton<EnemySpawner>
             int num = spawnNum.Value;
             for (int i = 0; i < num; i++)
             {
-                spawnedEnemies.Add(SpawnEach(name, spawnedPositions.Dequeue()));
+                StartCoroutine(SpawnEach(name, spawnedPositions.Dequeue(), 
+                    spawnedObj => {
+                    spawnedEnemies.Add(spawnedObj);
+                }));
+
             }
         }
         return spawnedEnemies;
@@ -69,7 +87,10 @@ public class EnemySpawner : Singleton<EnemySpawner>
             int num = spawnNum.Value;
             for (int i = 0; i < num; i++)
             {
-                spawnedEnemies.Add(SpawnEach(name, position));
+                StartCoroutine(SpawnEach(name, position, 
+                    spawnedObj => {
+                    spawnedEnemies.Add(spawnedObj);
+                }));
             }
         }
         return spawnedEnemies;
@@ -81,12 +102,26 @@ public class EnemySpawner : Singleton<EnemySpawner>
     /// <param name="name">Prefab name</param>
     /// <param name="position">스폰 위치</param>
     /// <returns></returns>
-    public GameObject SpawnEach(string name, Vector2 position)
+    public IEnumerator SpawnEach(string name, Vector2 position, System.Action<GameObject> returnObj)
     {
+        // 소환 이팩트 생성
+        yield return new WaitForSeconds(0.1f);
+        GameObject effectObj = objectDict[_spawnEffectPrefab.name].Dequeue();
+        effectObj.transform.position = new Vector2(position.x, position.y - 0.5f);
+        effectObj.SetActive(true);
+        yield return new WaitForSeconds(1f);
+        
+        // 몬스터 소환
         GameObject obj = objectDict[name].Dequeue();
+        Debug.Log($"Spawned: {obj.name}");
         obj.transform.position = position;
         obj.SetActive(true);
-        return obj;
+        yield return new WaitForSeconds(1f);
+        
+        // 소환 이팩트 사라짐
+        effectObj.SetActive(false);
+        objectDict[_spawnEffectPrefab.name].Enqueue(effectObj);
+        returnObj?.Invoke(obj);
     }
 
     public void Despawn(string name, GameObject obj)
@@ -102,11 +137,11 @@ public class EnemySpawner : Singleton<EnemySpawner>
         spawnNums.Add("Enemy", 5);
         
         List<Vector2> positions = new List<Vector2>();
-        positions.Add(new Vector2(-10, -5));
-        positions.Add(new Vector2(10, 5));
-        positions.Add(new Vector2(-10, 5));
+        positions.Add(new Vector2(-16, -8));
+        positions.Add(new Vector2(16, 8));
+        positions.Add(new Vector2(-16, 8));
         positions.Add(new Vector2(0, 0));
-        positions.Add(new Vector2(-2, 2));
+        positions.Add(new Vector2(-4, 4));
         
         Spwan(spawnNums, positions);
     }

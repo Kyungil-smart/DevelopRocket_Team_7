@@ -9,7 +9,6 @@ public class NodeEnemyDead : EnemyBaseNode
 	
 	public override string Execute(EnemyBlackboard blackboard)
 	{
-		Debug.Log("난 죽어써");
 		blackboard.IsDead = false;
 		return null;
 	}

@@ -11,7 +11,8 @@ public class EnemyStateMachine : MonoBehaviour
     [SerializeField] private EnemyData _originData;
     [SerializeField] private EnemyAgent _agent;
     [SerializeField] private EnemyNodeGraph _graph;
-    private Node _currentNode;
+    [Header("아래 CurrentNode 는 데이터 확인용이니 Inspector 에서 제어하지 마세요.")]
+    [SerializeField] private Node _currentNode;
     private Coroutine _coroutine;
     private WaitForSeconds _wait = new WaitForSeconds(0.1f);
     private EnemyBlackboard _blackboard;
@@ -51,6 +52,7 @@ public class EnemyStateMachine : MonoBehaviour
             if (node.name == "Node Enemy Idle") 
             {
                 _currentNode = node;
+                _blackboard.IsIdle = true;
                 break;
             }
         }
@@ -70,6 +72,12 @@ public class EnemyStateMachine : MonoBehaviour
         yield return null;
     }
 
+    [ContextMenu("Debug/Idle")]
+    private void DebugOnIdle()
+    {
+        _blackboard.IsIdle = !_blackboard.IsIdle;
+    }
+    
     [ContextMenu("Debug/Attack")]
     private void DebugOnAttack()
     {
@@ -92,6 +100,5 @@ public class EnemyStateMachine : MonoBehaviour
     private void DebugOnDead()
     {
         _blackboard.IsDead = !_blackboard.IsDead;
-        EnemySpawner.Instance.Despawn(gameObject.name, gameObject);
     }
 }

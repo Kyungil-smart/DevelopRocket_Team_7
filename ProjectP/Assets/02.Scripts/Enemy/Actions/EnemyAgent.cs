@@ -2,6 +2,11 @@ using System;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
+/// <summary>
+/// Enemy 의 동작에 대한 중심 역할. State 에서 해야할 역할에 대한 것들은 모두 Agent 에 존재.
+/// State 는 직접적으로 agent 를 호출 하는 것은 "되도록"지양하되, 필요시에는 호출 가능.
+/// Blackboard 내 Bool Flag 변경으로 Observer Pattern 으로 구현되어 있음.
+/// </summary>
 public class EnemyAgent : MonoBehaviour
 {
     public GameObject target;
@@ -26,7 +31,7 @@ public class EnemyAgent : MonoBehaviour
     private void OnEnable()
     {
         // ToDo. for test. 추후 Player Object 를 받아올 수 있는 static 값이 있으면 변경 예정.
-        _blackboard.IsDead = false;
+        if (_blackboard != null) _blackboard.IsDead = false;
         if (target == null)
             target = GameObject.FindWithTag("Player");
     }
@@ -47,6 +52,7 @@ public class EnemyAgent : MonoBehaviour
 
     private void AddListeners()
     {
+        _blackboard.OnIdle += Patrol;
         _blackboard.OnAttacked += OnAttack;
         _blackboard.OnDead += OnDead;
         _blackboard.OnFollowed += OnMoveToPlayer;
@@ -54,6 +60,7 @@ public class EnemyAgent : MonoBehaviour
 
     private void RemoveListeners()
     {
+        _blackboard.OnIdle -= Patrol;
         _blackboard.OnAttacked -= OnAttack;
         _blackboard.OnDead -= OnDead;
         _blackboard.OnFollowed -= OnMoveToPlayer;
@@ -79,12 +86,12 @@ public class EnemyAgent : MonoBehaviour
         if (_deadScript != null) _deadScript.Dead();
     }
 
-    private void OnDrawGizmos()
-    {
-        if (_blackboard == null) return;
-        Gizmos.color = Color.yellow;
-        Gizmos.DrawWireSphere(transform.position, _blackboard.origin.attackRange);
-        Gizmos.color = Color.blue;
-        Gizmos.DrawWireSphere(transform.position, _blackboard.origin.detectRadius);
-    }
+    // private void OnDrawGizmos()
+    // {
+    //     if (_blackboard == null) return;
+    //     Gizmos.color = Color.yellow;
+    //     Gizmos.DrawWireSphere(transform.position, _blackboard.origin.attackRange);
+    //     Gizmos.color = Color.blue;
+    //     Gizmos.DrawWireSphere(transform.position, _blackboard.origin.detectRadius);
+    // }
 }

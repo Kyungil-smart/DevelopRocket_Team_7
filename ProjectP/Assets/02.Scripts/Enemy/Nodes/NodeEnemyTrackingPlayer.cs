@@ -12,7 +12,6 @@ public class NodeEnemyTrackingPlayer : EnemyBaseNode
 	
 	public override string Execute(EnemyBlackboard blackboard)
 	{
-		Debug.Log("겁나 쫒아가고 있긔");
 		blackboard.IsFollowing = false;
 		
 		// AttackRange 이내로 들어오면 공격 모션

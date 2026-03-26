@@ -11,7 +11,6 @@ public class NodeEnemyIdle : EnemyBaseNode
 
 	public override string Execute(EnemyBlackboard blackboard)
 	{
-		Debug.Log("난 Idle 상태여");
 		blackboard.IsIdle = false;
 		
 		// 1. 인식 범위안에 있는지 확인
@@ -19,9 +18,7 @@ public class NodeEnemyIdle : EnemyBaseNode
 		transitionName = ToFollowingToPlayer(blackboard);
 		if (transitionName != null) return transitionName;
 		
-		// 2. Patrol
-		if (blackboard.agent.gameObject.activeSelf)
-			blackboard.agent.Patrol();
+		// 2. Patrol; 
 		return null;
 	}
 }
