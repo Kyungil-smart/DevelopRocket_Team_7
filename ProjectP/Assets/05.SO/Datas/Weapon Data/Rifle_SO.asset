@@ -13,9 +13,29 @@ MonoBehaviour:
   m_Name: Rifle_SO
   m_EditorClassIdentifier: Assembly-CSharp::WeaponDataSO
   weaponName: 
-  attackCooldown: 0.15
+  attackSpeed: 4
   damage: 10
+  magazineSize: 30
+  currentAmmo: 0
+  reloadTime: 1.5
   projectilePrefab: {fileID: 7611560951116735793, guid: a6f2ef457f8056e4484fe87f52d55b8b, type: 3}
   projectileSpeed: 10
+  projectileCount: 1
+  bounceCount: 2
+  moveSpeedBonus: 0
+  dodgeRate: 5
+  critRate: 0.05
+  critMultiplier: 1.5
   weaponColor: {r: 0.043016378, g: 0.91194963, b: 0.11381646, a: 1}
   fireStrategy: {fileID: 11400000, guid: 64682486d36d3d845adcf46aa0aac364, type: 2}
+  pelletCount: 0
+  spreadAngle: 0
+  pierceCount: 0
+  meleeRadius: 0
+  meleeAngle: 0
+  knockbackForce: 0
+  hitStopTime: 0
+  laserRange: 0
+  laserDPS: 0
+  chargeTime: 0
+  maxChargeLevel: 0

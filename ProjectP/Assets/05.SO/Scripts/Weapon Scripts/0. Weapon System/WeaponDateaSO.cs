@@ -3,16 +3,13 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Weapon/WeaponData")]
 public class WeaponDataSO : ScriptableObject
 {
-    // 구현 원리 요약:
-    // 기획 데이터 그대로 들고 있고 CSV로 덮어쓰기 가능하게 설계
-
     [Header("무기 정보")]
 
     [Tooltip("무기 이름")]
     public string weaponName;
 
     [Tooltip("공격 속도 (초당 공격 횟수)")]
-    public float attackSpeed = 4f; // ← 중요 (쿨타임 아님)
+    public float attackSpeed = 4f;
 
     [Header("공격력")]
 
@@ -94,6 +91,20 @@ public class WeaponDataSO : ScriptableObject
 
     [Tooltip("히트스탑 시간")]
     public float hitStopTime = 0.05f;
+
+    [Header("레이저 설정")]
+
+    [Tooltip("레이저 최대 거리")]
+    public float laserRange = 10f;
+
+    [Tooltip("초당 데미지 (DPS)")]
+    public float laserDPS = 10f;
+
+    [Tooltip("차징 단계 상승 시간")]
+    public float chargeTime = 2f;
+
+    [Tooltip("최대 차징 단계")]
+    public int maxChargeLevel = 3;
 
     // 초기화
     public void Init()
