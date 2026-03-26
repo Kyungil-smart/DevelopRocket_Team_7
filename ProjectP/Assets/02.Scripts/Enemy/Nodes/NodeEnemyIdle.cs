@@ -20,7 +20,8 @@ public class NodeEnemyIdle : EnemyBaseNode
 		if (transitionName != null) return transitionName;
 		
 		// 2. Patrol
-		blackboard.agent.Patrol();
+		if (blackboard.agent.gameObject.activeSelf)
+			blackboard.agent.Patrol();
 		return null;
 	}
 }

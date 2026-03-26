@@ -23,6 +23,14 @@ public class EnemyAgent : MonoBehaviour
         // Pure C# Classes
     }
 
+    private void OnEnable()
+    {
+        // ToDo. for test. 추후 Player Object 를 받아올 수 있는 static 값이 있으면 변경 예정.
+        _blackboard.IsDead = false;
+        if (target == null)
+            target = GameObject.FindWithTag("Player");
+    }
+
     private void OnDisable()
     {
         RemoveListeners();

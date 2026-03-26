@@ -3,7 +3,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Pool;
 
-public class EnemySpawner : MonoBehaviour
+public class EnemySpawner : Singleton<EnemySpawner>
 {
     [SerializeField] List<GameObject> enemyPrefabs;
     public Dictionary<string, Queue<GameObject>> objectDict = new();
@@ -93,5 +93,21 @@ public class EnemySpawner : MonoBehaviour
     {
         obj.SetActive(false);
         objectDict[name].Enqueue(obj);
+    }
+
+    [ContextMenu("Test/Spawn")]
+    public void TestSpawn()
+    {
+        Dictionary<string, int> spawnNums = new Dictionary<string, int>();
+        spawnNums.Add("Enemy", 5);
+        
+        List<Vector2> positions = new List<Vector2>();
+        positions.Add(new Vector2(-10, -5));
+        positions.Add(new Vector2(10, 5));
+        positions.Add(new Vector2(-10, 5));
+        positions.Add(new Vector2(0, 0));
+        positions.Add(new Vector2(-2, 2));
+        
+        Spwan(spawnNums, positions);
     }
 }

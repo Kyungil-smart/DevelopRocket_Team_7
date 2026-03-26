@@ -84,6 +84,8 @@ public class EnemyMovement : MonoBehaviour
 
     private Ray2D GetRay(Vector2 direction)
     {
+        
+        Debug.Log(_collider2D.radius);
         Vector3 rayOriginPos = transform.position + 
                                new Vector3(direction.x * _collider2D.radius, direction.y * _collider2D.radius);
         return new Ray2D(rayOriginPos, direction);

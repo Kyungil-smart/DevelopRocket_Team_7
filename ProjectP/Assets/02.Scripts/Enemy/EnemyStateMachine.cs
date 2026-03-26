@@ -92,5 +92,6 @@ public class EnemyStateMachine : MonoBehaviour
     private void DebugOnDead()
     {
         _blackboard.IsDead = !_blackboard.IsDead;
+        EnemySpawner.Instance.Despawn(gameObject.name, gameObject);
     }
 }
