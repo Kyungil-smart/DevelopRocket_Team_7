@@ -1,2 +1,13 @@
 fileFormatVersion: 2
 guid: 2dac26e2906abec42876086166ed735b
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - statGraph: {fileID: 11400000, guid: fe94c6b73152571479b7052435a7c1c8, type: 2}
+  - nodeTemplate: {fileID: 9197481963319205126, guid: dab2116a77f6fba44802c56a5dd8f7a1, type: 3}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
