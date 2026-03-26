@@ -163,60 +163,46 @@ PR은 작업 내용을 명확하게 전달하는 문서다.
   ---
 
   #  ★★★★★ 유니티 프로젝트 폴더 구조 가이드 ★★★★★
+- Assets  
+  - **importAssets 폴더**
+    - 에셋 관리는 병희님께서 관리 해주심.
+    - 본인이 사용하는 에셋은 갱신(추가/삭제)될 때마다 Export As Asset Package 사용하셔서 따로 백업 바람.
+  - **Scenes 폴더**
+    -  Test 폴더 <-- 테스트를 하기 위한 용도 본인명 폴더 만든 후 테스트 바람.
+    -  Main폴더 <-- 우리가 만들 게임의 씬 저장 폴더
+  - **Scripts 폴더**
+    - Common  <-- 공통으로 사용할 스크립트 들
+         - Interface 폴더
+         - core 폴더
+         - Manager 폴더
+    - 그 외는 큰 기능 단위로 먼저 묶은 다음 그 안에서 세부 기능으로 나눠주세요.  
+    예시)  
+    Player/  
+ ┣ Movement/  
+ ┣ Combat/  
+ ┣ Jump/  
+  - **SO (ScriptableObject) 폴더**
+    - Scripts <-- 데이터를 만들기 위한  『스크립터블 오브젝트』 스크립트 보관용
+    - Datas <--위에 데이터를 에셋으로 데이화 시켜 저장하는 폴더
+  -  **Animaction   폴더**
+      - 2D 캐릭터 또는 몬스터 애니메이션 및 기타등을 해당 폴더에서 관리한다. 
+      - 관리하는 내용은 :Animator Controller,Animation Clip
+      - 해당 폴더에서 데이터 관리시 연관성 있는 데이터 끼리 폴더 만들어서 그 폴더 내부에서 관리 바람  
+     예시)  
+     - PlayerAnimaction폴더  
+       - 플레이어 애니메이션 클립 폴더
+       - 애니메이션 컨트롤러
+    
+     - enemyAnimaction폴더
+      - 몬스터 애니메이션 클립 폴더
+      - 몬스터 애니메이션 컨트롤러
+       
+        
 
 
+  - **Prefabs  폴더**  
+ 어떤 것들이 프리팹 될지 모르니깐   
+알아볼수 있게 폴더 생성해서 잘 분리 하기.
 
-##  1. 핵심 원칙
-
-1. **기능(Feature) 기준으로 폴더를 나눈다**
-2. 각 기능 내부에서 객체(Player, Monster 등)를 관리한다
-3. 공통 로직은 반드시 따로 분리한다 (Core)
  
----
-
-##  2. 추천 폴더 구조
-
-```
-Assets/
-├── 01_Scenes/
-├── 02_Scripts/
-│   ├── Core/                # 공통 시스템
-│   │   ├── Managers/
-│   │   ├── Utilities/
-│   │   ├── Extensions/
-│   │
-│   ├── Feature/
-│   │   ├── Player/
-│   │   │   ├── Controller/
-│   │   │   ├── Movement/
-│   │   │   ├── Combat/
-│   │   │   ├── State/
-│   │   │   ├── Animation/
-│   │   │
-│   │   ├── Monster/
-│   │   │   ├── AI/
-│   │   │   ├── Combat/
-│   │   │   ├── State/
-│   │   │
-│   │   ├── Skill/
-│   │   │   ├── PlayerSkill/
-│   │   │   ├── MonsterSkill/
-│   │   │   ├── System/      # 쿨타임, 데미지 계산 등
-│   │   │
-│   │   ├── UI/
-│   │   │   ├── HUD/
-│   │   │   ├── Popup/
-│   │   │
-│   │   ├── Map/
-│   │   │   ├── Procedural/
-│   │   │   ├── Tile/
-│   │
-│   ├── Data/
-│   │   ├── ScriptableObjects/
-│   │   ├── DTO/
-│
-├── 03_Prefabs/
-├── 04_Art/
-├── 05_Audio/
-├── 06_Resources/
-```
+  
