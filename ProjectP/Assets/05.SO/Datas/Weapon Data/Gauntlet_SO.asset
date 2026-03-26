@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: Gauntlet_SO
   m_EditorClassIdentifier: Assembly-CSharp::WeaponDataSO
   weaponName: 
-  attackSpeed: 4
-  damage: 10
+  attackSpeed: 0.5
+  damage: 50
   magazineSize: 30
   currentAmmo: 0
   reloadTime: 1.5
@@ -35,3 +35,7 @@ MonoBehaviour:
   meleeAngle: 90
   knockbackForce: 5
   hitStopTime: 0.05
+  laserRange: 10
+  laserDPS: 10
+  chargeTime: 2
+  maxChargeLevel: 3

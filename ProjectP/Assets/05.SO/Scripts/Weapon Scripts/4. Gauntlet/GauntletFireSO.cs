@@ -34,14 +34,26 @@ public class GauntletFireSO : WeaponFireStrategy
                 Rigidbody2D rb = hit.GetComponent<Rigidbody2D>();
                 if (rb != null)
                 {
+                    // 기존 속도 제거 (중요)
+                    rb.linearVelocity = Vector2.zero;
+
+                    // 강하게 밀기
                     rb.AddForce(dirToTarget * data.knockbackForce, ForceMode2D.Impulse);
+
+                    Debug.Log($"[건틀릿] 넉백 적용 → 힘: {data.knockbackForce}");
+                }
+                else
+                {
+                    Debug.LogWarning("[건틀릿] Rigidbody2D 없음 → 넉백 실패");
                 }
             }
+            // 이펙트 생성
+            SpawnEffect(firePoint, data);
         }
-
-        // 이펙트 생성
-        SpawnEffect(firePoint, data);
     }
+            
+        
+    
 
     private int CalculateDamage(WeaponDataSO data)
     {
