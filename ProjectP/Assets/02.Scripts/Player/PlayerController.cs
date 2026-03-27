@@ -14,60 +14,112 @@ public class PlayerController : Singleton<PlayerController>
    
    [SerializeField] private float dashSpeed = 30f;  // 플레이어 대쉬 속도
    [SerializeField] private float dashTime = 0.5f;  // 플레이어 대쉬 시간
-   [SerializeField] private float dashCooldown = 0f; // 대쉬 쿨타임 
+   [SerializeField] private float dashCooldown = 5f; // 대쉬 쿨타임 
+   [SerializeField] private float countDownInterval = 0.5f;
    
-   private bool isDashing = false;  // 플레이어 대쉬 중인지 체크
-   
-   
-   
-   
-   private void FixedUpdate()
-   {
-      if (dashCooldown > 0f) dashCooldown -= Time.fixedDeltaTime; // 대쉬 쿨타임 감소
-      if (isDashing) return;  // 대쉬중이면 일반 이동 불가
-      GetComponent<Rigidbody2D>().linearVelocity = new Vector2(input.x * moveSpeed, input.y * moveSpeed);
-   }
+   [SerializeField]private bool isDashing = false;  // 플레이어 대쉬 중인지 체크
+
+   private Coroutine _dashCountDownCoroutine;
+   [SerializeField] private int _dashStack = 2;
+   private int _maxDashStack = 2;
+
 
    private void Awake()
    {
       base.Awake();
       _inputActionAsset.Enable();
-      _inputActionAsset["Move"].performed += Move;
-      _inputActionAsset["Dash"].performed += Dash;
+      _inputActionAsset["Move"].started += Move;
+      _inputActionAsset["Move"].canceled += MoveStop;
+      _inputActionAsset["Dash"].started += OnDash;
    }
-
 
    public void Move(InputAction.CallbackContext context)
    {
+      if(isDashing) return;
+
       input = context.ReadValue<Vector2>();
+      GetComponent<Rigidbody2D>().linearVelocity = input * moveSpeed;
+   }
+
+   public void MoveStop(InputAction.CallbackContext context)
+   {
+      if(isDashing) return;
+
+      GetComponent<Rigidbody2D>().linearVelocity = Vector2.zero;
    }
    
-   public void Dash(InputAction.CallbackContext context)
+   public void OnDash(InputAction.CallbackContext context)
    {
-      if (context.started && !isDashing)
+      Debug.Log("OnDash");
+      if ((isDashing == false) && _dashStack > 0)
       {
-         StartCoroutine(DashRoutine());
+
+         var data = context.ReadValue<Vector2>();
+         Dash(data);
+
+         if(_dashCountDownCoroutine == null)
+         {
+            _dashCountDownCoroutine = StartCoroutine(DashCountDownRoutine(input));
+         }
       }
    }
 
-   private System.Collections.IEnumerator DashRoutine()
+   private void Dash(Vector2 direction)
    {
+      Debug.Log("Dash");
+      isDashing = true;
+      GetComponent<Rigidbody2D>().linearVelocity = direction * dashSpeed;
+   }
 
-      if (dashCooldown <= 0f)    // 대쉬 쿨타임 0초 이하일 때
+   private void DashStop()
+   {
+      Debug.Log("DashStop");
+      isDashing = false;
+      GetComponent<Rigidbody2D>().linearVelocity = Vector2.zero;
+   }
+
+   private System.Collections.IEnumerator DashCountDownRoutine(Vector2 direction)
+   {
+      float currentTimeCount = dashCooldown;
+      float dashOffCount = dashTime;
+      
+      while(_dashStack < _maxDashStack || isDashing) // 대시 스택이 덜 찼거나, 대시중일때만 반복
       {
-         isDashing = true;
-         dashCooldown = 5f;
+         yield return new WaitForSeconds(countDownInterval);
 
-         Vector2 dashDirection = input.normalized; // 바라보는 방향으로 대쉬
-         if (dashDirection == Vector2.zero) dashDirection = Vector2.right; // 입력한 키 없으면 기본 우측으로 대쉬
+         // 대시 스택이 덜 찼다면
+         if(_dashStack < _maxDashStack) 
+         {
+            currentTimeCount -= countDownInterval;
 
-         GetComponent<Rigidbody2D>().linearVelocity = dashDirection * dashSpeed;
-         yield return new WaitForSeconds(dashTime);
+            // 시간 카운팅 다 됐으면
+            if(currentTimeCount < 0) 
+            {
+               // 대시 카운트 시간 초기화하고 스택 +1;
+               currentTimeCount = dashCooldown;
+               _dashStack++;
+            }
+         }
 
-
-         isDashing = false; // 대쉬 중 종료
-         GetComponent<Rigidbody2D>().linearVelocity = Vector2.zero;
+         // 대시중이라면
+         if(isDashing)
+         {
+            // 쿨타임이 다 안됐으면
+            if(dashCooldown > 0)
+            {
+               // 시간 차감
+               dashOffCount -= countDownInterval;
+            }
+            // 아니라면(쿨타임 다 되면)
+            else
+            {
+               // 대시 멈춤
+               DashStop();
+            }
+         }
       }
 
+      _dashCountDownCoroutine = null;
+      yield break;
    }
 }
