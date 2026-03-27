@@ -50,12 +50,11 @@ public class PlayerController : Singleton<PlayerController>
    
    public void OnDash(InputAction.CallbackContext context)
    {
-      Debug.Log("OnDash");
+      
       if ((isDashing == false) && _dashStack > 0)
       {
-
-         var data = context.ReadValue<Vector2>();
-         Dash(data);
+         
+         Dash(input);
 
          if(_dashCountDownCoroutine == null)
          {
@@ -66,16 +65,16 @@ public class PlayerController : Singleton<PlayerController>
 
    private void Dash(Vector2 direction)
    {
-      Debug.Log("Dash");
+      
       isDashing = true;
       GetComponent<Rigidbody2D>().linearVelocity = direction * dashSpeed;
+      _dashStack--;
+      DashStop();
    }
 
    private void DashStop()
    {
-      Debug.Log("DashStop");
       isDashing = false;
-      GetComponent<Rigidbody2D>().linearVelocity = Vector2.zero;
    }
 
    private System.Collections.IEnumerator DashCountDownRoutine(Vector2 direction)
