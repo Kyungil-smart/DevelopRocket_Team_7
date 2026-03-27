@@ -1,4 +1,5 @@
 ﻿using System;
+using UnityEngine;
 
 public class EnemyBlackboard
 {
@@ -68,6 +69,7 @@ public class EnemyBlackboard
     
     // Action 을 위한 Agent
     public EnemyAgent agent;
+    public Vector2 targetPosition;
 
     public EnemyBlackboard(EnemyData origin, EnemyAgent agent)
     {

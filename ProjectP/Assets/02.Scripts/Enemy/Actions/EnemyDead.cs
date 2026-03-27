@@ -7,6 +7,11 @@ public class EnemyDead : MonoBehaviour
     public void Dead()
     {
         string name = gameObject.name.Split('_')[0];
-        EnemySpawner.Instance.Despawn(name, gameObject);
+        EnemyDespawnMsg msg = new EnemyDespawnMsg()
+        {
+            name = name,
+            obj = gameObject
+        };
+        PostManager.Instance.Post<EnemyDespawnMsg>(PostMessageKey.EnemyDespawned, msg);
     }
 }

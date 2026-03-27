@@ -11,7 +11,6 @@ public class EnemyMovement : MonoBehaviour
     private CircleCollider2D _collider2D;
     private SpriteRenderer _spriteRenderer;
     private Vector2 _targetPos;
-    private Transform _targetTransform;
     private bool _isChasing;
     private Coroutine _nxPosCoroutine;
     private WaitForSeconds _waitFor2Sec = new WaitForSeconds(2.0f);
@@ -46,15 +45,15 @@ public class EnemyMovement : MonoBehaviour
     {
         if (_blackboard == null) return;
         float distance = Mathf.Abs(
-            Vector2.Distance(transform.position, _blackboard.agent.target.transform.position));
+            Vector2.Distance(transform.position, _blackboard.targetPosition));
         if (distance <= _blackboard.origin.attackRange) return;
 
         float step = _blackboard.origin.speed * Time.deltaTime;
-        if (_targetTransform != null && _isChasing)
+        if (_isChasing)
         {
-            _ray = GetRay(_targetTransform.position.normalized);
+            _ray = GetRay(_blackboard.targetPosition.normalized);
             RaycastHit2D hit = Physics2D.Raycast(_ray.origin, _ray.direction, _detectDistance, _layerMask);
-            if (!hit) transform.position = Vector3.MoveTowards(transform.position, _targetTransform.position, step);
+            if (!hit) transform.position = Vector3.MoveTowards(transform.position, _blackboard.targetPosition, step);
         }  
         else transform.position = Vector3.MoveTowards(transform.position, _targetPos, step);
         
@@ -65,10 +64,8 @@ public class EnemyMovement : MonoBehaviour
     public void GoToPlayer(EnemyBlackboard blackboard) {  
         if (_blackboard == null) _blackboard = blackboard;
         _isChasing = true;
-        _targetTransform = _blackboard.agent.target.transform;
         if (_nxPosCoroutine != null) StopCoroutine(_nxPosCoroutine);
         _nxPosCoroutine = null;
-        Debug.Log("점마 딱 대라이");
     }
 
     public void Patrol(EnemyBlackboard blackboard)

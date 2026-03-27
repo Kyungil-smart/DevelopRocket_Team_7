@@ -9,8 +9,6 @@ using UnityEngine;
 /// </summary>
 public class EnemyAgent : MonoBehaviour
 {
-    public GameObject target;
-    
     [SerializeField] private EnemyAttack _attackScript;
     [SerializeField] private EnemyDead _deadScript;
     [SerializeField] private EnemyMovement _movementScript;
@@ -32,13 +30,13 @@ public class EnemyAgent : MonoBehaviour
     {
         // ToDo. for test. 추후 Player Object 를 받아올 수 있는 static 값이 있으면 변경 예정.
         if (_blackboard != null) _blackboard.IsDead = false;
-        if (target == null)
-            target = GameObject.FindWithTag("Player");
+        
     }
 
     private void OnDisable()
     {
         RemoveListeners();
+        PostManager.Instance.Unsubscribe<Vector2>(PostMessageKey.PlayerPosition, UpdateTargetPosition);
     }
 
     public void SetBlackBoard(EnemyBlackboard blackboard)
@@ -46,7 +44,7 @@ public class EnemyAgent : MonoBehaviour
         _blackboard = blackboard;
         // blackboard 가 필요한 스크립트에 blackboard 전달하기.
         if (_damagedScript != null) _damagedScript.SetBlackboard(blackboard);
-        
+        PostManager.Instance.Subscribe<Vector2>(PostMessageKey.PlayerPosition, UpdateTargetPosition);
         AddListeners();
     }
 
@@ -66,6 +64,11 @@ public class EnemyAgent : MonoBehaviour
         _blackboard.OnFollowed -= OnMoveToPlayer;
     }
 
+    private void UpdateTargetPosition(Vector2 position)
+    {
+        _blackboard.targetPosition = position;
+    }
+
     public void Patrol()
     {
         if (_movementScript != null) _movementScript.Patrol(_blackboard);
@@ -78,7 +81,7 @@ public class EnemyAgent : MonoBehaviour
     
     public void OnAttack()
     {
-        if (_attackScript != null) _attackScript.Attack(_blackboard.origin.damage, target);
+        if (_attackScript != null) _attackScript.Attack(_blackboard.origin.damage, null);
     }
     
     public void OnDead()

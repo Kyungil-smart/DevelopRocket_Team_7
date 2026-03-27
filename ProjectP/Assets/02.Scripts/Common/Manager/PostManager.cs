@@ -58,6 +58,6 @@ public class PostManager : Singleton<PostManager>
             postMessages = new PostMessages<T>();
             _subscribes[key] = postMessages;
         }
-        (postMessages as PostMessages<T>)?.actions.Invoke(data);
+        (postMessages as PostMessages<T>)?.actions?.Invoke(data);
     }
 }
