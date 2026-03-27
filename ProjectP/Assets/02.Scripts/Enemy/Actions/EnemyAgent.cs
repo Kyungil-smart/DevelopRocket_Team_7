@@ -90,7 +90,7 @@ public class EnemyAgent : MonoBehaviour
     
     public void OnAttack()
     {
-        if (_attackScript != null) _attackScript.Attack(_blackboard.origin.damage, null);
+        if (_attackScript != null) _attackScript.Attack(_blackboard);
     }
     
     public void OnDead()

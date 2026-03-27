@@ -1,29 +1,32 @@
 using System;
+using System.Collections;
 using UnityEngine;
 
 public class EnemyAttack : MonoBehaviour, IEnemyAttackable
 {
-    [SerializeField] private Animator _animator;
+    [SerializeField] private LayerMask _layerMask;
+    [SerializeField] private MonoBehaviour _attackBehavior;
+    private CircleCollider2D _collider2D;
 
     private void Awake()
     {
-        _animator = GetComponent<Animator>();
+        _collider2D = GetComponent<CircleCollider2D>();
     }
 
     // ToDO: 유저에게 공격하는 행위에 대한 정의.
     // 함수로 Melee 와 Range 를 나눌지 Component 로 나눌지 애매함.
-    public void Attack(float damage, GameObject target)
+    public void Attack(EnemyBlackboard blackboard)
     {
-        Debug.Log($"Target 에게 {damage} 데미지를 입힘");
-    }
-
-    private void AttackMelee()
-    {  // 직접 공격
-        
-    }
-
-    private void OnAttackRange()
-    {  // 투사체 발사. Animation 있을 경우 해당 함수 실행. 그 전에는 간단히 코루틴으로 진행.
-        
+        Vector2 targetPos = blackboard.targetPosition;
+        Vector3 direction = new Vector3(targetPos.x * _collider2D.radius, targetPos.y * _collider2D.radius);
+        Vector2 rayOriginPos = transform.position + direction;
+        Ray2D ray = new Ray2D(rayOriginPos, targetPos);
+        RaycastHit2D hit = Physics2D.Raycast(ray.origin, ray.direction, blackboard.origin.attackRange, _layerMask);
+        if (hit.collider != null)
+        {
+            if (_attackBehavior is EnemyAttackChase chaseBh) chaseBh.OnAttack(hit.collider, blackboard);
+            else if (_attackBehavior is EnemyAttackRange rangeBh) rangeBh.OnAttack(hit.collider, blackboard);
+            else (_attackBehavior as EnemyAttackTank)?.OnAttack(hit.collider, blackboard);
+        }        
     }
 }
