@@ -19,34 +19,34 @@ public class StatNode : Node {
 	[Output] public bool Output;
 	
 	// 노드의 고유 ID
-	[SerializeField] private int _nodeId;
+	[SerializeField] protected int _nodeId;
 	
 	// 노드 정보를 불러올 SO
-	[SerializeField] private NodeDataSO _nodeData;
+	[SerializeField] protected NodeDataSO _nodeData;
 	
 	// 현재 노드의 상태
-	[SerializeField] private StatNodeState _state;
+	[SerializeField] protected StatNodeState _state;
 	
 	// setter
 	public void SetStatNodeState(StatNodeState changeState) { _state =  changeState; }
 	
 	// 현재 노드가 시작점 노드인지를 판별
-	[SerializeField] private bool _mainNode;
+	[SerializeField] protected bool _mainNode;
 	
 	// 현재 노드가 실제로 사용할 데이터
-	private NodeInfo _info;
+	protected NodeInfo _info;
 	
 	// 연결된 왼쪽, 오른쪽 노드가 활성화 가능한지 여부를 저장함 / 가능하면 true, 불가능하면 false
-	private bool _isActiveLeft;
-	private bool _isActiveRight;
+	protected bool _isActiveLeft;
+	protected bool _isActiveRight;
 
 	// 자신 스스로가 활성화 가능한지 여부를 저장 / 가능하면 true, 불가능하면 false
-	private bool _canActive;
+	protected bool _canActive;
 	// getter
-	public bool CanActive => _canActive;
+	protected bool CanActive => _canActive;
 	
 	// 실제 활성화 되어 있는지 여부
-	public bool IsActive() { return _state == StatNodeState.Active; }
+	protected bool IsActive() { return _state == StatNodeState.Active; }
 
 
 	// Use this for initialization
@@ -107,7 +107,7 @@ public class StatNode : Node {
 	
 	// 노드 활성화 조건에 맞지 않으면 _canActive가 false, 맞으면 true
 	// 메인 노드는 일단 바로 활성화 가능하게 설정
-	public void SetNodeIsCanActive()
+	private void SetNodeIsCanActive()
 	{
 		// 메인 노드이고 inactive 상태이면 
 		if (_mainNode && _state == StatNodeState.Inactive)
@@ -116,22 +116,32 @@ public class StatNode : Node {
 			Debug.Log($"메인 노드 ID : {_nodeId}  / 노드 상태 : {_state}");
 		}
 		
+		// 양 옆 노드 상태 검사
+		HasActiveNeighbor();
+		
 		// 서브노드이고 inactive 상태이고, 왼쪽, 오른쪽 노드 둘 중 하나라도 active 상태이면
 		if (_mainNode == false && _state == StatNodeState.Inactive && ( _isActiveLeft || _isActiveRight ))
 		{
 			_state = StatNodeState.Active;
 			Debug.Log($"서브 노드 ID : {_nodeId}  / 노드 상태 : {_state}");
 		}
-
+		
+		/*
 		// 양 옆 노드 상태 검사
 		HasActiveNeighbor();
+		*/
+		
 		// 양 옆 노드 중 하나가 Active 상태이면 해당 노드 활성화 가능
 		if (_isActiveLeft || _isActiveRight)
 		{
 			_canActive = true;
 		}
+		
+		
 		// 그 후 양 옆 노드 상태 변경
 		ChangeSideNodeState();
+		
+		
 		Debug.Log($"노드 ID : {_nodeId}  / 노드 상태 : {_state}");
 	}
 
@@ -165,11 +175,11 @@ public class StatNode : Node {
 		Debug.Log($"노드 ID : {_nodeId}  / 왼쪽 노드, 오른쪽 노드 활성화 여부 : {_isActiveLeft} , {_isActiveRight}");
 	}
 
-	// 자신 노드가 Inactive 상태여야 함
+	// 자신 노드가 Active 상태여야 함
 	// 양 옆 노드 검사 후 해당 노드의 상태가 Locked이면 Inactive로 변경하는 메서드
 	private void ChangeSideNodeState()
 	{
-		if (_state != StatNodeState.Inactive) return;
+		if (_state == StatNodeState.Inactive || _state == StatNodeState.Locked ) return;
 		
 		var leftPort = GetPort("Input");
 		if (leftPort.IsConnected)
