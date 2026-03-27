@@ -5,14 +5,16 @@ using UnityEngine;
 using XNode;
 
 enum StatNodeState
-{
-	Active,
-	Inactive,
-	Locked
+{ 
+	Active,	// 실제 활성화가 진행된 상태
+	Inactive,	// 특정 조건들을 만족하여 활성화 준비중인 상태
+	Locked	// 조건을 만족하지 못하여 활성 불가능 상태
 }
 
 public class StatNode : Node {
 	
+	// xNode에서는 input, output을 구분하여 다양한 작업을 하는 것을 의도하고 있음
+	// 하지만 여기에서는 Input = 왼쪽 노드, Output = 오른쪽 노드 로 정의하여 단순 연결만 진행
 	[Input] public bool Input;
 	[Output] public bool Output;
 	
@@ -25,13 +27,20 @@ public class StatNode : Node {
 	// 현재 노드의 상태
 	[SerializeField] private StatNodeState _state;
 	
-	// 현재 노드가 시작점 노드인지를 검산하는 상태
+	// 현재 노드가 시작점 노드인지를 판별
 	[SerializeField] private bool _mainNode;
 	
 	// 현재 노드가 실제로 사용할 데이터
 	private NodeInfo _info;
+	
+	// 연결된 왼쪽, 오른쪽 노드가 활성화 가능한지 여부를 저장함 / 가능하면 true, 불가능하면 false
 	private bool _canActiveLeft;
 	private bool _canActiveRight;
+
+	// 자신 스스로가 활성화 가능한지 여부를 저장 / 가능하면 true, 불가능하면 false
+	private bool _canActive;
+	// getter
+	public bool CanActive => _canActive;
 
 	// Use this for initialization
 	protected override void Init() {
@@ -42,10 +51,16 @@ public class StatNode : Node {
 	public void InitData()
 	{
 		if (_nodeData == null) return;
+
+		_canActive = false;
+		_canActiveLeft = false;
+		_canActiveRight = false;
 		
 		// SO 리스트에서 내 ID와 일치하는 데이터 찾기
 		_info = _nodeData.NodeInfos.Find(x => x.Id == _nodeId);
-		
+		// 메인 노드가 Active 되기 위해서 노드 상태 갱신
+		SetNodeIsCanActive();
+		Debug.Log($"노드 ID : {_nodeId} / _CanActive : {_canActive}");
 	}
 
 	// Return the correct value of an output port when requested
@@ -53,17 +68,24 @@ public class StatNode : Node {
 		return null; // Replace this
 	}
 
+	// 노드UI에서 버튼을 클릭하면 발생할 메서드
+	// Inactive -> Active 로 전환 후 증가할 능력치를 플레이어에게 전달
 	public void OnClick()
 	{
-		// CanActiveNode 판정 결과 false면 노드 활성화 안됨
-		if (!CanActiveNode())
+		// _canActive가 false면 노드 활성화 안됨
+		if (!_canActive)
 		{
 			Debug.Log("노드 활성화 조건 불만족");
 			return;
 		}
 		
+		// 노드 상태 변환
 		if(_state == StatNodeState.Inactive) _state = StatNodeState.Active;
-		Debug.Log($"스킬 노드 type: {GetNodeStatType()} / 노드 ID : {_nodeId}");
+		// 상태 변환 후 Active가 가능한지 갱신
+		SetNodeIsCanActive();
+		// 현재 보유한 노드 포인트가 해당 노드가 Active되기 위한 요구 노드 포인트 이상 있으면 활성화 가능
+		// 기능 구현 예정
+		Debug.Log($"스킬 노드 type: {GetNodeStatType()} / 노드 ID : {_nodeId} ");
 	}
 
 	//public int GetID() => _info.Id;
@@ -75,41 +97,47 @@ public class StatNode : Node {
 	// 추후 노드 전용 UI에서 해당 상태에 따라 노드 버튼 위에 자물쇠 아이콘,노드 버튼 비활성화 시 어떻게 보일지 등을 처리할 예정
 	public string GetNodeState() => NodeStateDescription();
 	
-	// 노드 활성화 조건에 맞지 않으면 false, 맞으면 true
-	public bool CanActiveNode()
+	// 노드 활성화 조건에 맞지 않으면 _canActive가 false, 맞으면 true
+	public void SetNodeIsCanActive()
 	{
 		// 메인 노드 이면 활성화 가능
-		if(_mainNode) return true;
-		
+		if(_mainNode) _canActive = true;
+
+		// 양 옆 노드 상태 검사
+		HasActiveNeighbor();
 		// 양 옆 노드 중 하나가 Active 상태이면 해당 노드 활성화 가능
-		if (HasActiveNeighbor()) return true;
-		
-		// 현재 보유한 노드 포인트가 해당 노드가 Active되기 위한 요구 노드 포인트 이상 있으면 활성화 가능
-		// 기능 구현 예정
-		
-		return false;
+		if (_canActiveLeft || _canActiveRight)
+		{
+			_canActive = true;
+			// 자신 노드 상태가 Locked이면
+			// 자신 노드 상태를 Locked -> Inactive로 변경
+			if(_state == StatNodeState.Locked) _state = StatNodeState.Inactive;
+		} 
+		Debug.Log($"노드 ID : {_nodeId}  / 노드 상태 : {_state}");
 	}
 
-	// 자기가 시작 노드이거나, 양 옆에 노드중 하나가 Active 상태인 노드가 있을 경우 true, 아니면 false 반환
-	private bool HasActiveNeighbor()
+	// 자기가 메인 노드이거나 Locked 상태이면 메서드 실행 X
+	// 왼쪽 노드가 활성화 가능하면 _canActiveLeft = true, 아니면 false
+	// 오른쪽 노드도 동일하게 진행
+	private void HasActiveNeighbor()
 	{
-		if (_mainNode) return true;
+		if (_mainNode || _state == StatNodeState.Locked) return;
 		
 		NodePort leftPort = GetPort("Input");
 		if (leftPort.IsConnected)
 		{
 			var leftNode = leftPort.Connection.node as StatNode;
-			if (leftNode != null && leftNode.CanActiveNode()) return true;
+			if (leftNode != null && leftNode.CanActive) _canActiveLeft = true;
 		}
 		
 		NodePort rightPort = GetPort("Output");
 		if (rightPort.IsConnected)
 		{
 			var rightNode = rightPort.Connection.node as StatNode;
-			if (rightNode != null && rightNode.CanActiveNode()) return true;
+			if (rightNode != null && rightNode.CanActive) _canActiveRight = true;
 		}
 		
-		return false;
+		Debug.Log($"노드 ID : {_nodeId}  / 왼쪽 노드, 오른쪽 노드 활성화 여부 : {_canActiveLeft} , {_canActiveRight}");
 	}
 	
 	private string NodeStateDescription()
