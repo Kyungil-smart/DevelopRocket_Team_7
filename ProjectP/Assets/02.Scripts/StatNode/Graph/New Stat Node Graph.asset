@@ -255,5 +255,5 @@ MonoBehaviour:
   Output: 0
   _nodeId: 10061
   _nodeData: {fileID: 11400000, guid: d4fa68046a244fb479122eaea614aeca, type: 2}
-  _state: 1
+  _state: 0
   _mainNode: 1
