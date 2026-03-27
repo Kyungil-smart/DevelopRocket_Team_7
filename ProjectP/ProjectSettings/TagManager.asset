@@ -9,13 +9,14 @@ TagManager:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Monster
   - Water
   - UI
   - 
   - 
   - 
   - 
+  - Enemy
   - 
   - 
   - 
@@ -36,8 +37,7 @@ TagManager:
   - 
   - 
   - 
-  - 
-  - 
+  - Wall
   m_SortingLayers:
   - name: Default
     uniqueID: 0
