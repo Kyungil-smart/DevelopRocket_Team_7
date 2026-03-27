@@ -49,7 +49,7 @@ public class EnemyMovement : MonoBehaviour
         if (distance <= _blackboard.origin.attackRange) return;
 
         float step = _blackboard.origin.speed * Time.deltaTime;
-        if (_isChasing)
+        if (_isChasing)  // 쫒아가는 Moving
         {
             _ray = GetRay(_blackboard.targetPosition.normalized);
             RaycastHit2D hit = Physics2D.Raycast(_ray.origin, _ray.direction, _detectDistance, _layerMask);
@@ -57,7 +57,7 @@ public class EnemyMovement : MonoBehaviour
         }  
         else transform.position = Vector3.MoveTowards(transform.position, _targetPos, step);
         
-        // ToDo. 우선적으로 이렇게 처리하지만, 추후 자연스럽게 하기 위해 어떻게 해야할지 연구 필요.
+        // ToDo. Y Sorting 관련. 우선적으로 이렇게 처리하지만, 추후 자연스럽게 하기 위해 어떻게 해야할지 연구 필요.
         _spriteRenderer.sortingOrder = Mathf.RoundToInt(transform.position.y) * -1;
     }
     

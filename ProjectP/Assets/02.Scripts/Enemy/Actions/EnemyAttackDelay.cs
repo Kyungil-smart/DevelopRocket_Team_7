@@ -1,16 +1,16 @@
+using System.Collections;
 using UnityEngine;
 
 public class EnemyAttackDelay : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    public void OnDelayBeforeAttack(EnemyBlackboard blackboard)
     {
-        
+        StartCoroutine(WaitBeforeAttackCorutine(blackboard));
     }
 
-    // Update is called once per frame
-    void Update()
+    private IEnumerator WaitBeforeAttackCorutine(EnemyBlackboard blackboard)
     {
-        
+        yield return new WaitForSeconds(blackboard.origin.attackDelay);
+        blackboard.IsAttacking = true;
     }
 }
