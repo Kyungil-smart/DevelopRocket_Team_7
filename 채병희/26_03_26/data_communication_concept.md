@@ -124,6 +124,9 @@ public class Player : Monobehavior
 {
     private void Update() 
     {
+        // Update 마다 Post 하는 것은 CPU 에 부하가 생길 수 있으므로,
+        // Cache 등을 통해 transform.position 정보가 변경되었을 경우만 보낼 수 있도록
+        // 하여 최적화를 노리는 것도 하나의 방법.
         PostManager.Instance.Post<Transform>(PostMessageKey.PlayTransform, transform)
     }
 }
