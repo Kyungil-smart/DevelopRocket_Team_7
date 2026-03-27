@@ -5,17 +5,19 @@ TagManager:
   serializedVersion: 3
   tags:
   - Monster
+  - Wall
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - Monster
+  - 
   - Water
   - UI
   - 
   - 
   - 
   - 
+  - Enemy
   - 
   - 
   - 
@@ -36,8 +38,7 @@ TagManager:
   - 
   - 
   - 
-  - 
-  - 
+  - Wall
   m_SortingLayers:
   - name: Default
     uniqueID: 0

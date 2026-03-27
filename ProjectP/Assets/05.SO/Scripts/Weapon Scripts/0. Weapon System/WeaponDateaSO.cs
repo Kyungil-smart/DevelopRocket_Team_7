@@ -40,9 +40,6 @@ public class WeaponDataSO : ScriptableObject
 
     [Header("기타 스탯")]
 
-    [Tooltip("튕김 횟수")]
-    public int bounceCount = 0;
-
     [Tooltip("이동 속도 증가")]
     public float moveSpeedBonus = 0;
 
@@ -105,6 +102,24 @@ public class WeaponDataSO : ScriptableObject
 
     [Tooltip("최대 차징 단계")]
     public int maxChargeLevel = 3;
+
+    [Header("고무탄 옵션")]
+
+    [Tooltip("최대 튕김 횟수")]
+    public int bounceCount = 2;
+
+    [Tooltip("튕길 때 데미지 증가 배율")]
+    public float bounceDamageMultiplier = 1.2f;
+
+    [Tooltip("폭발 반경")]
+    public float explosionRadius = 2f;
+
+    [Tooltip("자동 폭발 시간")]
+    public float explosionDelay = 3f;
+
+    [Header("고무탄 튕김")]
+    public float bounceHeight = 1.5f;
+    public float bounceSpeed = 5f;
 
     // 초기화
     public void Init()
