@@ -252,7 +252,7 @@ public class BSPDungeonGenerator : MonoBehaviour
                 //플레이어 프리팹을 받아서 생성 해야 할거 같다.
                 //시작 노드의 중앙에 스폰 예정
                 var SponPos = room.roomRect.center;
-                
+               PlayerController.Instance.transform.position = SponPos;
             }
             else if(room.roomType == RoomType.RestNode)
             {
