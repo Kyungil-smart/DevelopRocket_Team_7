@@ -8,10 +8,8 @@ public abstract class EnemyBaseNode : Node
 
     protected static string ToIdle(EnemyBlackboard blackboard)
     {
-        if (blackboard.agent.target == null) return null;
         float distance = Mathf.Abs(Vector2.Distance(
-            blackboard.agent.target.transform.position,
-            blackboard.agent.transform.position));
+            blackboard.targetPosition, blackboard.agent.transform.position));
         if (blackboard.origin.detectRadius < distance)
         {
             blackboard.IsIdle = true;
@@ -22,10 +20,8 @@ public abstract class EnemyBaseNode : Node
     
     protected static string ToFollowingToPlayer(EnemyBlackboard blackboard)
     {
-        if (blackboard.agent.target == null) return null;
         float distance = Mathf.Abs(Vector2.Distance(
-            blackboard.agent.target.transform.position,
-            blackboard.agent.transform.position));
+            blackboard.targetPosition, blackboard.agent.transform.position));
         if (blackboard.origin.attackRange < distance && blackboard.origin.detectRadius >= distance)
         {
             blackboard.IsFollowing = true;
@@ -36,9 +32,8 @@ public abstract class EnemyBaseNode : Node
     
     protected static string ToAttackDelay(EnemyBlackboard blackboard)
     {
-        if (blackboard.agent.target == null) return null;
         float distance = Mathf.Abs(Vector2.Distance(
-            blackboard.agent.target.transform.position,
+            blackboard.targetPosition,
             blackboard.agent.transform.position));
         
         if (blackboard.origin.attackRange >= distance)

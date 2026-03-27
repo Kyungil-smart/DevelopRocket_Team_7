@@ -4,7 +4,14 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Pool;
 
-public class EnemySpawner : Singleton<EnemySpawner>
+public struct EnemyDespawnMsg
+{
+    public string name;
+    public GameObject obj;
+}
+
+
+public class EnemySpawner : MonoBehaviour
 {
     [SerializeField] List<GameObject> _enemyPrefabs;
     [SerializeField] GameObject _spawnEffectPrefab;
@@ -14,6 +21,16 @@ public class EnemySpawner : Singleton<EnemySpawner>
     private void Start()
     {
         Init();
+    }
+
+    private void OnEnable()
+    {
+        PostManager.Instance.Subscribe<EnemyDespawnMsg>(PostMessageKey.EnemyDespawned, Despawn);
+    }
+
+    private void OnDisable()
+    {
+        PostManager.Instance.Unsubscribe<EnemyDespawnMsg>(PostMessageKey.EnemyDespawned, Despawn);
     }
     
     private void Init()
@@ -124,10 +141,10 @@ public class EnemySpawner : Singleton<EnemySpawner>
         returnObj?.Invoke(obj);
     }
 
-    public void Despawn(string name, GameObject obj)
+    public void Despawn(EnemyDespawnMsg msg)
     {
-        obj.SetActive(false);
-        objectDict[name].Enqueue(obj);
+        msg.obj.SetActive(false);
+        objectDict[msg.name].Enqueue(msg.obj);
     }
 
     [ContextMenu("Test/Spawn")]

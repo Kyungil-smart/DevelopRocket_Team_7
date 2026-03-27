@@ -11,8 +11,7 @@ public class EnemyDamaged : MonoBehaviour, IEnemyDamagable, INeedBlackboard
         
         // 유저가 멀리 있는 경우
         float distance = Mathf.Abs(Vector2.Distance(
-            blackboard.agent.target.transform.position,
-            blackboard.agent.transform.position));
+            blackboard.targetPosition, blackboard.agent.transform.position));
         
         if (blackboard.origin.attackRange > distance && blackboard.origin.detectRadius <= distance)
         {
