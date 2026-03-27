@@ -244,6 +244,8 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 1807931159}
+  - {fileID: 1595255950}
   - {fileID: 18915003}
   - {fileID: 1006738069}
   - {fileID: 1473130494}
@@ -252,6 +254,7 @@ Transform:
   - {fileID: 223871208}
   - {fileID: 1114719819}
   - {fileID: 1330962789}
+  - {fileID: 1472766868}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &972255255
@@ -631,6 +634,54 @@ MonoBehaviour:
   _gid: 1503602691
   _dataContainer: {fileID: 11400000, guid: 0c40b3718d7ce0344b2525cb68700cf6, type: 2}
   _treeView: {fileID: 1595255951}
+--- !u!1 &1472766867
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1472766868}
+  - component: {fileID: 1472766869}
+  m_Layer: 0
+  m_Name: SpiritBlessingNodeLoader
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1472766868
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1472766867}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 410344656}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1472766869
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1472766867}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 32ff060ea8cb5dd4ba0b76471719f400, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::NodeLoader
+  _url: https://docs.google.com/spreadsheets/d/1kg7q9cQNKw5tksgh9pD_iVCW6uLvrzECEi2y9duVHLY/edit?gid=1000189591#gid=1000189591
+  _gid: 1000189591
+  _dataContainer: {fileID: 11400000, guid: 59a15d1c7710b26469888ad2ed554a79, type: 2}
+  _treeView: {fileID: 1595255951}
 --- !u!1 &1473130493
 GameObject:
   m_ObjectHideFlags: 0
@@ -690,6 +741,7 @@ GameObject:
   - component: {fileID: 1595255950}
   - component: {fileID: 1595255949}
   - component: {fileID: 1595255951}
+  - component: {fileID: 1595255952}
   m_Layer: 5
   m_Name: StatTreeMain
   m_TagString: Untagged
@@ -728,12 +780,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1595255948}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 410344656}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1595255951
 MonoBehaviour:
@@ -749,6 +801,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::StatTreeView
   statGraph: {fileID: 11400000, guid: fe94c6b73152571479b7052435a7c1c8, type: 2}
   nodeTemplate: {fileID: 9197481963319205126, guid: 3b0db938a3f75f842b52b2ab700dc452, type: 3}
+--- !u!114 &1595255952
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1595255948}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5c775bd26b988c64bbdcfaec5b1a8c29, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::StatNodeManager
+  _statNodeGraph: {fileID: 11400000, guid: fe94c6b73152571479b7052435a7c1c8, type: 2}
+  _openNodePoint: 0
 --- !u!1 &1807931158
 GameObject:
   m_ObjectHideFlags: 0
@@ -774,12 +840,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1807931158}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 410344656}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1807931160
 MonoBehaviour:
@@ -800,6 +866,4 @@ SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
   - {fileID: 1038779606}
-  - {fileID: 1807931159}
-  - {fileID: 1595255950}
   - {fileID: 410344656}

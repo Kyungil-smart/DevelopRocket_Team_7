@@ -1,6 +1,0 @@
-<ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
-    <ui:VisualElement name="NodeRoot" style="flex-grow: 0; width: 150px; height: 80px; background-color: rgb(130, 130, 130); border-top-width: 2px; border-right-width: 2px; border-bottom-width: 2px; border-left-width: 2px; border-top-left-radius: 10px; border-top-right-radius: 10px; border-bottom-right-radius: 10px; border-bottom-left-radius: 10px; right: auto; justify-content: center; align-items: center;">
-        <ui:Label text="Label" name="StatName" style="white-space: pre; width: auto; height: auto;"/>
-        <ui:Button text="Button" name="UnlockBtn"/>
-    </ui:VisualElement>
-</ui:UXML>
