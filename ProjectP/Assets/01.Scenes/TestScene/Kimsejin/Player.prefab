@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 4577735222127783157}
   - component: {fileID: 8703617991459878729}
   - component: {fileID: -7448827152724393121}
+  - component: {fileID: 2857980755575036605}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -236,10 +237,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 10d987518afce994a9b49160ac474a55, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerController
+  m_DontDestroyOnLoad: 0
   _inputActionReference: {fileID: 0}
   _inputActionAsset: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
   input: {x: 0, y: 0}
   moveSpeed: 10
+  dashSpeed: 30
 --- !u!70 &-7448827152724393121
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -277,3 +280,30 @@ CapsuleCollider2D:
   m_Offset: {x: 0, y: 0}
   m_Size: {x: 1, y: 2}
   m_Direction: 0
+--- !u!50 &2857980755575036605
+Rigidbody2D:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9181519193935129769}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
+  m_GravityScale: 0
+  m_Material: {fileID: 6200000, guid: a14b58563ad135b418bc39a863ad3c80, type: 2}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 4
