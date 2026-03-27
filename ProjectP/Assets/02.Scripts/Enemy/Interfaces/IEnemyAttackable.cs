@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public interface IAttackable
+public interface IEnemyAttackable
 {
     public void Attack(float damage, GameObject target);
 }

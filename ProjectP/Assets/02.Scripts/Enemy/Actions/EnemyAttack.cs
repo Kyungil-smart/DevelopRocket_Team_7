@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-public class EnemyAttack : MonoBehaviour, IAttackable
+public class EnemyAttack : MonoBehaviour, IEnemyAttackable
 {
     [SerializeField] private Animator _animator;
 
@@ -15,5 +15,15 @@ public class EnemyAttack : MonoBehaviour, IAttackable
     public void Attack(float damage, GameObject target)
     {
         Debug.Log($"Target 에게 {damage} 데미지를 입힘");
+    }
+
+    private void AttackMelee()
+    {  // 직접 공격
+        
+    }
+
+    private void OnAttackRange()
+    {  // 투사체 발사. Animation 있을 경우 해당 함수 실행. 그 전에는 간단히 코루틴으로 진행.
+        
     }
 }

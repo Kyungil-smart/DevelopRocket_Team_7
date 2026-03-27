@@ -12,6 +12,8 @@ public class NodeEnemyAttackPlayer : EnemyBaseNode
 	
 	public override string Execute(EnemyBlackboard blackboard)
 	{
+		blackboard.IsAttacking = false;
+		
 		string transitionName;
 		// 1. 공격 범위를 벗어남
 		transitionName = ToFollowingToPlayer(blackboard);

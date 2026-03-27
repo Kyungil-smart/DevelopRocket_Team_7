@@ -13,8 +13,9 @@ MonoBehaviour:
   m_Name: MonsterData001
   m_EditorClassIdentifier: Assembly-CSharp::EnemyData
   name: whatthe
-  maxHp: 0
-  damage: 0
+  maxHp: 100
+  damage: 1
   speed: 3
   attackRange: 3
   detectRadius: 7
+  attackDelay: 5

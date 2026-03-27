@@ -10,6 +10,7 @@ using UnityEngine;
 public class EnemyAgent : MonoBehaviour
 {
     [SerializeField] private EnemyAttack _attackScript;
+    [SerializeField] private EnemyAttackDelay _attackDelayScript;
     [SerializeField] private EnemyDead _deadScript;
     [SerializeField] private EnemyMovement _movementScript;
     [SerializeField] private EnemyDamaged _damagedScript;
@@ -23,6 +24,7 @@ public class EnemyAgent : MonoBehaviour
         _deadScript = GetComponent<EnemyDead>();
         _movementScript = GetComponent<EnemyMovement>();
         _damagedScript = GetComponent<EnemyDamaged>();
+        _attackDelayScript = GetComponent<EnemyAttackDelay>();
         // Pure C# Classes
     }
 
@@ -30,7 +32,6 @@ public class EnemyAgent : MonoBehaviour
     {
         // ToDo. for test. 추후 Player Object 를 받아올 수 있는 static 값이 있으면 변경 예정.
         if (_blackboard != null) _blackboard.IsDead = false;
-        
     }
 
     private void OnDisable()
@@ -44,13 +45,15 @@ public class EnemyAgent : MonoBehaviour
         _blackboard = blackboard;
         // blackboard 가 필요한 스크립트에 blackboard 전달하기.
         if (_damagedScript != null) _damagedScript.SetBlackboard(blackboard);
+        
         PostManager.Instance.Subscribe<Vector2>(PostMessageKey.PlayerPosition, UpdateTargetPosition);
         AddListeners();
     }
 
     private void AddListeners()
     {
-        _blackboard.OnIdle += Patrol;
+        _blackboard.OnIdle += OnPatrol;
+        _blackboard.OnAttackDelay += OnAttackDelay;
         _blackboard.OnAttacked += OnAttack;
         _blackboard.OnDead += OnDead;
         _blackboard.OnFollowed += OnMoveToPlayer;
@@ -58,7 +61,8 @@ public class EnemyAgent : MonoBehaviour
 
     private void RemoveListeners()
     {
-        _blackboard.OnIdle -= Patrol;
+        _blackboard.OnIdle -= OnPatrol;
+        _blackboard.OnAttackDelay -= OnAttackDelay;
         _blackboard.OnAttacked -= OnAttack;
         _blackboard.OnDead -= OnDead;
         _blackboard.OnFollowed -= OnMoveToPlayer;
@@ -69,7 +73,7 @@ public class EnemyAgent : MonoBehaviour
         _blackboard.targetPosition = position;
     }
 
-    public void Patrol()
+    public void OnPatrol()
     {
         if (_movementScript != null) _movementScript.Patrol(_blackboard);
     }
@@ -77,6 +81,11 @@ public class EnemyAgent : MonoBehaviour
     public void OnMoveToPlayer()
     {
         if (_movementScript != null) _movementScript.GoToPlayer(_blackboard);
+    }
+
+    public void OnAttackDelay()
+    {
+        if (_attackDelayScript != null) _attackDelayScript.OnDelayBeforeAttack(_blackboard);
     }
     
     public void OnAttack()
@@ -87,6 +96,13 @@ public class EnemyAgent : MonoBehaviour
     public void OnDead()
     {
         if (_deadScript != null) _deadScript.Dead();
+    }
+    
+    // Test Code
+    [ContextMenu("Test/Damaged")]
+    public void TestTakeDamage()
+    {
+        _damagedScript.TakeDamage(20);
     }
 
     // private void OnDrawGizmos()

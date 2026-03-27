@@ -13,16 +13,16 @@ public class EnemyDamaged : MonoBehaviour, IEnemyDamagable, INeedBlackboard
         float distance = Mathf.Abs(Vector2.Distance(
             blackboard.targetPosition, blackboard.agent.transform.position));
         
-        if (blackboard.origin.attackRange > distance && blackboard.origin.detectRadius <= distance)
-        {
+        Debug.Log($"{name}: 아파여 {blackboard.currentHp}");
+        Debug.Log($"{name}: {blackboard.origin.attackRange}");
+        Debug.Log($"{name}: {distance}");
+        // 맞으면, 공격 범위 내에 없으면 일단 모르겠고 쫒아가.
+        if (blackboard.origin.attackRange < distance)
             blackboard.IsFollowing = true;
-        }
         
         // 맞다가 hp 가 없으면 Die.
         if (blackboard.currentHp <= 0)
-        {
             blackboard.IsDead = true;
-        }
     }
 
     public void SetBlackboard(EnemyBlackboard blackboard)
