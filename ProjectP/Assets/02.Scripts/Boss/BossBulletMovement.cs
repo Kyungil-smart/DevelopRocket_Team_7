@@ -35,7 +35,7 @@ public class BossBulletMovement : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (((1 << collision.gameObject.layer) & _layerMask) != 0)
+        if (Utils.CompareLayer(collision.gameObject.layer, _layerMask))
             PostManager.Instance.Post<GameObject>(PostMessageKey.BossBulletDespawned, gameObject);
     }
     

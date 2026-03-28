@@ -79,9 +79,17 @@ public class BossMovement : MonoBehaviour, INeedBossBlackboard
     
     private void ChasePlayer()
     {
-        float direction = Vector2.Distance(_targetPos, transform.position);
-        if (_blackBoard.origin.attackRange < direction)
-            _rb.linearVelocity = _targetPos.normalized * _blackBoard.speed;
+        float distance = Vector2.Distance(_targetPos, transform.position);
+        if (_blackBoard.origin.attackRange < distance)
+        {   // 쫒아가.
+            _rb.linearVelocity = (_targetPos - (Vector2)transform.position).normalized * _blackBoard.speed;
+            _blackBoard.IsAttacking = false;
+        }
+        else if (_blackBoard.origin.attackRange >= distance)
+        {   // 공격 시작할꺼라 멈춰.
+            _rb.linearVelocity = Vector2.zero;
+            _blackBoard.IsAttacking = true;
+        }
     }
     
     private void Patrol()
@@ -94,14 +102,15 @@ public class BossMovement : MonoBehaviour, INeedBossBlackboard
         _isChaseForce = true;
     }
 
-    private void UpdateMoveDirection(Vector2 targetPos)
+    private void UpdateMoveDirection(Vector2 playerPos)
     {
         if (_blackBoard == null) return;
-        float distance = Vector2.Distance(targetPos, transform.position);
+        float distance = Vector2.Distance(playerPos, transform.position);
         if (_blackBoard.origin.detectRadius >= distance || _isChaseForce)
         {
-            _targetPos = targetPos;
+            _targetPos = playerPos;
             _isPatrol = false;
+            _rb.linearVelocity = Vector2.zero;
             if (_nxPosCoroutine != null)
             {
                 StopCoroutine(_nxPosCoroutine);
@@ -111,6 +120,7 @@ public class BossMovement : MonoBehaviour, INeedBossBlackboard
         else
         {
             _isPatrol = true;
+            _rb.linearVelocity = Vector2.zero;
             if (_nxPosCoroutine == null) 
                 _nxPosCoroutine = StartCoroutine(ChoiceNextPositionInPatrolCoroutine());
         }
@@ -148,6 +158,7 @@ public class BossMovement : MonoBehaviour, INeedBossBlackboard
 
     private void SetBodyDirection()
     {
+        if (_prePosition == (Vector2)transform.position) return;
         _blackBoard.bodyDirection = (transform.position - new Vector3(_prePosition.x, _prePosition.y)).normalized;
     }
 

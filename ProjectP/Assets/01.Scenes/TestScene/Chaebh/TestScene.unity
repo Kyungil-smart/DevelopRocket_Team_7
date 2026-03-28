@@ -438,7 +438,7 @@ Transform:
   m_GameObject: {fileID: 352649552}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 15.32, y: -7.9, z: 0}
+  m_LocalPosition: {x: -9.88, y: 5.7, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -848,6 +848,7 @@ GameObject:
   - component: {fileID: 612577608}
   - component: {fileID: 612577609}
   - component: {fileID: 612577610}
+  - component: {fileID: 612577611}
   m_Layer: 0
   m_Name: BasicAttackThirdEffect
   m_TagString: Untagged
@@ -965,6 +966,18 @@ CircleCollider2D:
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
   m_Radius: 0.5
+--- !u!114 &612577611
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 612577607}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9f51fac8eb7d4bec800da83536cccc7e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BossHitToPlayer
 --- !u!1 &655354087
 GameObject:
   m_ObjectHideFlags: 0
@@ -1007,6 +1020,7 @@ GameObject:
   - component: {fileID: 657211584}
   - component: {fileID: 657211585}
   - component: {fileID: 657211586}
+  - component: {fileID: 657211587}
   m_Layer: 0
   m_Name: BasicAttackFirstEffect
   m_TagString: Untagged
@@ -1124,6 +1138,18 @@ CircleCollider2D:
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
   m_Radius: 0.5
+--- !u!114 &657211587
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 657211583}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9f51fac8eb7d4bec800da83536cccc7e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BossHitToPlayer
 --- !u!1 &829917703
 GameObject:
   m_ObjectHideFlags: 0
@@ -1135,6 +1161,7 @@ GameObject:
   - component: {fileID: 829917704}
   - component: {fileID: 829917705}
   - component: {fileID: 829917706}
+  - component: {fileID: 829917707}
   m_Layer: 0
   m_Name: BasicAttackSecondEffect
   m_TagString: Untagged
@@ -1252,6 +1279,18 @@ CircleCollider2D:
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
   m_Radius: 0.5
+--- !u!114 &829917707
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 829917703}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9f51fac8eb7d4bec800da83536cccc7e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BossHitToPlayer
 --- !u!1 &1051253814
 GameObject:
   m_ObjectHideFlags: 0
@@ -1400,6 +1439,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1274484858}
   - component: {fileID: 1274484859}
+  - component: {fileID: 1274484860}
   m_Layer: 0
   m_Name: PhaseChangeEffect
   m_TagString: Untagged
@@ -1416,7 +1456,7 @@ Transform:
   m_GameObject: {fileID: 1274484857}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0.54, z: 0}
   m_LocalScale: {x: 5, y: 5, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1481,6 +1521,42 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+--- !u!58 &1274484860
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1274484857}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: -0.000000029802322}
+  m_Radius: 0.5
 --- !u!1 &1339114215
 GameObject:
   m_ObjectHideFlags: 0
@@ -1574,7 +1650,7 @@ Transform:
   m_GameObject: {fileID: 1339114215}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -5.38, y: 1.77, z: 0}
+  m_LocalPosition: {x: -14.96, y: 5.59, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1639,6 +1715,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::BossController
   bossData: {fileID: 11400000, guid: a6a661369ed1cf2418ad5609554b2bb1, type: 2}
   _animator: {fileID: 1339114218}
+  _animationClips:
+  - {fileID: 7400000, guid: c62343aacf653db42a7b00a8d58f13a6, type: 2}
+  - {fileID: 7400000, guid: f30ea8016485eb648946b29a6ff2132d, type: 2}
+  - {fileID: 7400000, guid: 46f6aabc1510c3643a4ddd61a5f55da1, type: 2}
   _rb: {fileID: 1339114224}
   _basicAttackScript: {fileID: 1339114221}
   _rangeAttackScript: {fileID: 1339114222}
@@ -1659,7 +1739,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::BossBasicAttack
   _firstEffect: {fileID: 657211583}
   _secondEffect: {fileID: 829917703}
-  _thirdEffect: {fileID: 0}
+  _thirdEffect: {fileID: 612577607}
 --- !u!114 &1339114222
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1687,7 +1767,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::BossChangePhase
   _animator: {fileID: 1339114218}
   _spriteRenderer: {fileID: 1339114216}
-  _PhaseChangeEffect: {fileID: 0}
+  _PhaseChangeEffect: {fileID: 1274484857}
+  _collider: {fileID: 1274484860}
 --- !u!50 &1339114224
 Rigidbody2D:
   serializedVersion: 5
