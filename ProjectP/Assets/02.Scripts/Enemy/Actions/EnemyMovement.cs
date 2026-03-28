@@ -62,6 +62,10 @@ public class EnemyMovement : MonoBehaviour
         
         // ToDo. Y Sorting 관련. 우선적으로 이렇게 처리하지만, 추후 자연스럽게 하기 위해 어떻게 해야할지 연구 필요.
         _spriteRenderer.sortingOrder = Mathf.RoundToInt(transform.position.y) * -1;
+        
+        Vector3 direction = new Vector3(_targetPos.x, _targetPos.y) - transform.position;
+        if (direction.x > 0) _spriteRenderer.flipX = false;
+        else _spriteRenderer.flipX = true;
     }
     
     public void GoToPlayer(EnemyBlackboard blackboard) {  

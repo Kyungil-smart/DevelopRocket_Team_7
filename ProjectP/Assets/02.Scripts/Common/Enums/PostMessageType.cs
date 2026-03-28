@@ -6,4 +6,5 @@
     EnemyDespawned,  // Enemy 사망 후 Despawn 
     BatterySpawned,  // Enemy 사망 후 배터리 스폰
     BatteryDespawned,  // Enemy 사망 후 배터리 디스폰
+    BossBulletDespawned,  // 보스의 Bullet 이 사라지기 위함.
 }
