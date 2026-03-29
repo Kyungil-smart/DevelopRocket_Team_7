@@ -1,7 +1,7 @@
 using UnityEngine;
 
 [DisallowMultipleComponent]
-public class RubberBulletProjectile : MonoBehaviour, IPoolable
+public class RubberBulletProjectile : MonoBehaviour
 {
     // 벽 반사 → 조건 충족 시 폭발 → 범위 내 IDamageable 대상에게 Explosion 데미지 전달
 
@@ -90,17 +90,6 @@ public class RubberBulletProjectile : MonoBehaviour, IPoolable
             }
         }
 
-        gameObject.SetActive(false);
-    }
-
-    public void OnSpawn()
-    {
-        // 풀에서 꺼낼 때 초기화
-        _lifeTimer = 0f;
-    }
-
-    public void OnDespawn()
-    {
-        // 필요 시 초기화
+        PostManager.Instance.Post<GameObject>(PostMessageKey.ProjectileDespawned, gameObject);
     }
 }

@@ -1,7 +1,7 @@
 using UnityEngine;
 
 [DisallowMultipleComponent]
-public class Projectile : MonoBehaviour, IPoolable
+public class Projectile : MonoBehaviour
 {
     // 방향 기반 이동 + 충돌 시 IDamageable 인터페이스로 데미지 전달
 
@@ -36,7 +36,7 @@ public class Projectile : MonoBehaviour, IPoolable
 
         if (lifeTimer <= 0f)
         {
-            gameObject.SetActive(false);
+            PostManager.Instance.Post<GameObject>(PostMessageKey.ProjectileDespawned, gameObject);
         }
     }
 
@@ -52,7 +52,7 @@ public class Projectile : MonoBehaviour, IPoolable
 
             Debug.Log($"[투사체] 데미지: {damage}");
 
-            gameObject.SetActive(false);
+            PostManager.Instance.Post<GameObject>(PostMessageKey.ProjectileDespawned, gameObject);
             return;
         }
 
@@ -60,19 +60,7 @@ public class Projectile : MonoBehaviour, IPoolable
         if (collision.CompareTag("Wall"))
         {
             Debug.Log("[투사체] 벽 충돌 → 제거");
-
-            gameObject.SetActive(false);
+            PostManager.Instance.Post<GameObject>(PostMessageKey.ProjectileDespawned, gameObject);
         }
-    }
-
-    public void OnSpawn()
-    {
-        // 풀에서 꺼낼 때 초기화
-        lifeTimer = 0f;
-    }
-
-    public void OnDespawn()
-    {
-        // 필요 시 초기화
     }
 }

@@ -1,12 +1,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ProjectilePoolManager : MonoBehaviour
+public class TempProjectilePoolManager : MonoBehaviour
 {
     // 구현 원리 요약:
     // 오브젝트를 미리 생성 후 Queue에 넣고 꺼내 쓰고 다시 넣는다
 
-    public static ProjectilePoolManager Instance;
+    public static TempProjectilePoolManager Instance;
 
     [System.Serializable]
     public class Pool

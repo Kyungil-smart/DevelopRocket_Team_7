@@ -15,17 +15,15 @@ public class SniperFireSO : WeaponFireStrategy
 
         Vector2 dir = (mousePos - firePoint.position).normalized;
 
-        GameObject bullet = ProjectilePoolManager.Instance.Get
-        (
-            "SniperBullet",
-            firePoint.position,
-            Quaternion.identity
-        );
-
+        ProjectileSpwanMsg msg = new ProjectileSpwanMsg()
+        {
+            name = data.projectilePrefab.name,
+            pos = firePoint.position,
+            rot = Quaternion.identity
+        };
+        GameObject bullet = PostManager.Instance.Request<ProjectileSpwanMsg, GameObject>(PostMessageKey.ProjectileSpawned, msg);
         SniperProjectile proj = bullet.GetComponent<SniperProjectile>();
-
         int finalDamage = CalculateDamage(data);
-
         proj.Init(dir, data.projectileSpeed, finalDamage, data.pierceCount);
     }
 

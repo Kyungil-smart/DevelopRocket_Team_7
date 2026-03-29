@@ -7,6 +7,11 @@ class PostMessages<T> : IPostMessages
     public Action<T> actions;
 }
 
+class RequestMessage<TReq, TRes> : IPostMessages
+{
+    public Func<TReq, TRes> function;
+}
+
 /// <summary>
 /// 객체간 Data Communication 을 위한 중앙 관리 매니저
 /// </summary>
@@ -33,6 +38,20 @@ public class PostManager : Singleton<PostManager>
             pm.actions += callback;
         }
     }
+    public void Subscribe<TReq, TRes>(PostMessageKey key, Func<TReq, TRes> callback)
+    {
+        if (!_subscribes.TryGetValue(key, out var postMessages))
+        {
+            postMessages = new RequestMessage<TReq, TRes>();
+            _subscribes[key] = postMessages;
+        }
+
+        if (postMessages is RequestMessage<TReq, TRes> pm)
+        {
+            pm.function = callback;
+        }
+    }
+    
     /// <summary>
     /// 함수 구취
     /// </summary>
@@ -43,6 +62,11 @@ public class PostManager : Singleton<PostManager>
     {
         if (_subscribes.TryGetValue(key, out var postMessages) && postMessages is PostMessages<T> pm)
             pm.actions -= callback;
+    }
+    public void Unsubscribe<TReq, TRes>(PostMessageKey key, Func<TReq, TRes> callback)
+    {
+        if (_subscribes.TryGetValue(key, out var postMessages) && postMessages is RequestMessage<TReq, TRes> pm)
+            pm.function = null;
     }
 
     /// <summary>
@@ -59,5 +83,26 @@ public class PostManager : Singleton<PostManager>
             _subscribes[key] = postMessages;
         }
         (postMessages as PostMessages<T>)?.actions?.Invoke(data);
+    }
+    
+    /// <summary>
+    /// 데이터 변경에 따른 자료 요청. (Only 1:1 만 사용 가능)
+    /// </summary>
+    /// <param name="key">데이터 키</param>
+    /// <param name="data">요청 데이터</param>
+    /// <typeparam name="T">데이터 타입</typeparam>
+    public TRes Request<TReq, TRes>(PostMessageKey key, TReq data)
+    {
+        if (!_subscribes.TryGetValue(key, out var postMessages))
+        {
+            postMessages = new RequestMessage<TReq, TRes>();
+            _subscribes[key] = postMessages;
+        }
+
+        if (postMessages is RequestMessage<TReq, TRes> pm)
+        {
+            return pm.function.Invoke(data);    
+        } 
+        return default;
     }
 }

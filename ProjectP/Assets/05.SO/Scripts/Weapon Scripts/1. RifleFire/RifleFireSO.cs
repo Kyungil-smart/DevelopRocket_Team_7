@@ -16,15 +16,16 @@ public class RifleFireSO : WeaponFireStrategy
 
         Vector2 dir = (mousePos - firePoint.position).normalized;
 
+        ProjectileSpwanMsg msg = new ProjectileSpwanMsg()
+        {
+            name = data.projectilePrefab.name,
+            pos = firePoint.position,
+            rot = Quaternion.identity
+        };
+        
         for (int i = 0; i < data.projectileCount; i++)
         {
-            GameObject bullet = ProjectilePoolManager.Instance.Get
-            (
-                "RifleBullet",
-                firePoint.position,
-                Quaternion.identity
-            );
-
+            GameObject bullet = PostManager.Instance.Request<ProjectileSpwanMsg, GameObject>(PostMessageKey.ProjectileSpawned, msg);
             Projectile proj = bullet.GetComponent<Projectile>();
             proj.Init(dir, data.projectileSpeed, CalculateDamage(data));
         }

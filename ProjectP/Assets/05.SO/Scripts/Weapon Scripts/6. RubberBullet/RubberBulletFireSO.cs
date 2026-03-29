@@ -16,13 +16,13 @@ public class RubberBulletFireSO : WeaponFireStrategy
 
         Vector2 dir = (mousePos - firePoint.position).normalized;
 
-        GameObject bullet = ProjectilePoolManager.Instance.Get
-        (
-            "RubberBullet",
-            firePoint.position,
-            Quaternion.identity
-        );
-
+        ProjectileSpwanMsg msg = new ProjectileSpwanMsg()
+        {
+            name = data.projectilePrefab.name,
+            pos = firePoint.position,
+            rot = Quaternion.identity
+        };
+        GameObject bullet = PostManager.Instance.Request<ProjectileSpwanMsg, GameObject>(PostMessageKey.ProjectileSpawned, msg);
         RubberBulletProjectile proj = bullet.GetComponent<RubberBulletProjectile>();
         proj.Init(dir, data);
     }

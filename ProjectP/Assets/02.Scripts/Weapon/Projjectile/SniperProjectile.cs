@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class SniperProjectile : MonoBehaviour, IPoolable
+public class SniperProjectile : MonoBehaviour
 {
     // 관통형 투사체 → IDamageable 대상에게 Projectile 타입 데미지 적용
 
@@ -36,7 +36,7 @@ public class SniperProjectile : MonoBehaviour, IPoolable
 
         if (lifeTimer <= 0f)
         {
-            gameObject.SetActive(false);
+            PostManager.Instance.Post<GameObject>(PostMessageKey.ProjectileDespawned, gameObject);
         }
     }
 
@@ -56,7 +56,7 @@ public class SniperProjectile : MonoBehaviour, IPoolable
 
             if (hitCount >= pierceCount)
             {
-                gameObject.SetActive(false);
+                PostManager.Instance.Post<GameObject>(PostMessageKey.ProjectileDespawned, gameObject);
             }
 
             return;
@@ -67,19 +67,7 @@ public class SniperProjectile : MonoBehaviour, IPoolable
         {
             Debug.Log("[스나이퍼] 벽 충돌 → 제거");
 
-            gameObject.SetActive(false);
+            PostManager.Instance.Post<GameObject>(PostMessageKey.ProjectileDespawned, gameObject);
         }
-    }
-
-    public void OnSpawn()
-    {
-        // 풀에서 꺼낼 때 초기화
-        hitCount = 0;
-        lifeTimer = 0f;
-    }
-
-    public void OnDespawn()
-    {
-        // 필요 시 초기화
     }
 }

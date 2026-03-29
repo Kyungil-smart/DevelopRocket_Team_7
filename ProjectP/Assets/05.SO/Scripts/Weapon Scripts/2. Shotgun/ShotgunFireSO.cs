@@ -27,14 +27,13 @@ public class ShotgunFireSO : WeaponFireStrategy
             float angle = Mathf.Lerp(startAngle, -startAngle, t);
 
             Vector2 dir = Rotate(baseDir, angle);
-
-            GameObject bullet = ProjectilePoolManager.Instance.Get
-            (
-                "ShotgunBullet",
-                firePoint.position,
-                Quaternion.identity
-            );
-
+            ProjectileSpwanMsg msg = new ProjectileSpwanMsg()
+            {
+                name = data.projectilePrefab.name,
+                pos = firePoint.position,
+                rot = Quaternion.identity
+            };
+            GameObject bullet = PostManager.Instance.Request<ProjectileSpwanMsg, GameObject>(PostMessageKey.ProjectileSpawned, msg);
             Projectile proj = bullet.GetComponent<Projectile>();
             proj.Init(dir, data.projectileSpeed, CalculateDamage(data));
         }
