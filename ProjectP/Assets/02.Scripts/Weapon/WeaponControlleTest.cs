@@ -4,7 +4,9 @@ using UnityEngine.InputSystem;
 public class WeaponControllerTest : MonoBehaviour
 {
     // 무기 프리팹을 생성/삭제해서 실제 무기를 교체한다
-
+    
+    // Chaebh; 이 코드의 쓰임새는????
+    
     [Header("무기 프리팹 목록")]
 
     [Tooltip("장착 가능한 무기 프리팹")]

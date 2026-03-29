@@ -11,21 +11,16 @@ public class WeaponController : MonoBehaviour
     // 레이저 → 누르고 있는 동안 지속 공격 (에너지 소모)
 
     [Header("무기 목록")]
-    [Tooltip("장착 가능한 무기 리스트")]
     [SerializeField] private WeaponDataSO[] weapons;
+    private List<WeaponBlackboard> blackboards;
 
-    [Tooltip("현재 무기 인덱스")]
     [SerializeField] private int currentIndex = 0;
 
-    [Header("발사 위치")]
-    [Tooltip("총구 위치")]
-    [SerializeField] private Transform firePoint;
+    [Header("무기 장착 위치")]
+    [SerializeField] private Transform weaponHolder;
+    // 무기 프리팹이 붙는 위치 (플레이어)
 
-    [Header("외형")]
-    [Tooltip("무기 스프라이트")]
-    [SerializeField] private SpriteRenderer weaponRenderer;
-
-    private WeaponDataSO currentWeapon;
+    private WeaponBlackboard blackboard;
     private float lastAttackTime;
     private bool isReloading = false;
 
@@ -35,7 +30,11 @@ public class WeaponController : MonoBehaviour
 
     private Camera cam;
 
-    // 무기별 탄약을 따로 저장해서 무기 변경 시에도 탄 상태 유지
+    // 프리팹 관련
+    private GameObject currentWeaponObj;
+    private Transform currentFirePoint;
+
+    // 무기별 탄약 유지
     private Dictionary<WeaponDataSO, int> ammoDict = new Dictionary<WeaponDataSO, int>();
 
     private void Awake()
@@ -47,9 +46,12 @@ public class WeaponController : MonoBehaviour
     {
         InitAmmo();
         SetWeapon(currentIndex);
+        foreach (var w in weapons)
+        {
+            blackboards.Add(new WeaponBlackboard(w));
+        }
     }
 
-    // 시작 시 모든 무기의 탄약을 초기값으로 세팅
     private void InitAmmo()
     {
         foreach (var weapon in weapons)
@@ -63,41 +65,38 @@ public class WeaponController : MonoBehaviour
 
     private void Update()
     {
-        HandleWeaponSwitch(); // 무기 변경 입력
-        RotateWeapon();       // 마우스 방향으로 무기 회전
-        HandleReload();       // 재장전 처리
-        HandleAttack();       // 공격 처리
+        HandleWeaponSwitch();
+        HandleReload();
+        HandleAttack();
+        RotateWeapon();
     }
 
-    // 공격 처리 (핵심 로직)
     private void HandleAttack()
     {
-        if (currentWeapon == null) return;
+        if (blackboard == null) return;
 
-        int currentAmmo = ammoDict[currentWeapon];
+        int currentAmmo = ammoDict[blackboard.origin];
 
-        // 레이저 (지속 공격)
-        if (currentWeapon.fireStrategy is LaserFireSO laser)
+        // 레이저
+        if (blackboard.origin.fireStrategy is LaserFireSO laser)
         {
-            // 버튼 누르고 있는 동안 계속 발사 + 에너지 감소
             if (Mouse.current.leftButton.isPressed)
             {
                 if (currentAmmo <= 0)
                 {
-                    // 에너지 없으면 레이저 중지
+                    // 에너지 0 → 레이저 종료 + 재장전 필요 로그
                     if (isFiring)
                     {
                         laser.ResetLaser();
                         isFiring = false;
                     }
 
-                    Debug.Log("레이저 에너지 없음");
+                    Debug.Log("에너지 부족 → 재장전 필요");
                     return;
                 }
 
                 isFiring = true;
 
-                // 초당 일정량씩 에너지 감소
                 float drainPerSecond = 5f;
                 ammoTimer += drainPerSecond * Time.deltaTime;
 
@@ -110,14 +109,19 @@ public class WeaponController : MonoBehaviour
                     if (currentAmmo < 0)
                         currentAmmo = 0;
 
-                    ammoDict[currentWeapon] = currentAmmo;
+                    ammoDict[blackboard.origin] = currentAmmo;
+
+                    // 에너지 소모 후 0 되면 로그 출력
+                    if (currentAmmo == 0)
+                    {
+                        Debug.Log("에너지 모두 소모 → 재장전 필요");
+                    }
                 }
 
-                laser.Fire(firePoint, currentWeapon);
+                laser.Fire(currentFirePoint, blackboard);
             }
             else
             {
-                // 버튼 떼면 레이저 종료
                 if (isFiring)
                 {
                     laser.ResetLaser();
@@ -131,11 +135,8 @@ public class WeaponController : MonoBehaviour
         }
 
         // 건틀릿
-        if (currentWeapon.fireStrategy is GauntletFireSO)
+        if (blackboard.origin.fireStrategy is GauntletFireSO)
         {
-            // 구현 원리 요약:
-            // 마우스를 누르고 있는 동안 계속 공격 시도 (쿨타임으로 속도 제한)
-
             if (Mouse.current.leftButton.isPressed)
             {
                 TryAttack_Gauntlet();
@@ -143,80 +144,81 @@ public class WeaponController : MonoBehaviour
             return;
         }
 
-        // 일반 총기 (연사)
+        // 일반 무기
         if (Mouse.current.leftButton.isPressed)
         {
             TryAttack();
         }
     }
 
-    // 건틀릿 공격
     private void TryAttack_Gauntlet()
     {
-        if (currentWeapon == null) return;
-
-        // attackSpeed → 초당 공격 횟수 → 쿨타임으로 변환
-        float cooldown = 1f / currentWeapon.attackSpeed;
+        float cooldown = 1f / blackboard.attackSpeed;
 
         if (Time.time < lastAttackTime + cooldown) return;
 
         lastAttackTime = Time.time;
 
-        // 탄약 없이 바로 공격 실행
-        currentWeapon.fireStrategy.Fire(firePoint, currentWeapon);
-
-        Debug.Log("건틀릿 공격!");
+        blackboard.origin.fireStrategy.Fire(currentFirePoint, blackboard);
     }
 
-    // 일반 무기 공격
     private void TryAttack()
     {
-        if (currentWeapon == null || isReloading) return;
+        if (blackboard == null || isReloading) return;
 
-        float cooldown = 1f / currentWeapon.attackSpeed;
+        float cooldown = 1f / blackboard.attackSpeed;
 
         if (Time.time < lastAttackTime + cooldown) return;
 
-        int currentAmmo = ammoDict[currentWeapon];
+        int currentAmmo = ammoDict[blackboard.origin];
 
-        // 탄약 없으면 공격 불가
         if (currentAmmo <= 0)
         {
-            Debug.Log("탄 없음 - R키 재장전");
+            // 탄약 없으면 공격 차단 + 로그 출력
+            Debug.Log("탄약 없음 → 재장전 필요");
             return;
         }
 
         lastAttackTime = Time.time;
 
-        // 구현 원리:
-        // 공격 시 탄약 감소
         currentAmmo--;
-        ammoDict[currentWeapon] = currentAmmo;
+        ammoDict[blackboard.origin] = currentAmmo;
 
-        currentWeapon.fireStrategy.Fire(firePoint, currentWeapon);
+        // 발사 후 탄약 0 되면 로그 출력
+        if (currentAmmo == 0)
+        {
+            Debug.Log("탄창 모두 소모 → 재장전 필요");
+        }
+
+        blackboard.origin.fireStrategy.Fire(currentFirePoint, blackboard);
     }
 
-    // 무기 회전
-    private void RotateWeapon()
+    // 방향 계산 함수
+    private Vector2 GetAimDirection()
     {
-        // 마우스 위치 방향으로 무기 회전
         Vector3 mousePos = Mouse.current.position.ReadValue();
         mousePos = cam.ScreenToWorldPoint(mousePos);
         mousePos.z = 0f;
 
-        Vector2 dir = mousePos - transform.position;
-        float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
-
-        transform.rotation = Quaternion.Euler(0f, 0f, angle);
-
-        // 좌우 반전 처리
-        if (weaponRenderer != null)
-        {
-            weaponRenderer.flipY = (angle > 90f || angle < -90f);
-        }
+        return (mousePos - currentFirePoint.position).normalized;
     }
 
-    // 무기 변경
+    // 추가된 회전 함수
+    private void RotateWeapon()
+    {
+        if (currentWeaponObj == null) return;
+
+        Vector3 mousePos = Mouse.current.position.ReadValue();
+        mousePos = cam.ScreenToWorldPoint(mousePos);
+        mousePos.z = 0f;
+
+        Vector2 dir = (mousePos - weaponHolder.position).normalized;
+
+        float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
+
+        weaponHolder.rotation = Quaternion.Euler(0, 0, angle);
+    }
+
     private void HandleWeaponSwitch()
     {
         if (Keyboard.current.digit1Key.wasPressedThisFrame) SetWeapon(0);
@@ -232,36 +234,47 @@ public class WeaponController : MonoBehaviour
     {
         if (index < 0 || index >= weapons.Length) return;
 
-        // 레이저 사용 중이면 강제 종료
-        if (currentWeapon != null && currentWeapon.fireStrategy is LaserFireSO laser)
+        if (blackboard != null && blackboard.origin.fireStrategy is LaserFireSO laser)
         {
             laser.ResetLaser();
         }
 
         currentIndex = index;
-        currentWeapon = weapons[index];
+        blackboard = blackboards[index];
 
-        // 무기 색상 변경 (임시 외형)
-        if (weaponRenderer != null)
-            weaponRenderer.color = currentWeapon.weaponColor;
+        if (currentWeaponObj != null)
+        {
+            Destroy(currentWeaponObj);
+        }
 
-        Debug.Log($"무기 변경: {currentWeapon.weaponName} / 남은 탄약: {ammoDict[currentWeapon]}");
+        currentWeaponObj = Instantiate(
+            blackboard.origin.weaponPrefab,
+            weaponHolder
+        );
+
+        currentFirePoint = currentWeaponObj.transform.Find("FirePoint");
+
+        if (currentFirePoint == null)
+        {
+            Debug.LogError("FirePoint 없음 → 프리팹 확인");
+        }
+
+        Debug.Log($"무기 변경: {blackboard.origin.weaponName} / 탄약: {ammoDict[blackboard.origin]}");
     }
 
-    // 재장전
     private void HandleReload()
     {
-        // 건틀릿은 재장전 없음
-        if (currentWeapon.fireStrategy is GauntletFireSO)
+        if (blackboard.origin.fireStrategy is GauntletFireSO)
             return;
 
         if (Keyboard.current.rKey.wasPressedThisFrame)
         {
-            int currentAmmo = ammoDict[currentWeapon];
+            int currentAmmo = ammoDict[blackboard.origin];
 
-            // 탄약이 부족할 때만 재장전
-            if (!isReloading && currentAmmo < currentWeapon.magazineSize)
+            if (!isReloading && currentAmmo < blackboard.magazineSize)
             {
+                Debug.Log("재장전 시작");
+
                 StartCoroutine(Reload());
             }
         }
@@ -271,10 +284,7 @@ public class WeaponController : MonoBehaviour
     {
         isReloading = true;
 
-        Debug.Log("재장전 시작");
-
-        // 레이저 사용 중이면 종료
-        if (currentWeapon.fireStrategy is LaserFireSO laser)
+        if (blackboard.origin.fireStrategy is LaserFireSO laser)
         {
             if (isFiring)
             {
@@ -283,14 +293,12 @@ public class WeaponController : MonoBehaviour
             }
         }
 
-        // 재장전 시간 대기
-        yield return new WaitForSeconds(currentWeapon.reloadTime);
+        yield return new WaitForSeconds(blackboard.reloadTime);
 
-        // 탄약 풀 충전
-        ammoDict[currentWeapon] = currentWeapon.magazineSize;
-
-        Debug.Log("재장전 완료");
+        ammoDict[blackboard.origin] = blackboard.magazineSize;
 
         isReloading = false;
+
+        Debug.Log("재장전 완료");
     }
 }

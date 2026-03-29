@@ -12,16 +12,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 989a21a957ecb994da667ff5811dd02e, type: 3}
   m_Name: Sniper_SO
   m_EditorClassIdentifier: Assembly-CSharp::WeaponDataSO
-  weaponName: 
+  weaponName: "\uC2A4\uB098\uC774\uD37C"
+  weaponSprite: {fileID: 0}
+  weaponPrefab: {fileID: 7374078092371000320, guid: 9db6ced22b323c54299598294b2e8363, type: 3}
   attackSpeed: 0.5
   damage: 50
   magazineSize: 5
   currentAmmo: 30
   reloadTime: 1.5
-  projectilePrefab: {fileID: 7611560951116735793, guid: ff1b58166a27bb94ba1d0f3b021a488b, type: 3}
+  projectilePrefab: {fileID: 5549645045196256922, guid: 0faaf7ffd95edf442b21207103c3d502, type: 3}
   projectileSpeed: 30
   projectileCount: 1
-  bounceCount: 0
   moveSpeedBonus: 0
   dodgeRate: 5
   critRate: 0.1
@@ -39,3 +40,7 @@ MonoBehaviour:
   laserDPS: 10
   chargeTime: 2
   maxChargeLevel: 3
+  bounceCount: 0
+  bounceDamageMultiplier: 1.2
+  explosionRadius: 2
+  explosionDelay: 3

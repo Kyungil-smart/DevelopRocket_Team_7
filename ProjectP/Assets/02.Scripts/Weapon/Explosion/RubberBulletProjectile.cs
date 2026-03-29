@@ -1,34 +1,31 @@
-// UTF-8
 using UnityEngine;
 
 [DisallowMultipleComponent]
 public class RubberBulletProjectile : MonoBehaviour
 {
-    // Trigger 기반 충돌 → 벽 반사 / 몬스터 맞으면 폭발 / 폭발 범위 데미지 적용
+    // 벽 반사 → 조건 충족 시 폭발 → 범위 내 IDamageable 대상에게 Explosion 데미지 전달
 
     private Vector2 _direction;
     private float _speed;
     private int _damage;
-
+    private Vector2 _velocity;
     private int _remainingBounce;
     private float _bounceMultiplier;
     private float _explosionRadius;
 
     private float _lifeTimer;
 
-    public void Init(Vector2 dir, WeaponDataSO data)
+    public void Init(Vector2 dir, WeaponBlackboard data)
     {
-        _direction = dir.normalized; // 방향 정규화 (반사 정확도 안정화)
-        _speed = data.projectileSpeed;
+        _direction = dir.normalized;
+        _speed = data.origin.projectileSpeed;
         _damage = data.damage;
 
-        _remainingBounce = data.bounceCount;
-        _bounceMultiplier = data.bounceDamageMultiplier;
-        _explosionRadius = data.explosionRadius;
+        _remainingBounce = data.origin.bounceCount;
+        _bounceMultiplier = data.origin.bounceDamageMultiplier;
+        _explosionRadius = data.origin.explosionRadius;
 
-        _lifeTimer = data.explosionDelay;
-
-        Destroy(gameObject, 5f);
+        _lifeTimer = data.origin.explosionDelay;
     }
 
     private void Update()
@@ -45,16 +42,17 @@ public class RubberBulletProjectile : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        // 몬스터 충돌
-        TestMonster monster = collision.GetComponent<TestMonster>();
+        // 충돌 대상이 IDamageable이면 폭발 처리
 
-        if (monster != null)
+        IDamageable damageable = collision.GetComponent<IDamageable>();
+
+        if (damageable != null)
         {
             Explode();
             return;
         }
 
-        // 벽 반사
+        // 벽 충돌 시 반사
         if (collision.CompareTag("Wall"))
         {
             Vector2 currentPos = transform.position;
@@ -66,6 +64,7 @@ public class RubberBulletProjectile : MonoBehaviour
 
             _remainingBounce--;
 
+            // 반사 시 데미지 증가
             _damage = Mathf.RoundToInt(_damage * _bounceMultiplier);
 
             if (_remainingBounce < 0)
@@ -74,31 +73,23 @@ public class RubberBulletProjectile : MonoBehaviour
             }
         }
     }
-    
 
     private void Explode()
     {
-        // 범위 데미지 (TestMonster 기준)
+        // 폭발 범위 내 모든 IDamageable 대상에게 Explosion 타입 데미지 적용
+
         Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, _explosionRadius);
 
         foreach (var hit in hits)
         {
-            TestMonster monster = hit.GetComponent<TestMonster>();
+            IDamageable damageable = hit.GetComponent<IDamageable>();
 
-            if (monster != null)
+            if (damageable != null)
             {
-                monster.TakeDamage(_damage);
-
-                Debug.Log($"[고무탄 폭발] 데미지: {_damage}");
+                damageable.TakeDamage(DamageType.Explosion, _damage);
             }
         }
 
-        Destroy(gameObject);
-    }
-
-    private void OnDrawGizmosSelected()
-    {
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position, _explosionRadius);
+        PostManager.Instance.Post<GameObject>(PostMessageKey.ProjectileDespawned, gameObject);
     }
 }

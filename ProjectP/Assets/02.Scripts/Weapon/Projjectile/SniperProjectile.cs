@@ -2,8 +2,7 @@ using UnityEngine;
 
 public class SniperProjectile : MonoBehaviour
 {
-    // 구현 원리 요약:
-    // 일정 횟수까지 관통하면서 데미지 적용
+    // 관통형 투사체 → IDamageable 대상에게 Projectile 타입 데미지 적용
 
     private Vector2 dir;
     private float speed;
@@ -12,28 +11,44 @@ public class SniperProjectile : MonoBehaviour
     private int pierceCount;
     private int hitCount = 0;
 
+    // 풀링용 
+    private float lifeTimer;
+
     public void Init(Vector2 direction, float spd, int dmg, int pierce)
     {
-        dir = direction;
+        dir = direction.normalized;
         speed = spd;
         damage = dmg;
         pierceCount = pierce;
 
-        Destroy(gameObject, 5f);
+        // 발사 방향 회전 적용
+        float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
+        transform.rotation = Quaternion.Euler(0, 0, angle);
+
+        lifeTimer = 5f;
     }
 
     private void Update()
     {
         transform.position += (Vector3)(dir * speed * Time.deltaTime);
+
+        lifeTimer -= Time.deltaTime;
+
+        if (lifeTimer <= 0f)
+        {
+            PostManager.Instance.Post<GameObject>(PostMessageKey.ProjectileDespawned, gameObject);
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        TestMonster monster = collision.GetComponent<TestMonster>();
+        // IDamageable 대상은 관통하며 데미지 적용, 벽은 즉시 제거
 
-        if (monster != null)
+        IDamageable damageable = collision.GetComponent<IDamageable>();
+
+        if (damageable != null)
         {
-            monster.TakeDamage(damage);
+            damageable.TakeDamage(DamageType.Projectile, damage);
 
             Debug.Log($"[스나이퍼] 데미지: {damage}");
 
@@ -41,8 +56,18 @@ public class SniperProjectile : MonoBehaviour
 
             if (hitCount >= pierceCount)
             {
-                Destroy(gameObject);
+                PostManager.Instance.Post<GameObject>(PostMessageKey.ProjectileDespawned, gameObject);
             }
+
+            return;
+        }
+
+        // 벽 충돌 처리
+        if (collision.CompareTag("Wall"))
+        {
+            Debug.Log("[스나이퍼] 벽 충돌 → 제거");
+
+            PostManager.Instance.Post<GameObject>(PostMessageKey.ProjectileDespawned, gameObject);
         }
     }
 }

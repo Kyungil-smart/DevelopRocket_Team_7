@@ -4,15 +4,14 @@ using UnityEngine.InputSystem;
 [CreateAssetMenu(menuName = "Weapon/Fire/Laser")]
 public class LaserFireSO : WeaponFireStrategy
 {
-    // 구현 원리 요약:
     // 차징 시간 누적 → 단계 도달 시 발사 시작 → 유지하면서 단계 상승
 
     private float chargeTimer = 0f;
-    private int chargeLevel = 0; // 0부터 시작 (중요)
+    private int chargeLevel = 0; // 0부터 시작 
 
-    private LaserBeam currentLaser;
+    private LaserProjectile currentLaser;
 
-    public override void Fire(Transform firePoint, WeaponDataSO data)
+    public override void Fire(Transform firePoint, WeaponBlackboard data)
     {
         Camera cam = Camera.main;
 
@@ -25,10 +24,10 @@ public class LaserFireSO : WeaponFireStrategy
         // 차징 누적
         chargeTimer += Time.deltaTime;
 
-        int newLevel = Mathf.FloorToInt(chargeTimer / data.chargeTime);
+        int newLevel = Mathf.FloorToInt(chargeTimer / data.origin.chargeTime);
 
         // 최대 단계 제한
-        newLevel = Mathf.Clamp(newLevel, 0, data.maxChargeLevel);
+        newLevel = Mathf.Clamp(newLevel, 0, data.origin.maxChargeLevel);
 
         // 단계 상승 체크
         if (newLevel != chargeLevel)
@@ -46,16 +45,24 @@ public class LaserFireSO : WeaponFireStrategy
         // 레이저 생성 (1회만)
         if (currentLaser == null)
         {
-            GameObject obj = new GameObject("LaserBeam");
-            currentLaser = obj.AddComponent<LaserBeam>();
+            GameObject obj = GameObject.Instantiate(
+                data.origin.projectilePrefab,     // 프리팹 사용
+                firePoint.position,
+                Quaternion.identity
+            );
+
+            currentLaser = obj.GetComponent<LaserProjectile>();
         }
 
         // 단계별 성능 증가
-        float finalDPS = data.laserDPS * chargeLevel;
-        float finalRange = data.laserRange + (chargeLevel * 2f);
+        float finalDPS = data.origin.laserDPS * chargeLevel;
+        float finalRange = data.origin.laserRange + (chargeLevel * 2f);
 
-        currentLaser.Init(finalDPS, chargeLevel);
-        currentLaser.Fire(firePoint.position, dir, finalRange);
+        // Init은 DPS + Range 전달
+        currentLaser.Init(finalDPS, finalRange);
+
+        // Fire는 2개 인자만 사용
+        currentLaser.Fire(firePoint.position, dir);
     }
 
     public void ResetLaser()

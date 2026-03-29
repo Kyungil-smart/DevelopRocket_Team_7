@@ -12,13 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 989a21a957ecb994da667ff5811dd02e, type: 3}
   m_Name: RubberBullet_SO
   m_EditorClassIdentifier: Assembly-CSharp::WeaponDataSO
-  weaponName: 
+  weaponName: "\uACE0\uBB34\uD0C4"
+  weaponSprite: {fileID: 0}
+  weaponPrefab: {fileID: 7374078092371000320, guid: 9db6ced22b323c54299598294b2e8363, type: 3}
   attackSpeed: 0.5
   damage: 30
   magazineSize: 10
   currentAmmo: 0
   reloadTime: 1
-  projectilePrefab: {fileID: 2120105152266407010, guid: 2c15a0415659e3f4299c608554650f53, type: 3}
+  projectilePrefab: {fileID: 1003728979084566939, guid: a6256b6c78e0d3844ac0b90086537d00, type: 3}
   projectileSpeed: 15
   projectileCount: 1
   moveSpeedBonus: 0
@@ -42,5 +44,3 @@ MonoBehaviour:
   bounceDamageMultiplier: 1.2
   explosionRadius: 2
   explosionDelay: 3
-  bounceHeight: 1.5
-  bounceSpeed: 4
