@@ -118,7 +118,7 @@ public class EnemyAgent : MonoBehaviour
     [ContextMenu("Test/Damaged")]
     public void TestTakeDamage()
     {
-        _damagedScript.TakeDamage(20);
+        _damagedScript.TakeDamage(DamageType.Projectile, 20);
     }
 
     private void OnDrawGizmos()

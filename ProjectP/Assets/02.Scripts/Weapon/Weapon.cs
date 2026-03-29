@@ -5,6 +5,8 @@ public class Weapon : MonoBehaviour
     // 구현 원리 요약:
     // 프리팹 하나가 무기 1개이며 SO 데이터를 참조해서 공격한다
 
+    // Chaebh; 이 클래스의 정체가 도데체 뭔가요???????????????????????
+    
     [Header("무기 데이터")]
 
     [Tooltip("무기 스탯 데이터")]
@@ -29,6 +31,6 @@ public class Weapon : MonoBehaviour
         lastAttackTime = Time.time;
 
         // 실제 공격 실행
-        weaponData.fireStrategy.Fire(firePoint, weaponData);
+        // weaponData.fireStrategy.Fire(firePoint, weaponData);
     }
 }

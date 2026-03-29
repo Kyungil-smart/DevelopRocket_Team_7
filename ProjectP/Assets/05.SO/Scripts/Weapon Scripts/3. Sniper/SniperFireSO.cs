@@ -5,7 +5,7 @@ using UnityEngine.InputSystem;
 public class SniperFireSO : WeaponFireStrategy
 {
     // 단일 고속 관통 탄 발사
-    public override void Fire(Transform firePoint, WeaponDataSO data)
+    public override void Fire(Transform firePoint, WeaponBlackboard data)
     {
         Camera cam = Camera.main;
 
@@ -17,17 +17,17 @@ public class SniperFireSO : WeaponFireStrategy
 
         ProjectileSpwanMsg msg = new ProjectileSpwanMsg()
         {
-            name = data.projectilePrefab.name,
+            name = data.origin.projectilePrefab.name,
             pos = firePoint.position,
             rot = Quaternion.identity
         };
         GameObject bullet = PostManager.Instance.Request<ProjectileSpwanMsg, GameObject>(PostMessageKey.ProjectileSpawned, msg);
         SniperProjectile proj = bullet.GetComponent<SniperProjectile>();
         int finalDamage = CalculateDamage(data);
-        proj.Init(dir, data.projectileSpeed, finalDamage, data.pierceCount);
+        proj.Init(dir, data.origin.projectileSpeed, finalDamage, data.origin.pierceCount);
     }
 
-    private int CalculateDamage(WeaponDataSO data)
+    private int CalculateDamage(WeaponBlackboard data)
     {
         float dmg = data.damage;
 

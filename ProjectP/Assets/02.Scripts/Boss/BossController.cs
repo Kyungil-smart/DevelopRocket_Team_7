@@ -7,7 +7,7 @@ using UnityEngine;
 /// 데이터 관리와 행위에 대한 모든 관리를 함.
 /// 단일 책임을 위배하지만, 현재는 이렇게 구현하겠습니다.
 /// </summary>
-public class BossController : MonoBehaviour, IBossDamagable
+public class BossController : MonoBehaviour, IDamageable
 {
     [Header("Boss Script Objects")]
     [SerializeField] private BossData bossData;
@@ -62,7 +62,7 @@ public class BossController : MonoBehaviour, IBossDamagable
         }
     }
 
-    public void TakeDamage(float damage)
+    public void TakeDamage(DamageType type, int damage)
     {
         if (!_blackBoard.IsInvincible) _blackBoard.currentHp -= damage;
         if (!_movementScript.IsChaseForce) _movementScript.OnChaseForce();
@@ -163,7 +163,7 @@ public class BossController : MonoBehaviour, IBossDamagable
     [ContextMenu("Test/TakeDamage")]
     private void OnTestTakeDamage()
     {
-        TakeDamage(50);
+        TakeDamage(DamageType.Projectile, 50);
     }
     
     [ContextMenu("Test/Dead")]

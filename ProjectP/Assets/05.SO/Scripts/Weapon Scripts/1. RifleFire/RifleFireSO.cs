@@ -6,7 +6,7 @@ public class RifleFireSO : WeaponFireStrategy
 {
     // 투사체 개수만큼 반복 발사
 
-    public override void Fire(Transform firePoint, WeaponDataSO data)
+    public override void Fire(Transform firePoint, WeaponBlackboard data)
     {
         Camera cam = Camera.main;
 
@@ -18,20 +18,20 @@ public class RifleFireSO : WeaponFireStrategy
 
         ProjectileSpwanMsg msg = new ProjectileSpwanMsg()
         {
-            name = data.projectilePrefab.name,
+            name = data.origin.projectilePrefab.name,
             pos = firePoint.position,
             rot = Quaternion.identity
         };
         
-        for (int i = 0; i < data.projectileCount; i++)
+        for (int i = 0; i < data.origin.projectileCount; i++)
         {
             GameObject bullet = PostManager.Instance.Request<ProjectileSpwanMsg, GameObject>(PostMessageKey.ProjectileSpawned, msg);
             Projectile proj = bullet.GetComponent<Projectile>();
-            proj.Init(dir, data.projectileSpeed, CalculateDamage(data));
+            proj.Init(dir, data.origin.projectileSpeed, CalculateDamage(data));
         }
     }
 
-    private int CalculateDamage(WeaponDataSO data)
+    private int CalculateDamage(WeaponBlackboard data)
     {
         float finalDamage = data.damage;
 

@@ -6,7 +6,7 @@ public class RubberBulletFireSO : WeaponFireStrategy
 {
     // 고무탄 발사 → Projectile에 반사/폭발 로직 위임
 
-    public override void Fire(Transform firePoint, WeaponDataSO data)
+    public override void Fire(Transform firePoint, WeaponBlackboard data)
     {
         Camera cam = Camera.main;
 
@@ -18,7 +18,7 @@ public class RubberBulletFireSO : WeaponFireStrategy
 
         ProjectileSpwanMsg msg = new ProjectileSpwanMsg()
         {
-            name = data.projectilePrefab.name,
+            name = data.origin.projectilePrefab.name,
             pos = firePoint.position,
             rot = Quaternion.identity
         };

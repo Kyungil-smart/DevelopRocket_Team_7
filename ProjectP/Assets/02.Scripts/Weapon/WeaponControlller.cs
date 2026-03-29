@@ -12,6 +12,7 @@ public class WeaponController : MonoBehaviour
 
     [Header("무기 목록")]
     [SerializeField] private WeaponDataSO[] weapons;
+    private List<WeaponBlackboard> blackboards;
 
     [SerializeField] private int currentIndex = 0;
 
@@ -19,7 +20,7 @@ public class WeaponController : MonoBehaviour
     [SerializeField] private Transform weaponHolder;
     // 무기 프리팹이 붙는 위치 (플레이어)
 
-    private WeaponDataSO currentWeapon;
+    private WeaponBlackboard blackboard;
     private float lastAttackTime;
     private bool isReloading = false;
 
@@ -45,6 +46,10 @@ public class WeaponController : MonoBehaviour
     {
         InitAmmo();
         SetWeapon(currentIndex);
+        foreach (var w in weapons)
+        {
+            blackboards.Add(new WeaponBlackboard(w));
+        }
     }
 
     private void InitAmmo()
@@ -68,12 +73,12 @@ public class WeaponController : MonoBehaviour
 
     private void HandleAttack()
     {
-        if (currentWeapon == null) return;
+        if (blackboard == null) return;
 
-        int currentAmmo = ammoDict[currentWeapon];
+        int currentAmmo = ammoDict[blackboard.origin];
 
         // 레이저
-        if (currentWeapon.fireStrategy is LaserFireSO laser)
+        if (blackboard.origin.fireStrategy is LaserFireSO laser)
         {
             if (Mouse.current.leftButton.isPressed)
             {
@@ -104,7 +109,7 @@ public class WeaponController : MonoBehaviour
                     if (currentAmmo < 0)
                         currentAmmo = 0;
 
-                    ammoDict[currentWeapon] = currentAmmo;
+                    ammoDict[blackboard.origin] = currentAmmo;
 
                     // 에너지 소모 후 0 되면 로그 출력
                     if (currentAmmo == 0)
@@ -113,7 +118,7 @@ public class WeaponController : MonoBehaviour
                     }
                 }
 
-                laser.Fire(currentFirePoint, currentWeapon);
+                laser.Fire(currentFirePoint, blackboard);
             }
             else
             {
@@ -130,7 +135,7 @@ public class WeaponController : MonoBehaviour
         }
 
         // 건틀릿
-        if (currentWeapon.fireStrategy is GauntletFireSO)
+        if (blackboard.origin.fireStrategy is GauntletFireSO)
         {
             if (Mouse.current.leftButton.isPressed)
             {
@@ -148,24 +153,24 @@ public class WeaponController : MonoBehaviour
 
     private void TryAttack_Gauntlet()
     {
-        float cooldown = 1f / currentWeapon.attackSpeed;
+        float cooldown = 1f / blackboard.attackSpeed;
 
         if (Time.time < lastAttackTime + cooldown) return;
 
         lastAttackTime = Time.time;
 
-        currentWeapon.fireStrategy.Fire(currentFirePoint, currentWeapon);
+        blackboard.origin.fireStrategy.Fire(currentFirePoint, blackboard);
     }
 
     private void TryAttack()
     {
-        if (currentWeapon == null || isReloading) return;
+        if (blackboard == null || isReloading) return;
 
-        float cooldown = 1f / currentWeapon.attackSpeed;
+        float cooldown = 1f / blackboard.attackSpeed;
 
         if (Time.time < lastAttackTime + cooldown) return;
 
-        int currentAmmo = ammoDict[currentWeapon];
+        int currentAmmo = ammoDict[blackboard.origin];
 
         if (currentAmmo <= 0)
         {
@@ -177,7 +182,7 @@ public class WeaponController : MonoBehaviour
         lastAttackTime = Time.time;
 
         currentAmmo--;
-        ammoDict[currentWeapon] = currentAmmo;
+        ammoDict[blackboard.origin] = currentAmmo;
 
         // 발사 후 탄약 0 되면 로그 출력
         if (currentAmmo == 0)
@@ -185,7 +190,7 @@ public class WeaponController : MonoBehaviour
             Debug.Log("탄창 모두 소모 → 재장전 필요");
         }
 
-        currentWeapon.fireStrategy.Fire(currentFirePoint, currentWeapon);
+        blackboard.origin.fireStrategy.Fire(currentFirePoint, blackboard);
     }
 
     // 방향 계산 함수
@@ -229,13 +234,13 @@ public class WeaponController : MonoBehaviour
     {
         if (index < 0 || index >= weapons.Length) return;
 
-        if (currentWeapon != null && currentWeapon.fireStrategy is LaserFireSO laser)
+        if (blackboard != null && blackboard.origin.fireStrategy is LaserFireSO laser)
         {
             laser.ResetLaser();
         }
 
         currentIndex = index;
-        currentWeapon = weapons[index];
+        blackboard = blackboards[index];
 
         if (currentWeaponObj != null)
         {
@@ -243,7 +248,7 @@ public class WeaponController : MonoBehaviour
         }
 
         currentWeaponObj = Instantiate(
-            currentWeapon.weaponPrefab,
+            blackboard.origin.weaponPrefab,
             weaponHolder
         );
 
@@ -254,19 +259,19 @@ public class WeaponController : MonoBehaviour
             Debug.LogError("FirePoint 없음 → 프리팹 확인");
         }
 
-        Debug.Log($"무기 변경: {currentWeapon.weaponName} / 탄약: {ammoDict[currentWeapon]}");
+        Debug.Log($"무기 변경: {blackboard.origin.weaponName} / 탄약: {ammoDict[blackboard.origin]}");
     }
 
     private void HandleReload()
     {
-        if (currentWeapon.fireStrategy is GauntletFireSO)
+        if (blackboard.origin.fireStrategy is GauntletFireSO)
             return;
 
         if (Keyboard.current.rKey.wasPressedThisFrame)
         {
-            int currentAmmo = ammoDict[currentWeapon];
+            int currentAmmo = ammoDict[blackboard.origin];
 
-            if (!isReloading && currentAmmo < currentWeapon.magazineSize)
+            if (!isReloading && currentAmmo < blackboard.magazineSize)
             {
                 Debug.Log("재장전 시작");
 
@@ -279,7 +284,7 @@ public class WeaponController : MonoBehaviour
     {
         isReloading = true;
 
-        if (currentWeapon.fireStrategy is LaserFireSO laser)
+        if (blackboard.origin.fireStrategy is LaserFireSO laser)
         {
             if (isFiring)
             {
@@ -288,9 +293,9 @@ public class WeaponController : MonoBehaviour
             }
         }
 
-        yield return new WaitForSeconds(currentWeapon.reloadTime);
+        yield return new WaitForSeconds(blackboard.reloadTime);
 
-        ammoDict[currentWeapon] = currentWeapon.magazineSize;
+        ammoDict[blackboard.origin] = blackboard.magazineSize;
 
         isReloading = false;
 

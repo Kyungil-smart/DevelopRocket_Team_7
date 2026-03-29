@@ -1,12 +1,13 @@
 ﻿using UnityEngine;
 
-public class EnemyDamaged : MonoBehaviour, IEnemyDamagable, INeedEnemyBlackboard
+public class EnemyDamaged : MonoBehaviour, IDamageable, INeedEnemyBlackboard
 {   // State 독립 트리거. 
     private EnemyBlackboard blackboard;
     
-    public void TakeDamage(int damage)
+    public void TakeDamage(DamageType type, int damage)
     {
         // ToDo. 필요시 유저 무기에 의한 피격 계산 추가 필요
+        // DamageType type 에 따라 몇가지 추가 행위 필요.
         blackboard.currentHp -= damage;
         
         // 유저가 멀리 있는 경우

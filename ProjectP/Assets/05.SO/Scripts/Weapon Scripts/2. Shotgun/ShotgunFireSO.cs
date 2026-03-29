@@ -6,7 +6,7 @@ public class ShotgunFireSO : WeaponFireStrategy
 {
     // 여러 개 투사체를 퍼짐 각도로 발사하는 구조
 
-    public override void Fire(Transform firePoint, WeaponDataSO data)
+    public override void Fire(Transform firePoint, WeaponBlackboard data)
     {
         Camera cam = Camera.main;
 
@@ -16,8 +16,8 @@ public class ShotgunFireSO : WeaponFireStrategy
 
         Vector2 baseDir = (mousePos - firePoint.position).normalized;
 
-        int pelletCount = Mathf.Max(1, data.pelletCount);
-        float spread = data.spreadAngle;
+        int pelletCount = Mathf.Max(1, data.origin.pelletCount);
+        float spread = data.origin.spreadAngle;
 
         float startAngle = -spread * 0.5f;
 
@@ -29,17 +29,17 @@ public class ShotgunFireSO : WeaponFireStrategy
             Vector2 dir = Rotate(baseDir, angle);
             ProjectileSpwanMsg msg = new ProjectileSpwanMsg()
             {
-                name = data.projectilePrefab.name,
+                name = data.origin.projectilePrefab.name,
                 pos = firePoint.position,
                 rot = Quaternion.identity
             };
             GameObject bullet = PostManager.Instance.Request<ProjectileSpwanMsg, GameObject>(PostMessageKey.ProjectileSpawned, msg);
             Projectile proj = bullet.GetComponent<Projectile>();
-            proj.Init(dir, data.projectileSpeed, CalculateDamage(data));
+            proj.Init(dir, data.origin.projectileSpeed, CalculateDamage(data));
         }
     }
 
-    private int CalculateDamage(WeaponDataSO data)
+    private int CalculateDamage(WeaponBlackboard data)
     {
         float dmg = data.damage;
 

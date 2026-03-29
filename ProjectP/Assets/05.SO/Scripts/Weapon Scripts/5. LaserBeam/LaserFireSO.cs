@@ -11,7 +11,7 @@ public class LaserFireSO : WeaponFireStrategy
 
     private LaserProjectile currentLaser;
 
-    public override void Fire(Transform firePoint, WeaponDataSO data)
+    public override void Fire(Transform firePoint, WeaponBlackboard data)
     {
         Camera cam = Camera.main;
 
@@ -24,10 +24,10 @@ public class LaserFireSO : WeaponFireStrategy
         // 차징 누적
         chargeTimer += Time.deltaTime;
 
-        int newLevel = Mathf.FloorToInt(chargeTimer / data.chargeTime);
+        int newLevel = Mathf.FloorToInt(chargeTimer / data.origin.chargeTime);
 
         // 최대 단계 제한
-        newLevel = Mathf.Clamp(newLevel, 0, data.maxChargeLevel);
+        newLevel = Mathf.Clamp(newLevel, 0, data.origin.maxChargeLevel);
 
         // 단계 상승 체크
         if (newLevel != chargeLevel)
@@ -46,7 +46,7 @@ public class LaserFireSO : WeaponFireStrategy
         if (currentLaser == null)
         {
             GameObject obj = GameObject.Instantiate(
-                data.projectilePrefab,     // 프리팹 사용
+                data.origin.projectilePrefab,     // 프리팹 사용
                 firePoint.position,
                 Quaternion.identity
             );
@@ -55,8 +55,8 @@ public class LaserFireSO : WeaponFireStrategy
         }
 
         // 단계별 성능 증가
-        float finalDPS = data.laserDPS * chargeLevel;
-        float finalRange = data.laserRange + (chargeLevel * 2f);
+        float finalDPS = data.origin.laserDPS * chargeLevel;
+        float finalRange = data.origin.laserRange + (chargeLevel * 2f);
 
         // Init은 DPS + Range 전달
         currentLaser.Init(finalDPS, finalRange);

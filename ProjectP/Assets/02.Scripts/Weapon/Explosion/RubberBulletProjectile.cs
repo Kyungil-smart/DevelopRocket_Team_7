@@ -15,17 +15,17 @@ public class RubberBulletProjectile : MonoBehaviour
 
     private float _lifeTimer;
 
-    public void Init(Vector2 dir, WeaponDataSO data)
+    public void Init(Vector2 dir, WeaponBlackboard data)
     {
         _direction = dir.normalized;
-        _speed = data.projectileSpeed;
+        _speed = data.origin.projectileSpeed;
         _damage = data.damage;
 
-        _remainingBounce = data.bounceCount;
-        _bounceMultiplier = data.bounceDamageMultiplier;
-        _explosionRadius = data.explosionRadius;
+        _remainingBounce = data.origin.bounceCount;
+        _bounceMultiplier = data.origin.bounceDamageMultiplier;
+        _explosionRadius = data.origin.explosionRadius;
 
-        _lifeTimer = data.explosionDelay;
+        _lifeTimer = data.origin.explosionDelay;
     }
 
     private void Update()

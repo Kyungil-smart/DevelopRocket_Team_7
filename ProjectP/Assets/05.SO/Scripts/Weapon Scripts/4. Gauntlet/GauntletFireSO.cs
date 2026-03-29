@@ -6,12 +6,12 @@ public class GauntletFireSO : WeaponFireStrategy
     // 구현 원리 요약:
     // 부채꼴 범위 내 적 탐색 후 데미지 적용
 
-    public override void Fire(Transform firePoint, WeaponDataSO data)
+    public override void Fire(Transform firePoint, WeaponBlackboard data)
     {
         Vector2 center = firePoint.position;
 
         // 범위 내 모든 콜라이더 탐색
-        Collider2D[] hits = Physics2D.OverlapCircleAll(center, data.meleeRadius);
+        Collider2D[] hits = Physics2D.OverlapCircleAll(center, data.origin.meleeRadius);
 
         foreach (var hit in hits)
         {
@@ -22,7 +22,7 @@ public class GauntletFireSO : WeaponFireStrategy
             Vector2 dirToTarget = (hit.transform.position - firePoint.position).normalized;
             float angle = Vector2.Angle(firePoint.right, dirToTarget);
 
-            if (angle <= data.meleeAngle * 0.5f)
+            if (angle <= data.origin.meleeAngle * 0.5f)
             {
                 int finalDamage = CalculateDamage(data);
 
@@ -38,9 +38,9 @@ public class GauntletFireSO : WeaponFireStrategy
                     rb.linearVelocity = Vector2.zero;
 
                     // 강하게 밀기
-                    rb.AddForce(dirToTarget * data.knockbackForce, ForceMode2D.Impulse);
+                    rb.AddForce(dirToTarget * data.origin.knockbackForce, ForceMode2D.Impulse);
 
-                    Debug.Log($"[건틀릿] 넉백 적용 → 힘: {data.knockbackForce}");
+                    Debug.Log($"[건틀릿] 넉백 적용 → 힘: {data.origin.knockbackForce}");
                 }
                 else
                 {
@@ -48,14 +48,14 @@ public class GauntletFireSO : WeaponFireStrategy
                 }
             }
             // 이펙트 생성
-            SpawnEffect(firePoint, data);
+            SpawnEffect(firePoint, data.origin);
         }
     }
             
         
     
 
-    private int CalculateDamage(WeaponDataSO data)
+    private int CalculateDamage(WeaponBlackboard data)
     {
         float dmg = data.damage;
 
