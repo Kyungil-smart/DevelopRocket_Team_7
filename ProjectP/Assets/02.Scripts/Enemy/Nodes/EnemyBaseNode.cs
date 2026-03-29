@@ -38,7 +38,7 @@ public abstract class EnemyBaseNode : Node
         
         if (blackboard.origin.attackRange >= distance)
         {
-            blackboard.IsAttacking = true;
+            blackboard.IsAttackDelay = true;
             return "exitToAttackDelay";
         }
         return null;
