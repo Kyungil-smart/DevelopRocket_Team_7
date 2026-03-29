@@ -30,7 +30,6 @@ public class EnemyAgent : MonoBehaviour
 
     private void OnEnable()
     {
-        // ToDo. for test. 추후 Player Object 를 받아올 수 있는 static 값이 있으면 변경 예정.
         if (_blackboard != null) _blackboard.IsDead = false;
     }
 
@@ -95,7 +94,24 @@ public class EnemyAgent : MonoBehaviour
     
     public void OnDead()
     {
-        if (_deadScript != null) _deadScript.Dead();
+        if (_deadScript != null) _deadScript.Dead(_blackboard);
+        // 경험치를 100% 확률로 전달해. 누구에게? 지금 그 데이터 공간이 없는데..?
+        
+        
+        // 배터리를 특정 활률로 떨궈
+        if (UnityEngine.Random.value <= _blackboard.origin.batteryProbability)
+        {
+            PostManager.Instance.Post<Vector2>(PostMessageKey.BatterySpawned, transform.position);
+        }
+        
+        // Despawn
+        string name = gameObject.name.Split('_')[0];
+        EnemyDespawnMsg msg = new EnemyDespawnMsg()
+        {
+            name = name,
+            obj = gameObject
+        };
+        PostManager.Instance.Post<EnemyDespawnMsg>(PostMessageKey.EnemyDespawned, msg);
     }
     
     // Test Code
@@ -105,12 +121,12 @@ public class EnemyAgent : MonoBehaviour
         _damagedScript.TakeDamage(20);
     }
 
-    // private void OnDrawGizmos()
-    // {
-    //     if (_blackboard == null) return;
-    //     Gizmos.color = Color.yellow;
-    //     Gizmos.DrawWireSphere(transform.position, _blackboard.origin.attackRange);
-    //     Gizmos.color = Color.blue;
-    //     Gizmos.DrawWireSphere(transform.position, _blackboard.origin.detectRadius);
-    // }
+    private void OnDrawGizmos()
+    {
+        if (_blackboard == null) return;
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawWireSphere(transform.position, _blackboard.origin.attackRange);
+        Gizmos.color = Color.blue;
+        Gizmos.DrawWireSphere(transform.position, _blackboard.origin.detectRadius);
+    }
 }

@@ -14,8 +14,10 @@ public class EnemyMovement : MonoBehaviour
     private bool _isChasing;
     private Coroutine _nxPosCoroutine;
     private WaitForSeconds _waitFor2Sec = new WaitForSeconds(2.0f);
-    private Vector2[] _patrolDirections = new Vector2[4] { Vector2.right, Vector2.left, Vector2.down, Vector2.up };
+    private WaitForSeconds _waitFor10mSec = new WaitForSeconds(0.01f);
+    private Vector2[] _patrolDirections = new Vector2[] { Vector2.right, Vector2.left, Vector2.down, Vector2.up };
     private Ray2D _ray;
+    private Ray2D _rayPatrol;
     private float _detectDistance = 0.2f;
 
     private void Awake()
@@ -32,6 +34,7 @@ public class EnemyMovement : MonoBehaviour
 
     private void OnEnable()
     {
+        _isChasing = false;
         _targetPos = transform.position;
     }
 
@@ -59,6 +62,10 @@ public class EnemyMovement : MonoBehaviour
         
         // ToDo. Y Sorting 관련. 우선적으로 이렇게 처리하지만, 추후 자연스럽게 하기 위해 어떻게 해야할지 연구 필요.
         _spriteRenderer.sortingOrder = Mathf.RoundToInt(transform.position.y) * -1;
+        
+        Vector3 direction = new Vector3(_targetPos.x, _targetPos.y) - transform.position;
+        if (direction.x > 0) _spriteRenderer.flipX = false;
+        else _spriteRenderer.flipX = true;
     }
     
     public void GoToPlayer(EnemyBlackboard blackboard) {  
@@ -87,9 +94,10 @@ public class EnemyMovement : MonoBehaviour
             _targetPos = transform.position + new Vector3(direction.x, direction.y);
             if (_collider2D != null)
             {
-                Ray2D ray = GetRay(direction);
-                RaycastHit2D hit = Physics2D.Raycast(ray.origin, ray.direction, 1, _layerMask);
+                _rayPatrol = GetRay(direction);
+                RaycastHit2D hit = Physics2D.Raycast(_rayPatrol.origin, _rayPatrol.direction, 1, _layerMask);
                 if (!hit) yield return _waitFor2Sec;
+                else yield return _waitFor10mSec;
             }
             else yield return null;
         }
@@ -102,9 +110,11 @@ public class EnemyMovement : MonoBehaviour
         return new Ray2D(rayOriginPos, direction);
     }
     
-    // private void OnDrawGizmos()
-    // {
-    //     Gizmos.color = Color.white;
-    //     Gizmos.DrawLine(_ray.origin, _ray.origin + _ray.direction);
-    // }
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.white;
+        Gizmos.DrawLine(_ray.origin, _ray.origin + _ray.direction);
+        Gizmos.color = Color.lawnGreen;
+        Gizmos.DrawLine(_rayPatrol.origin, _rayPatrol.origin + _rayPatrol.direction);
+    }
 }

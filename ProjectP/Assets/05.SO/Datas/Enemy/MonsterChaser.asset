@@ -18,3 +18,4 @@ MonoBehaviour:
   attackRange: 0.2
   detectRadius: 4
   attackDelay: 5
+  batteryProbability: 1

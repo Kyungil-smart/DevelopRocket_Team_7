@@ -35,8 +35,8 @@ TagManager:
   - 
   - 
   - 
-  - 
-  - 
+  - BossBullet
+  - Boss
   - 
   - Wall
   m_SortingLayers:
