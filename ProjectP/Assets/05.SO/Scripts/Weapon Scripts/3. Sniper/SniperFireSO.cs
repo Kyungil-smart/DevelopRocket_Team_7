@@ -4,9 +4,7 @@ using UnityEngine.InputSystem;
 [CreateAssetMenu(menuName = "Weapon/Fire/Sniper")]
 public class SniperFireSO : WeaponFireStrategy
 {
-    // 구현 원리 요약:
     // 단일 고속 관통 탄 발사
-
     public override void Fire(Transform firePoint, WeaponDataSO data)
     {
         Camera cam = Camera.main;
@@ -17,8 +15,9 @@ public class SniperFireSO : WeaponFireStrategy
 
         Vector2 dir = (mousePos - firePoint.position).normalized;
 
-        GameObject bullet = GameObject.Instantiate(
-            data.projectilePrefab,
+        GameObject bullet = ProjectilePoolManager.Instance.Get
+        (
+            "SniperBullet",
             firePoint.position,
             Quaternion.identity
         );

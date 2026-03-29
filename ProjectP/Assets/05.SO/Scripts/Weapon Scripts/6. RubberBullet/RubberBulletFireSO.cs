@@ -4,7 +4,6 @@ using UnityEngine.InputSystem;
 [CreateAssetMenu(menuName = "Weapon/Fire/RubberBullet")]
 public class RubberBulletFireSO : WeaponFireStrategy
 {
-    // 구현 원리 요약:
     // 고무탄 발사 → Projectile에 반사/폭발 로직 위임
 
     public override void Fire(Transform firePoint, WeaponDataSO data)
@@ -17,8 +16,9 @@ public class RubberBulletFireSO : WeaponFireStrategy
 
         Vector2 dir = (mousePos - firePoint.position).normalized;
 
-        GameObject bullet = GameObject.Instantiate(
-            data.projectilePrefab,
+        GameObject bullet = ProjectilePoolManager.Instance.Get
+        (
+            "RubberBullet",
             firePoint.position,
             Quaternion.identity
         );

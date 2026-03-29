@@ -13,15 +13,16 @@ MonoBehaviour:
   m_Name: LaserFire_SO
   m_EditorClassIdentifier: Assembly-CSharp::WeaponDataSO
   weaponName: 
+  weaponSprite: {fileID: 0}
+  weaponPrefab: {fileID: 7374078092371000320, guid: 9db6ced22b323c54299598294b2e8363, type: 3}
   attackSpeed: 1
   damage: 10
   magazineSize: 50
   currentAmmo: 21
   reloadTime: 3
-  projectilePrefab: {fileID: 0}
+  projectilePrefab: {fileID: 253288346647056766, guid: d960b561935cd224090e9b96e2e5a86e, type: 3}
   projectileSpeed: 1
   projectileCount: 5
-  bounceCount: 0
   moveSpeedBonus: 0
   dodgeRate: 5
   critRate: 0.05
@@ -39,3 +40,7 @@ MonoBehaviour:
   laserDPS: 10
   chargeTime: 2
   maxChargeLevel: 3
+  bounceCount: 0
+  bounceDamageMultiplier: 1.2
+  explosionRadius: 2
+  explosionDelay: 3

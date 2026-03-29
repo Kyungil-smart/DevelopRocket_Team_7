@@ -4,7 +4,6 @@ using UnityEngine.InputSystem;
 [CreateAssetMenu(menuName = "Weapon/Fire/Shotgun")]
 public class ShotgunFireSO : WeaponFireStrategy
 {
-    // 구현 원리 요약:
     // 여러 개 투사체를 퍼짐 각도로 발사하는 구조
 
     public override void Fire(Transform firePoint, WeaponDataSO data)
@@ -29,8 +28,9 @@ public class ShotgunFireSO : WeaponFireStrategy
 
             Vector2 dir = Rotate(baseDir, angle);
 
-            GameObject bullet = GameObject.Instantiate(
-                data.projectilePrefab,
+            GameObject bullet = ProjectilePoolManager.Instance.Get
+            (
+                "ShotgunBullet",
                 firePoint.position,
                 Quaternion.identity
             );

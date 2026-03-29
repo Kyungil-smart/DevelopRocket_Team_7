@@ -15,7 +15,7 @@ public class GauntletFireSO : WeaponFireStrategy
 
         foreach (var hit in hits)
         {
-            TestMonster monster = hit.GetComponent<TestMonster>();
+            TestEnemy monster = hit.GetComponent<TestEnemy>();
             if (monster == null) continue;
 
             // 방향 판정 (부채꼴)

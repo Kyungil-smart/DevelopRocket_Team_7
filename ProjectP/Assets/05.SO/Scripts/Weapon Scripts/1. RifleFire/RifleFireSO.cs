@@ -4,7 +4,6 @@ using UnityEngine.InputSystem;
 [CreateAssetMenu(menuName = "Weapon/Fire/Rifle")]
 public class RifleFireSO : WeaponFireStrategy
 {
-    // 구현 원리 요약:
     // 투사체 개수만큼 반복 발사
 
     public override void Fire(Transform firePoint, WeaponDataSO data)
@@ -19,8 +18,9 @@ public class RifleFireSO : WeaponFireStrategy
 
         for (int i = 0; i < data.projectileCount; i++)
         {
-            GameObject bullet = GameObject.Instantiate(
-                data.projectilePrefab,
+            GameObject bullet = ProjectilePoolManager.Instance.Get
+            (
+                "RifleBullet",
                 firePoint.position,
                 Quaternion.identity
             );
