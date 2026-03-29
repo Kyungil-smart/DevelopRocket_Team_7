@@ -12,4 +12,5 @@ public class BossData : ScriptableObject
     public float attackDelay;
     public float batteryProbability;
     public float speedRateOnBurning;
+    public int experience;
 }

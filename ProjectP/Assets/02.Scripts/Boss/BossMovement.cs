@@ -162,6 +162,9 @@ public class BossMovement : MonoBehaviour, INeedBossBlackboard
         _blackBoard.bodyDirection = (transform.position - new Vector3(_prePosition.x, _prePosition.y)).normalized;
     }
 
+    // 아래 함수는 [BossBasicAttack.anim] 에 Animation Event 로 등록됨.
+    // 아래 함수는 [BossRangeAttack.anim] 에 Animation Event 로 등록됨.
+    // 아래 함수는 [BossChangePhase.anim] 에 Animation Event 로 등록됨.
     public void OnStartMoving()
     {
         _animator.SetBool("IsMoving", true);

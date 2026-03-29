@@ -3,23 +3,36 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// 데이터 관리와 행위에 대한 모든 관리를 함.
+/// 단일 책임을 위배하지만, 현재는 이렇게 구현하겠습니다.
+/// </summary>
 public class BossController : MonoBehaviour, IBossDamagable
 {
+    [Header("Boss Script Objects")]
     [SerializeField] private BossData bossData;
+    
     [Header("Animation Settings")]
     [SerializeField] private Animator _animator;
     [SerializeField] private List<AnimationClip> _animationClips;
     
+    [Header("Components")]
     [SerializeField] private Rigidbody2D _rb;
     [SerializeField] private BossBasicAttack _basicAttackScript;
     [SerializeField] private BossRangeAttack _rangeAttackScript;
     [SerializeField] private BossBulletSpawner _bulletSpawnerScript;
     [SerializeField] private BossChangePhase _changePhaseScript;
     [SerializeField] private BossMovement _movementScript;
+
+    [Header("Phase Settings")]
+    [SerializeField] [Range(0f, 1f)] private float _rangeAttackHpRateStep;
+    [SerializeField] [Range(0f, 1f)] private float _burningPhaseHpRate;
     
     private BossBlackBoard _blackBoard;
     private Coroutine _coroutine;
     private WaitForSecondsRealtime _globalCooldown = new WaitForSecondsRealtime(0.1f);
+    private float nxHpForRangeAttack;
+    private int nxHpRateStep;
 
     private void Awake()
     {
@@ -32,6 +45,8 @@ public class BossController : MonoBehaviour, IBossDamagable
         _movementScript.SetBlackboard(_blackBoard);
         _changePhaseScript.SetBlackboard(_blackBoard);
         _basicAttackScript.SetBlackboard(_blackBoard);
+        nxHpRateStep = 1;
+        SetHpStepForRangeAttack();
     }
 
     private void Update()
@@ -81,6 +96,8 @@ public class BossController : MonoBehaviour, IBossDamagable
     public void OnDeath()
     {
         _blackBoard.IsDead = true;
+        PostManager.Instance.Post<int>(PostMessageKey.PostExp, _blackBoard.origin.experience);
+        PostManager.Instance.Post<Vector2>(PostMessageKey.BatterySpawned, transform.position);
         Destroy(gameObject);
     }
 
@@ -88,16 +105,16 @@ public class BossController : MonoBehaviour, IBossDamagable
     {
         while (!_blackBoard.IsDead)
         {
-            // ToDo. 요기 Skill 이 모두 완료 될 때 까지 기다리고 싶은데 어떻게 하면 좋을까?
             float hpRate = _blackBoard.currentHp / _blackBoard.origin.maxHp;
-            if (hpRate <= 0.5f && !_blackBoard.IsBurnning)
+            if (hpRate <= _burningPhaseHpRate && !_blackBoard.IsBurnning)
             {
                 OnChangePhase();
                 _blackBoard.IsBurnning = true;
                 yield return new WaitForSeconds(GetAnimationClip("BossChangePhase").length);
-            } else if (_blackBoard.currentHp >= 0 && hpRate * 100 % 11 == 0)
-            {   // ToDo. 각 11% 구간내에 한번만 사용 해야하는데..?
+            } else if (_blackBoard.currentHp > 0 && _blackBoard.currentHp <= nxHpForRangeAttack)
+            {   
                 OnRangeAttack();
+                SetHpStepForRangeAttack();
                 yield return new WaitForSeconds(GetAnimationClip("BossRangeAttack").length);
             }
             else
@@ -116,6 +133,13 @@ public class BossController : MonoBehaviour, IBossDamagable
             if (clip.name == name) return clip;
         }
         return null;
+    }
+
+    private void SetHpStepForRangeAttack()
+    {
+        //         boss 풀 체력                다음 구간          기준 %      
+        float hp = _blackBoard.origin.maxHp * nxHpRateStep++ * _rangeAttackHpRateStep;
+        nxHpForRangeAttack = _blackBoard.origin.maxHp - hp;
     }
 
     [ContextMenu("Test/BasicAttack")]
@@ -139,7 +163,7 @@ public class BossController : MonoBehaviour, IBossDamagable
     [ContextMenu("Test/TakeDamage")]
     private void OnTestTakeDamage()
     {
-        TakeDamage(1000);
+        TakeDamage(50);
     }
     
     [ContextMenu("Test/Dead")]

@@ -20,4 +20,5 @@ MonoBehaviour:
   detectRadius: 5
   attackDelay: 1
   batteryProbability: 1
-  speedRateOnBurning: 0
+  speedRateOnBurning: 1.1
+  experience: 1000

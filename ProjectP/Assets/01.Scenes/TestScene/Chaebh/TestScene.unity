@@ -1725,6 +1725,8 @@ MonoBehaviour:
   _bulletSpawnerScript: {fileID: 390990504}
   _changePhaseScript: {fileID: 1339114223}
   _movementScript: {fileID: 1339114219}
+  _rangeAttackHpRateStep: 0.11
+  _burningPhaseHpRate: 0.5
 --- !u!114 &1339114221
 MonoBehaviour:
   m_ObjectHideFlags: 0

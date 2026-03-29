@@ -30,18 +30,21 @@ public class BossChangePhase : MonoBehaviour, INeedBossBlackboard
         _blackBoard.IsInvincible = true;
     }
 
+    // 아래 함수는 [BossChangePhase.anim] 에 Animation Event 로 등록됨.
     public void OnImpulseWave()
     {
         _blackBoard.IsInvincible = false;
         // ToDo. Player 에게 밀림 함수 달라고 해야한다.
     }
 
+    // 아래 함수는 [BossChangePhase.anim] 에 Animation Event 로 등록됨.
     private void SetAnimationSpeed()
     {
         _animator.speed = 1.1f;
         _blackBoard.speed *= _blackBoard.origin.speedRateOnBurning;
     }
 
+    // 아래 함수는 [BossChangePhase.anim] 에 Animation Event 로 등록됨.
     public void OnChangeColor()
     {
         _spriteRenderer.color = new Color(1f, 0.588f, 0.588f, 1f);
