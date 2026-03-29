@@ -80,5 +80,26 @@ public class EnemyBlackboard
     public void Init()
     {
         currentHp = origin.maxHp;
+        InitState();
+    }
+
+    private void InitState()
+    {
+        _isIdle = false;
+        _isAttackDelay = false;
+        _isAttacking = false;
+        _isDead = false;
+        _isFollowing = false;
+    }
+    
+    public void ToStateString()
+    {
+        string text = "";
+        text += $"Idle: {_isIdle}, ";
+        text += $"Following: {_isFollowing}, ";
+        text += $"AttackDelay: {_isAttackDelay}, ";
+        text += $"Attacking: {_isAttacking}, ";
+        text += $"Dead: {_isDead}";
+        Debug.Log(text);
     }
 }

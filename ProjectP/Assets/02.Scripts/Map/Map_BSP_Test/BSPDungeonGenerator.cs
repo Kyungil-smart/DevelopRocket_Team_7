@@ -252,8 +252,8 @@ public class BSPDungeonGenerator : MonoBehaviour
                 //플레이어 프리팹을 받아서 생성 해야 할거 같다.
                 //시작 노드의 중앙에 스폰 예정
                 var SponPos = room.roomRect.center;
-                //To Do 나중에 안씀 ,옵저버 패턴으로 등록할거 같음
-               PlayerController.Instance.transform.position = SponPos;
+                // 시작 방에 플레이어에게 위치 정보 전달
+                PostManager.Instance.Post<Vector2>(PostMessageKey.InitPlayerPosition, SponPos);
             }
             else if(room.roomType == RoomType.RestNode)
             {

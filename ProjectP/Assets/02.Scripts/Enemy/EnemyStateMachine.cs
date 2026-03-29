@@ -41,6 +41,7 @@ public class EnemyStateMachine : MonoBehaviour
         
         _blackboard.Init();
         _agent.SetBlackBoard(_blackboard);
+        _blackboard.ToStateString();
     }
     
     private void SetIdleNode()

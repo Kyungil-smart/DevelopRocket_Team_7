@@ -17,7 +17,6 @@ public class NodeEnemyIdle : EnemyBaseNode
 		string transitionName;
 		transitionName = ToFollowingToPlayer(blackboard);
 		if (transitionName != null) return transitionName;
-		
 		// 2. Patrol; 
 		return null;
 	}
