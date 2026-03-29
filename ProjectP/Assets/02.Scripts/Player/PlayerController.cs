@@ -3,11 +3,12 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class PlayerController : Singleton<PlayerController>
+public class PlayerController : MonoBehaviour , IDamage
 {
    [SerializeField] private InputActionReference _inputActionReference;
    [SerializeField] private InputActionAsset _inputActionAsset;
-   
+
+   [SerializeField] int playerHp = 5; // 플레이어 HP
    
    [SerializeField] private Vector2 input;
    [SerializeField] private float moveSpeed = 10f;  // 플레이어 기본 속도
@@ -23,10 +24,14 @@ public class PlayerController : Singleton<PlayerController>
    [SerializeField] private int _dashStack = 2;
    private int _maxDashStack = 2;
 
+   public void TakeDamage(int damage)
+   {
+      if(isDashing) return; // 대쉬 때 무적 판정
+      playerHp -= damage;
+   }
 
    private void Awake()
    {
-      base.Awake();
       _inputActionAsset.Enable();
       _inputActionAsset["Move"].started += Move;
       _inputActionAsset["Move"].canceled += MoveStop;
@@ -77,48 +82,13 @@ public class PlayerController : Singleton<PlayerController>
       isDashing = false;
    }
 
-   private System.Collections.IEnumerator DashCountDownRoutine(Vector2 direction)
+   private void OnEnable()
    {
-      float currentTimeCount = dashCooldown;
-      float dashOffCount = dashTime;
       
-      while(_dashStack < _maxDashStack || isDashing) // 대시 스택이 덜 찼거나, 대시중일때만 반복
-      {
-         yield return new WaitForSeconds(countDownInterval);
+   }
 
-         // 대시 스택이 덜 찼다면
-         if(_dashStack < _maxDashStack) 
-         {
-            currentTimeCount -= countDownInterval;
-
-            // 시간 카운팅 다 됐으면
-            if(currentTimeCount < 0) 
-            {
-               // 대시 카운트 시간 초기화하고 스택 +1;
-               currentTimeCount = dashCooldown;
-               _dashStack++;
-            }
-         }
-
-         // 대시중이라면
-         if(isDashing)
-         {
-            // 쿨타임이 다 안됐으면
-            if(dashCooldown > 0)
-            {
-               // 시간 차감
-               dashOffCount -= countDownInterval;
-            }
-            // 아니라면(쿨타임 다 되면)
-            else
-            {
-               // 대시 멈춤
-               DashStop();
-            }
-         }
-      }
-
-      _dashCountDownCoroutine = null;
-      yield break;
+   private void OnDisable()
+   {
+      
    }
 }
