@@ -108,13 +108,18 @@ public class PlayerController : MonoBehaviour , IDamage
       }
    }
 
+   private void UpdatePosition(Vector2 position)
+   {
+      transform.position = position;
+   }
+
    private void OnEnable()
    {
-      
+      PostManager.Instance.Subscribe<Vector2>(PostMessageKey.InitPlayerPosition, UpdatePosition);
    }
 
    private void OnDisable()
    {
-      
+      PostManager.Instance.Unsubscribe<Vector2>(PostMessageKey.InitPlayerPosition, UpdatePosition);
    }
 }
