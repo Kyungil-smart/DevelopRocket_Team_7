@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -80,6 +81,31 @@ public class PlayerController : MonoBehaviour , IDamage
    private void DashStop()
    {
       isDashing = false;
+   }
+
+   private IEnumerator DashCountDownRoutine(Vector2 direction)
+   {
+      float currentTimeCount = dashCooldown;
+      float dashOffCount = dashTime;
+
+      while (_dashStack < _maxDashStack || isDashing) // 대시 스택이 덜 찼거나, 대시중일때만 반복
+      {
+         yield return new WaitForSeconds(countDownInterval);
+
+         // 대시 스택이 덜 찼다면
+         if (_dashStack < _maxDashStack)
+         {
+            currentTimeCount -= countDownInterval;
+
+            // 시간 카운팅 다 됐으면
+            if (currentTimeCount < 0)
+            {
+               // 대시 카운트 시간 초기화하고 스택 +1;
+               currentTimeCount = dashCooldown;
+               _dashStack++;
+            }
+         }
+      }
    }
 
    private void OnEnable()

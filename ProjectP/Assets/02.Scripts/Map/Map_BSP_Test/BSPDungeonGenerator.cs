@@ -253,7 +253,8 @@ public class BSPDungeonGenerator : MonoBehaviour
                 //시작 노드의 중앙에 스폰 예정
                 var SponPos = room.roomRect.center;
                 //To Do 나중에 안씀 ,옵저버 패턴으로 등록할거 같음
-               PlayerController.Instance.transform.position = SponPos;
+                // PlayerController.Instance.transform.position = SponPos;
+                
             }
             else if(room.roomType == RoomType.RestNode)
             {

@@ -120,13 +120,6 @@ public class EnemyAgent : MonoBehaviour
     {
         _damagedScript.TakeDamage(20);
     }
-    
-    // Test Code
-    [ContextMenu("Test/Damaged")]
-    public void TestTakeDamage()
-    {
-        _damagedScript.TakeDamage(20);
-    }
 
     private void OnDrawGizmos()
     {
