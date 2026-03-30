@@ -4,13 +4,15 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using XNode;
+using Object = System.Object;
 
 public class EnemyStateMachine : MonoBehaviour
 {
     [SerializeField] private EnemyData _originData;
     [SerializeField] private EnemyAgent _agent;
     [SerializeField] private EnemyNodeGraph _graph;
-    private Node _currentNode;
+    [Header("아래 CurrentNode 는 데이터 확인용이니 Inspector 에서 제어하지 마세요.")]
+    [SerializeField] private Node _currentNode;
     private Coroutine _coroutine;
     private WaitForSeconds _wait = new WaitForSeconds(0.1f);
     private EnemyBlackboard _blackboard;
@@ -39,6 +41,7 @@ public class EnemyStateMachine : MonoBehaviour
         
         _blackboard.Init();
         _agent.SetBlackBoard(_blackboard);
+        _blackboard.ToStateString();
     }
     
     private void SetIdleNode()
@@ -46,10 +49,11 @@ public class EnemyStateMachine : MonoBehaviour
         // idle state 먼저 실행
         foreach (var node in _graph.nodes)
         {
-            NodePort inputPort = node.GetInputPort("entry");
-            if (inputPort == null)
+            // ToDo. 이름 변경시 동작 안됨. 주의. 
+            if (node.name == "Node Enemy Idle") 
             {
                 _currentNode = node;
+                _blackboard.IsIdle = true;
                 break;
             }
         }
@@ -57,7 +61,7 @@ public class EnemyStateMachine : MonoBehaviour
 
     private IEnumerator StateMachine()
     {
-        while (true)
+        while (!_blackboard.IsDead)
         {
             string portName = (_currentNode as EnemyBaseNode)?.Execute(_blackboard);
             if (portName != null)
@@ -69,22 +73,28 @@ public class EnemyStateMachine : MonoBehaviour
         yield return null;
     }
 
+    [ContextMenu("Debug/Idle")]
+    private void DebugOnIdle()
+    {
+        _blackboard.IsIdle = !_blackboard.IsIdle;
+    }
+    
     [ContextMenu("Debug/Attack")]
     private void DebugOnAttack()
     {
         _blackboard.IsAttacking = !_blackboard.IsAttacking;
     }
     
+    [ContextMenu("Debug/AttackDelay")]
+    private void DebugOnAttackDelay()
+    {
+        _blackboard.IsAttackDelay = !_blackboard.IsAttackDelay;
+    }
+    
     [ContextMenu("Debug/Following")]
     private void DebugOnFollowing()
     {
         _blackboard.IsFollowing = !_blackboard.IsFollowing;
-    }
-    
-    [ContextMenu("Debug/BeingDamaged")]
-    private void DebugOnDamaged()
-    {
-        _blackboard.IsDamaged = !_blackboard.IsDamaged;
     }
     
     [ContextMenu("Debug/Dead")]

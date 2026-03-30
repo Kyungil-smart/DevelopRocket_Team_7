@@ -1,34 +1,65 @@
+using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Pool;
 
+public struct EnemyDespawnMsg
+{
+    public string name;
+    public GameObject obj;
+}
+
+
 public class EnemySpawner : MonoBehaviour
 {
-    [SerializeField] List<GameObject> enemyPrefabs;
-    public Dictionary<string, Queue<GameObject>> objectDict = new();
+    [SerializeField] List<GameObject> _enemyPrefabs;
+    [SerializeField] GameObject _spawnEffectPrefab;
+    [SerializeField] private int _maxNumPerEnemy = 10;
+    private Dictionary<string, Queue<GameObject>> _objectDict = new();
 
     private void Start()
     {
         Init();
     }
+
+    private void OnEnable()
+    {
+        PostManager.Instance.Subscribe<EnemyDespawnMsg>(PostMessageKey.EnemyDespawned, Despawn);
+    }
+
+    private void OnDisable()
+    {
+        PostManager.Instance.Unsubscribe<EnemyDespawnMsg>(PostMessageKey.EnemyDespawned, Despawn);
+    }
     
     private void Init()
     {
-        foreach (var prefab in enemyPrefabs)
+        // 몬스터 미리 생성
+        foreach (var prefab in _enemyPrefabs)
         {
-            if (!objectDict.ContainsKey(prefab.name))
+            if (!_objectDict.ContainsKey(prefab.name))
             {
-                objectDict[prefab.name] = new Queue<GameObject>();
+                _objectDict[prefab.name] = new Queue<GameObject>();
             }
 
-            for (int i = 0; i < 10; i++)
+            for (int i = 0; i < _maxNumPerEnemy; i++)
             {
                 GameObject obj = Instantiate(prefab, gameObject.transform, true);
-                obj.name = prefab.name;
+                obj.name = $"{prefab.name}_{i:D3}";
                 obj.SetActive(false);
-                objectDict[prefab.name].Enqueue(obj);    
+                _objectDict[prefab.name].Enqueue(obj);    
             }
+        }
+        
+        // 몬스터 팝업시 이팩트 미리 생성
+        _objectDict[_spawnEffectPrefab.name] = new Queue<GameObject>();
+        for (int i = 0; i < 15; i++)
+        {
+            GameObject obj = Instantiate(_spawnEffectPrefab, gameObject.transform, true);
+            obj.name = _spawnEffectPrefab.name;
+            obj.SetActive(false);
+            _objectDict[_spawnEffectPrefab.name].Enqueue(obj);
         }
     }
 
@@ -48,7 +79,11 @@ public class EnemySpawner : MonoBehaviour
             int num = spawnNum.Value;
             for (int i = 0; i < num; i++)
             {
-                spawnedEnemies.Add(SpawnEach(name, spawnedPositions.Dequeue()));
+                StartCoroutine(SpawnEach(name, spawnedPositions.Dequeue(), 
+                    spawnedObj => {
+                    spawnedEnemies.Add(spawnedObj);
+                }));
+
             }
         }
         return spawnedEnemies;
@@ -69,7 +104,10 @@ public class EnemySpawner : MonoBehaviour
             int num = spawnNum.Value;
             for (int i = 0; i < num; i++)
             {
-                spawnedEnemies.Add(SpawnEach(name, position));
+                StartCoroutine(SpawnEach(name, position, 
+                    spawnedObj => {
+                    spawnedEnemies.Add(spawnedObj);
+                }));
             }
         }
         return spawnedEnemies;
@@ -81,17 +119,48 @@ public class EnemySpawner : MonoBehaviour
     /// <param name="name">Prefab name</param>
     /// <param name="position">스폰 위치</param>
     /// <returns></returns>
-    public GameObject SpawnEach(string name, Vector2 position)
+    public IEnumerator SpawnEach(string name, Vector2 position, System.Action<GameObject> returnObj)
     {
-        GameObject obj = objectDict[name].Dequeue();
+        // 소환 이팩트 생성
+        yield return new WaitForSeconds(0.1f);
+        GameObject effectObj = _objectDict[_spawnEffectPrefab.name].Dequeue();
+        effectObj.transform.position = new Vector2(position.x, position.y - 0.5f);
+        effectObj.SetActive(true);
+        yield return new WaitForSeconds(1f);
+        
+        // 몬스터 소환
+        GameObject obj = _objectDict[name].Dequeue();
         obj.transform.position = position;
         obj.SetActive(true);
-        return obj;
+        yield return new WaitForSeconds(1f);
+        
+        // 소환 이팩트 사라짐
+        effectObj.SetActive(false);
+        _objectDict[_spawnEffectPrefab.name].Enqueue(effectObj);
+        returnObj?.Invoke(obj);
     }
 
-    public void Despawn(string name, GameObject obj)
+    public void Despawn(EnemyDespawnMsg msg)
     {
-        obj.SetActive(false);
-        objectDict[name].Enqueue(obj);
+        msg.obj.SetActive(false);
+        _objectDict[msg.name].Enqueue(msg.obj);
+    }
+
+    [ContextMenu("Test/Spawn")]
+    public void TestSpawn()
+    {
+        Dictionary<string, int> spawnNums = new Dictionary<string, int>();
+        spawnNums.Add("MonsterChase", 2);
+        spawnNums.Add("MonsterRange", 2);
+        spawnNums.Add("MonsterTank", 1);
+        
+        List<Vector2> positions = new List<Vector2>();
+        positions.Add(new Vector2(-16, -8));
+        positions.Add(new Vector2(16, 8));
+        positions.Add(new Vector2(-16, 8));
+        positions.Add(new Vector2(0, 0));
+        positions.Add(new Vector2(-4, 4));
+        
+        Spwan(spawnNums, positions);
     }
 }

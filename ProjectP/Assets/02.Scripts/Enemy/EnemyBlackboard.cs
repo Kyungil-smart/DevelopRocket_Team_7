@@ -1,4 +1,5 @@
 ﻿using System;
+using UnityEngine;
 
 public class EnemyBlackboard
 {
@@ -6,6 +7,30 @@ public class EnemyBlackboard
     public int currentHp;
     
     // state 변화를 위한 flagements
+    private bool _isIdle;
+    public bool IsIdle
+    {
+        get { return _isIdle; }
+        set
+        {
+            _isIdle = value;
+            if (value) OnIdle?.Invoke();
+        }
+    }
+    public Action OnIdle;
+    
+    private bool _isAttackDelay;
+    public bool IsAttackDelay
+    {
+        get { return _isAttackDelay; }
+        set
+        {
+            _isAttackDelay = value;
+            if (value) OnAttackDelay?.Invoke();
+        }
+    }
+    public Action OnAttackDelay;
+    
     private bool _isAttacking;
     public bool IsAttacking
     {
@@ -13,7 +38,7 @@ public class EnemyBlackboard
         set
         {
             _isAttacking = value;
-            OnAttacked?.Invoke();
+            if (value) OnAttacked?.Invoke();
         }
     }
     public Action OnAttacked;
@@ -25,7 +50,7 @@ public class EnemyBlackboard
         set
         {
             _isDead = value;
-            OnDead?.Invoke();
+            if (value) OnDead?.Invoke();
         }
     }
     public Action OnDead;
@@ -37,25 +62,14 @@ public class EnemyBlackboard
         set
         {
             _isFollowing = value;
-            OnFollowed?.Invoke();
+            if (value) OnFollowed?.Invoke();
         }
     }
     public Action OnFollowed;
     
-    private bool _isDamaged;
-    public bool IsDamaged
-    {
-        get { return _isDamaged; }
-        set
-        {
-            _isDamaged = value;
-            OnDamaged?.Invoke();
-        }
-    }
-    public Action OnDamaged;
-    
     // Action 을 위한 Agent
     public EnemyAgent agent;
+    public Vector2 targetPosition;
 
     public EnemyBlackboard(EnemyData origin, EnemyAgent agent)
     {
@@ -66,5 +80,26 @@ public class EnemyBlackboard
     public void Init()
     {
         currentHp = origin.maxHp;
+        InitState();
+    }
+
+    private void InitState()
+    {
+        _isIdle = false;
+        _isAttackDelay = false;
+        _isAttacking = false;
+        _isDead = false;
+        _isFollowing = false;
+    }
+    
+    public void ToStateString()
+    {
+        string text = "";
+        text += $"Idle: {_isIdle}, ";
+        text += $"Following: {_isFollowing}, ";
+        text += $"AttackDelay: {_isAttackDelay}, ";
+        text += $"Attacking: {_isAttacking}, ";
+        text += $"Dead: {_isDead}";
+        Debug.Log(text);
     }
 }
