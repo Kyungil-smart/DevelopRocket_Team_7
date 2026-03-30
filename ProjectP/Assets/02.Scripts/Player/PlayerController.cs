@@ -6,37 +6,59 @@ using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour , IDamage
 {
+   [Header("Components")]
    [SerializeField] private InputActionReference _inputActionReference;
    [SerializeField] private InputActionAsset _inputActionAsset;
-
+   [SerializeField] private Rigidbody2D _rb;
+   [SerializeField] private Animator _animator;
+   
+   [Header("Stat")]
    [SerializeField] private PlayerStat _playerStat;
-   
-   [SerializeField] private Vector2 input;
-   
-   
    [SerializeField] private float dashSpeed = 30f;  // 플레이어 대쉬 속도
    [SerializeField] private float dashTime = 0.5f;  // 플레이어 대쉬 시간
    [SerializeField] private float dashCooldown = 5f; // 대쉬 쿨타임 
    [SerializeField] private float countDownInterval = 0.5f;
-   
-   [SerializeField]private bool isDashing = false;  // 플레이어 대쉬 중인지 체크
+   [SerializeField] private Vector2 input;
+   [SerializeField] private bool isDashing = false;  // 플레이어 대쉬 중인지 체크
 
    private Coroutine _dashCountDownCoroutine;
    [SerializeField] private int _dashStack = 2;
    private int _maxDashStack = 2;
 
-   public void TakeDamage(int damage)
-   {
-      if(isDashing) return; // 대쉬 때 무적 판정
-      _playerStat.playerHp -= damage;
-   }
+   private Vector2 prePos;
 
    private void Awake()
    {
       _inputActionAsset.Enable();
-      _inputActionAsset["Move"].started += Move;
+      _inputActionAsset["Move"].performed += Move;
       _inputActionAsset["Move"].canceled += MoveStop;
       _inputActionAsset["Dash"].started += OnDash;
+      
+      _rb = GetComponent<Rigidbody2D>();
+   }
+
+   private void OnEnable()
+   {
+      PostManager.Instance.Subscribe<Vector2>(PostMessageKey.InitPlayerPosition, UpdatePosition);
+   }
+
+   private void OnDisable()
+   {
+      PostManager.Instance.Unsubscribe<Vector2>(PostMessageKey.InitPlayerPosition, UpdatePosition);
+   }
+
+   private void FixedUpdate()
+   {  // Player 위치 정보 상시 체크를 위한 PostManager Channel 등록 및 데이터 전송.
+      if (Vector2.Distance(transform.position, prePos) > 0f) 
+         PostManager.Instance.Post<Vector2>(PostMessageKey.PlayerPosition, transform.position);
+      prePos = transform.position;
+   }
+   
+   public void TakeDamage(int damage)
+   {
+      if(isDashing) return; // 대쉬 때 무적 판정
+      _playerStat.playerHp -= damage;
+      if (_playerStat.playerHp <= 0) Dead();
    }
 
    public void Move(InputAction.CallbackContext context)
@@ -44,14 +66,17 @@ public class PlayerController : MonoBehaviour , IDamage
       if(isDashing) return;
 
       input = context.ReadValue<Vector2>();
-      GetComponent<Rigidbody2D>().linearVelocity = input * _playerStat.moveSpeed;
+      Debug.Log(input);
+      _rb.linearVelocity = input * _playerStat.moveSpeed;
+      _animator.SetFloat("Horizontal", input.x);
+      _animator.SetFloat("Vertical", input.y);
    }
 
    public void MoveStop(InputAction.CallbackContext context)
    {
       if(isDashing) return;
 
-      GetComponent<Rigidbody2D>().linearVelocity = Vector2.zero;
+      _rb.linearVelocity = Vector2.zero;
    }
    
    public void OnDash(InputAction.CallbackContext context)
@@ -112,14 +137,15 @@ public class PlayerController : MonoBehaviour , IDamage
    {
       transform.position = position;
    }
-
-   private void OnEnable()
-   {
-      PostManager.Instance.Subscribe<Vector2>(PostMessageKey.InitPlayerPosition, UpdatePosition);
+   
+   private void Dead()
+   {    // 플레이어 사망시 어떻게 동작할 것인지..? 
+      _animator.SetTrigger("Dead");
    }
 
-   private void OnDisable()
+   [ContextMenu("Test/Dead")]
+   public void OnTestDead()
    {
-      PostManager.Instance.Unsubscribe<Vector2>(PostMessageKey.InitPlayerPosition, UpdatePosition);
+      Dead();
    }
 }
