@@ -17,11 +17,12 @@ GameObject:
   - component: {fileID: 7640020673053498113}
   - component: {fileID: 7852729278631129208}
   - component: {fileID: 4518823704271107187}
-  - component: {fileID: 7850570757049458008}
+  - component: {fileID: 9179731338857887059}
   - component: {fileID: 2308586525656864447}
   - component: {fileID: 4399569638293127352}
+  - component: {fileID: 7261200027803205904}
   m_Layer: 10
-  m_Name: MonsterTank
+  m_Name: MonsterChase
   m_TagString: Monster
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -91,8 +92,8 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 5
   m_MaskInteraction: 0
-  m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
-  m_Color: {r: 0.75, g: 1, b: 0.96318597, a: 1}
+  m_Sprite: {fileID: -634885837, guid: 5557c1034539ec648945e443aad68cbd, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -130,7 +131,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f51c9b7e83630644281a6cb4a752477d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyStateMachine
-  _originData: {fileID: 11400000, guid: 1fd53e57674b54443a311f6575e09ed2, type: 2}
+  _originData: {fileID: 11400000, guid: c8ce11dbf73d1d34a988784db28ca312, type: 2}
   _agent: {fileID: 6620970736402573091}
   _graph: {fileID: 11400000, guid: 41f309f4c52a924409e6b93a7346f7dc, type: 2}
   _currentNode: {fileID: 0}
@@ -149,7 +150,7 @@ MonoBehaviour:
   _layerMask:
     serializedVersion: 2
     m_Bits: 64
-  _attackBehavior: {fileID: 7850570757049458008}
+  _attackBehavior: {fileID: 9179731338857887059}
 --- !u!114 &569647428306579683
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -186,7 +187,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 073321a33780b7744af3d319a3ab9afd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyMovement
-  _animator: {fileID: 0}
+  _animator: {fileID: 7261200027803205904}
   _layerMask:
     serializedVersion: 2
     m_Bits: 2147484672
@@ -202,7 +203,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6a742ed64200413eacea5779ecd7cbd0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyDamaged
---- !u!114 &7850570757049458008
+--- !u!114 &9179731338857887059
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -211,10 +212,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 1423331314761006867}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0e21111cc6106e247a3d514529c6582d, type: 3}
+  m_Script: {fileID: 11500000, guid: 0f3717503813a104d9037f7e1aca283e, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::EnemyAttackTank
-  _animator: {fileID: 0}
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyAttackChase
 --- !u!58 &2308586525656864447
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -249,8 +249,8 @@ CircleCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0}
-  m_Radius: 0.5
+  m_Offset: {x: -0.004071474, y: -0.093643025}
+  m_Radius: 0.10914211
 --- !u!50 &4399569638293127352
 Rigidbody2D:
   serializedVersion: 5
@@ -278,3 +278,25 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 4
+--- !u!95 &7261200027803205904
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1423331314761006867}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 6ea5f54ac5fd9484c8c9f1c311e16b32, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
