@@ -25,6 +25,8 @@ public class PlayerController : MonoBehaviour , IDamage
    [SerializeField] private int _dashStack = 2;
    private int _maxDashStack = 2;
 
+   private Vector2 prePos;
+
    private void Awake()
    {
       _inputActionAsset.Enable();
@@ -43,6 +45,13 @@ public class PlayerController : MonoBehaviour , IDamage
    private void OnDisable()
    {
       PostManager.Instance.Unsubscribe<Vector2>(PostMessageKey.InitPlayerPosition, UpdatePosition);
+   }
+
+   private void FixedUpdate()
+   {  // Player 위치 정보 상시 체크를 위한 PostManager Channel 등록 및 데이터 전송.
+      if (Vector2.Distance(transform.position, prePos) > 0f) 
+         PostManager.Instance.Post<Vector2>(PostMessageKey.PlayerPosition, transform.position);
+      prePos = transform.position;
    }
    
    public void TakeDamage(int damage)
