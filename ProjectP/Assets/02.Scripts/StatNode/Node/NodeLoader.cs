@@ -27,6 +27,7 @@ public class NodeLoader : MonoBehaviour
     {
         // 1. 로더 생성
         _data = new SheetLoader<NodeInfo>(_url, _gid);
+        _specialData = new SheetLoader<SpecialNodeInfo>(_url, _gid);
         
         // 2. 데이터가 다 로드될 때까지 기다렸다가(await) 리스트를 받아옵니다.
         // GetDataAsync()의 반환 타입이 Task<List<charData>>이므로 await가 필수입니다.

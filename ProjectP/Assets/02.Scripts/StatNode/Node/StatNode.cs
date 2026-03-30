@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
+using TMPro;
+using UnityEngine.UI;
 using UnityEngine;
 using XNode;
 
@@ -11,6 +13,17 @@ public enum StatNodeState
 	Locked	// 조건을 만족하지 못하여 활성 불가능 상태
 }
 
+public enum StatNodeType
+{
+	Damage = 100,
+	AttackSpeed,
+	CriticalRate,
+	CriticalDamage,
+	MovementSpeed,
+	MaxHP,
+	ProjectileCount,
+}
+
 public class StatNode : Node {
 	
 	// xNode에서는 input, output을 구분하여 다양한 작업을 하는 것을 의도하고 있음
@@ -18,7 +31,7 @@ public class StatNode : Node {
 	[Input] public bool Input;
 	[Output] public bool Output;
 	
-	// 노드의 고유 ID
+	// 불러올 노드 데이터의 ID
 	[SerializeField] protected int _nodeId;
 	
 	// 노드 정보를 불러올 SO
@@ -36,6 +49,12 @@ public class StatNode : Node {
 	// 현재 노드가 실제로 사용할 데이터
 	protected NodeInfo _info;
 	
+	// 플레이어에게 넘겨줄 증감수치
+	protected PlayerStat _postStat;
+	
+	// 노드 타입
+	protected StatNodeType _nodeType;
+	
 	// 연결된 왼쪽, 오른쪽 노드가 활성화 가능한지 여부를 저장함 / 가능하면 true, 불가능하면 false
 	protected bool _isActiveLeft;
 	protected bool _isActiveRight;
@@ -46,7 +65,8 @@ public class StatNode : Node {
 	protected bool CanActive => _canActive;
 	
 	// 실제 활성화 되어 있는지 여부
-	protected bool IsActive() { return _state == StatNodeState.Active; }
+	public bool IsActive() { return _state == StatNodeState.Active; }
+	public bool IsLocked() { return _state == StatNodeState.Locked; }
 
 
 	// Use this for initialization
@@ -62,13 +82,20 @@ public class StatNode : Node {
 		_canActive = false;
 		_isActiveLeft = false;
 		_isActiveRight = false;
+
+		_postStat = new PlayerStat();
+		_postStat.moveSpeed = 0f;
+		_postStat.playerHp = 0;
 		
 		// SO 리스트에서 내 ID와 일치하는 데이터 찾기
 		_info = _nodeData.NodeInfos.Find(x => x.Id == _nodeId);
+
+		SetNodeType();
+		
 		// 메인 노드가 Active 가능하게 하기 위해 _canActive = true
 		if (_mainNode) _canActive = true;
 		
-		Debug.Log($"노드 ID : {_nodeId} / _CanActive : {_canActive}");
+		Debug.Log($"노드 ID : {_nodeId} / _CanActive : {_canActive} / 노드 타입 : {_nodeType}");
 	}
 
 	// Return the correct value of an output port when requested
@@ -92,8 +119,22 @@ public class StatNode : Node {
 		
 		// 현재 보유한 노드 포인트가 해당 노드가 Active되기 위한 요구 노드 포인트 이상 있으면 활성화 가능
 		// 기능 구현 예정
+		if (_info != null && _canActive)
+		{
+			switch (_nodeType)
+			{
+				case StatNodeType.MovementSpeed :
+					_postStat.moveSpeed += _info.NodeIncrValue;
+					break;
+				
+				case StatNodeType.MaxHP :
+					_postStat.playerHp = (int)_info.NodeIncrValue;
+					break;
+			}
+			PostManager.Instance.Post<PlayerStat>(PostMessageKey.PlayerStat, _postStat);
+		}
 		
-		Debug.Log($"스킬 노드 type: {GetNodeStatType()} / 노드 ID : {_nodeId} ");
+		Debug.Log($"스킬 노드 type: {_nodeType} / 노드 ID : {_nodeId} ");
 	}
 
 	public int GetID() => _info.Id;
@@ -217,6 +258,35 @@ public class StatNode : Node {
 				return "Locked";
 		}
 		return "";
+	}
+
+	private void SetNodeType()
+	{
+		if(_info == null) return;
+		
+		switch (_info.NodeStatType)
+		{
+			case("Damage") : _nodeType = StatNodeType.Damage;
+				break;
+			
+			case("Attack_Speed") : _nodeType = StatNodeType.AttackSpeed;
+				break;
+			
+			case("Critical_Rate") : _nodeType = StatNodeType.CriticalRate;
+				break;
+			
+			case("Critical_Damage") : _nodeType = StatNodeType.CriticalDamage;
+				break;
+			
+			case("Movement_Speed") : _nodeType = StatNodeType.MovementSpeed;
+				break;
+			
+			case("Max_HP") : _nodeType = StatNodeType.MaxHP;
+				break;
+			
+			case("Projectile_Count") : _nodeType = StatNodeType.ProjectileCount;
+				break;
+		}
 	}
 	
 }

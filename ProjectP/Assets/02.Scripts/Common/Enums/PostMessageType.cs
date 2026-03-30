@@ -11,4 +11,5 @@
     InitPlayerPosition,  // 처음 플레이어 등장시 시작 위치 보내기
     ProjectileSpawned,  // 플레이어 탄환체 꺼내기
     ProjectileDespawned,  // 플레이어 탄환체 반납하기
+    PlayerStat, // 플레이어 스탯 정보
 }

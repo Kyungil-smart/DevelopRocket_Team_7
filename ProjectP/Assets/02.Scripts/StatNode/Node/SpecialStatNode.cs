@@ -5,14 +5,16 @@ using XNode;
 
 public class SpecialStatNode : StatNode
 {
-	// 메인 테크 트리간 연결을 위한 노드 (아래쪽)
-	[Input] public bool SpecialToSpecialDown;
-	
 	// 메인 테크 트리간 연결을 위한 노드 (위쪽)
-	[Output] public bool SpecialToSpecialUp;
+	[Input] public bool SpecialToSpecialUp;
+	
+	// 메인 테크 트리간 연결을 위한 노드 (아래쪽)
+	[Output] public bool SpecialToSpecialDown;
 	
 	// 특수 노드의 고유 ID
 	[SerializeField] private int _specialNodeId;
+	// getter
+	public int SpecialNodeId => _specialNodeId;
 	
 	// 특수 노드 정보를 불러올 SO
 	[SerializeField] private NodeDataSO _specialNodeData;
@@ -28,14 +30,13 @@ public class SpecialStatNode : StatNode
 
 	public override void InitData()
 	{
-		if (_nodeData == null) return;
-		
 		// 스탯 노드 초기화
 		base.InitData();
+
+		if (_specialNodeData == null) return;
 		
 		// 특수 노드 데이터 불러오기
 		_specialInfo = _specialNodeData.SpecialNodeInfos.Find(x => x.Id == _specialNodeId);
-		Debug.Log($"특수 노드 ID : {_specialNodeId} / 특수 노드 이름 : {_specialInfo.Name}");
 	}
 
 	// Return the correct value of an output port when requested
