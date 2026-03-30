@@ -1,6 +1,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+public struct ProjectileSpwanMsg
+{
+    public string name;
+    public Vector2 pos;
+    public Quaternion rot;
+}
+
 
 public class ProjectilePoolManager : MonoBehaviour
 {

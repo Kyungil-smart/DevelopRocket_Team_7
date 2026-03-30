@@ -14,5 +14,5 @@
     ProjectileDespawned,  // 플레이어 탄환체 반납하기
     EnemyRangeBulletSpawned,  // 몬스터 탄환체 꺼내기
     EnemyRangeBulletDespawned,  // 몬스터 탄환체 반납하기
-    UpgradeWeapon  // 무기 업그레이드 하기
+    UpgradeWeapon,  // 무기 업그레이드 하기
 }

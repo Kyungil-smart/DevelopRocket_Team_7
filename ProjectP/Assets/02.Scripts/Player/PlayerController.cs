@@ -11,6 +11,7 @@ public class PlayerController : MonoBehaviour , IDamage
    [SerializeField] private InputActionAsset _inputActionAsset;
    [SerializeField] private Rigidbody2D _rb;
    [SerializeField] private Animator _animator;
+   [SerializeField] private SpriteRenderer _sp;
    
    [Header("Stat")]
    [SerializeField] private PlayerStat _playerStat;
@@ -35,6 +36,7 @@ public class PlayerController : MonoBehaviour , IDamage
       _inputActionAsset["Dash"].started += OnDash;
       
       _rb = GetComponent<Rigidbody2D>();
+      _sp = GetComponent<SpriteRenderer>();
    }
 
    private void OnEnable()
@@ -46,12 +48,16 @@ public class PlayerController : MonoBehaviour , IDamage
    {
       PostManager.Instance.Unsubscribe<Vector2>(PostMessageKey.InitPlayerPosition, UpdatePosition);
    }
-
+   
    private void FixedUpdate()
    {  // Player 위치 정보 상시 체크를 위한 PostManager Channel 등록 및 데이터 전송.
-      if (Vector2.Distance(transform.position, prePos) > 0f) 
+      if (Vector2.Distance(_rb.position, prePos) > 0f)
+      {
          PostManager.Instance.Post<Vector2>(PostMessageKey.PlayerPosition, transform.position);
+      }
       prePos = transform.position;
+
+      _sp.sortingOrder = (int)(transform.position.y * -1);
    }
    
    public void TakeDamage(int damage)
@@ -66,7 +72,6 @@ public class PlayerController : MonoBehaviour , IDamage
       if(isDashing) return;
 
       input = context.ReadValue<Vector2>();
-      Debug.Log(input);
       _rb.linearVelocity = input * _playerStat.moveSpeed;
       _animator.SetFloat("Horizontal", input.x);
       _animator.SetFloat("Vertical", input.y);
