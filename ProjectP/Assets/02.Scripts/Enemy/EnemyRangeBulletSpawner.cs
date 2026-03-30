@@ -50,12 +50,12 @@ public class EnemyRangeBulletSpawner : MonoBehaviour
         if (_pool.Count <= 1) CreateBullets();
         GameObject obj = _pool.Dequeue();
         obj.transform.position = msg.startPos;
-        obj.SetActive(true);
         EnemyRangeBulletAttack ak = obj.GetComponent<EnemyRangeBulletAttack>();
         ak.SetDamage(msg.damage);
         EnemyRangeBulletMovement mv = obj.GetComponent<EnemyRangeBulletMovement>();
         mv.SetDirection(msg.direction);
         mv.FireBullet();
+        obj.SetActive(true);
     }
 
     private void Despawn(GameObject obj)

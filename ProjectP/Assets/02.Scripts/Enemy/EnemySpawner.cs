@@ -138,7 +138,7 @@ public class EnemySpawner : MonoBehaviour
         // 소환 이팩트 생성
         yield return new WaitForSeconds(0.1f);
         GameObject effectObj = _objectDict[_spawnEffectPrefab.name].Dequeue();
-        effectObj.transform.position = new Vector2(position.x, position.y - 0.5f);
+        effectObj.transform.position = new Vector2(position.x, position.y - 0.2f);
         effectObj.SetActive(true);
         yield return new WaitForSeconds(1f);
         
@@ -169,11 +169,11 @@ public class EnemySpawner : MonoBehaviour
         spawnNums.Add("MonsterTank", 1);
         
         List<Vector2> positions = new List<Vector2>();
-        positions.Add(new Vector2(-16, -8));
-        positions.Add(new Vector2(16, 8));
-        positions.Add(new Vector2(-16, 8));
+        positions.Add(new Vector2(-4.16f, -2.12f));
+        positions.Add(new Vector2(4.16f, 2.12f));
+        positions.Add(new Vector2(-4.16f, 2.12f));
         positions.Add(new Vector2(0, 0));
-        positions.Add(new Vector2(-4, 4));
+        positions.Add(new Vector2(-1f, 1f));
         
         Spwan(spawnNums, positions);
     }

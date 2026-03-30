@@ -14,6 +14,8 @@ public class EnemyAttackRange : MonoBehaviour, IEnemyAttackBehavior
 
     public void OnAttack(Collider2D collider, EnemyBlackboard blackboard)
     {
+        _animator.SetBool("Attack", true);
+        _animator.SetBool("Move", false);
         _damage = blackboard.origin.damage;
         _collider = collider;
     }
@@ -28,5 +30,6 @@ public class EnemyAttackRange : MonoBehaviour, IEnemyAttackBehavior
             damage = _damage
         };
         PostManager.Instance.Post(PostMessageKey.EnemyRangeBulletSpawned, data);
+        _animator.SetBool("Attack", false);
     }
 }
