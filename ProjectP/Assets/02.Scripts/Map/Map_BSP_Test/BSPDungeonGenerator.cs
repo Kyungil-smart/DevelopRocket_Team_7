@@ -166,23 +166,50 @@ public class BSPDungeonGenerator : MonoBehaviour
             SetFloorTile(end.x, y);
         }
     }
+    //private void SetFloorTile(int x, int y)
+    //{ 
+    //    tilemap.SetTile(new Vector3Int(x, y, 0), floorTile);
+    //    for (int i = -1; i <= 1; i++)
+    //    {
+    //        for (int j = -1; j <= 1; j++)
+    //        {
+    //            Vector3Int pos = new Vector3Int(x + i, y + j, 0);
+    //            if (tilemap.GetTile(pos) == null)
+    //            {
+    //                tilemap.SetTile(pos, wallTile);
+
+    //            }
+    //        }
+    //    }
+    //}
     private void SetFloorTile(int x, int y)
-    { 
-        tilemap.SetTile(new Vector3Int(x, y, 0), floorTile);
-        for (int i = -1; i <= 1; i++)
+    {
+        int corridorSize = 2; // 🌟 통로 굵기 (이 값을 3으로 바꾸면 3칸 굵기가 됩니다!)
+
+        // 1. 통로 바닥을 지정한 굵기(2x2)만큼 넓게 깝니다.
+        for (int ox = 0; ox < corridorSize; ox++)
         {
-            for (int j = -1; j <= 1; j++)
+            for (int oy = 0; oy < corridorSize; oy++)
+            {
+                tilemap.SetTile(new Vector3Int(x + ox, y + oy, 0), floorTile);
+            }
+        }
+
+        // 2. 넓어진 통로 두께에 맞춰서 벽을 치는 범위도 (-1 부터 +corridorSize 까지) 늘려줍니다.
+        for (int i = -1; i <= corridorSize; i++)
+        {
+            for (int j = -1; j <= corridorSize; j++)
             {
                 Vector3Int pos = new Vector3Int(x + i, y + j, 0);
+
+                // 주변에 아무것도 없는 허공(null)일 때만 벽을 세웁니다.
                 if (tilemap.GetTile(pos) == null)
                 {
                     tilemap.SetTile(pos, wallTile);
-
                 }
             }
         }
     }
-    
     private void AssignRoomTypes()
     {
         if (leafRooms.Count == 0) return;
