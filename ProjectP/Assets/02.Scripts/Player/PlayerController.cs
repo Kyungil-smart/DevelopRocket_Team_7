@@ -25,12 +25,6 @@ public class PlayerController : MonoBehaviour , IDamage
    [SerializeField] private int _dashStack = 2;
    private int _maxDashStack = 2;
 
-   public void TakeDamage(int damage)
-   {
-      if(isDashing) return; // 대쉬 때 무적 판정
-      _playerStat.playerHp -= damage;
-   }
-
    private void Awake()
    {
       _inputActionAsset.Enable();
@@ -39,6 +33,23 @@ public class PlayerController : MonoBehaviour , IDamage
       _inputActionAsset["Dash"].started += OnDash;
       
       _rb = GetComponent<Rigidbody2D>();
+   }
+
+   private void OnEnable()
+   {
+      PostManager.Instance.Subscribe<Vector2>(PostMessageKey.InitPlayerPosition, UpdatePosition);
+   }
+
+   private void OnDisable()
+   {
+      PostManager.Instance.Unsubscribe<Vector2>(PostMessageKey.InitPlayerPosition, UpdatePosition);
+   }
+   
+   public void TakeDamage(int damage)
+   {
+      if(isDashing) return; // 대쉬 때 무적 판정
+      _playerStat.playerHp -= damage;
+      if (_playerStat.playerHp <= 0) Dead();
    }
 
    public void Move(InputAction.CallbackContext context)
@@ -117,14 +128,15 @@ public class PlayerController : MonoBehaviour , IDamage
    {
       transform.position = position;
    }
-
-   private void OnEnable()
-   {
-      PostManager.Instance.Subscribe<Vector2>(PostMessageKey.InitPlayerPosition, UpdatePosition);
+   
+   private void Dead()
+   {    // 플레이어 사망시 어떻게 동작할 것인지..? 
+      _animator.SetTrigger("Dead");
    }
 
-   private void OnDisable()
+   [ContextMenu("Test/Dead")]
+   public void OnTestDead()
    {
-      PostManager.Instance.Unsubscribe<Vector2>(PostMessageKey.InitPlayerPosition, UpdatePosition);
+      Dead();
    }
 }
