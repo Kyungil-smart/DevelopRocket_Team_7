@@ -9,10 +9,10 @@ public class PlayerController : MonoBehaviour , IDamage
    [SerializeField] private InputActionReference _inputActionReference;
    [SerializeField] private InputActionAsset _inputActionAsset;
 
-   [SerializeField] int playerHp = 5; // 플레이어 HP
+   [SerializeField] private PlayerStat _playerStat;
    
    [SerializeField] private Vector2 input;
-   [SerializeField] private float moveSpeed = 10f;  // 플레이어 기본 속도
+   
    
    [SerializeField] private float dashSpeed = 30f;  // 플레이어 대쉬 속도
    [SerializeField] private float dashTime = 0.5f;  // 플레이어 대쉬 시간
@@ -28,7 +28,7 @@ public class PlayerController : MonoBehaviour , IDamage
    public void TakeDamage(int damage)
    {
       if(isDashing) return; // 대쉬 때 무적 판정
-      playerHp -= damage;
+      _playerStat.playerHp -= damage;
    }
 
    private void Awake()
@@ -44,7 +44,7 @@ public class PlayerController : MonoBehaviour , IDamage
       if(isDashing) return;
 
       input = context.ReadValue<Vector2>();
-      GetComponent<Rigidbody2D>().linearVelocity = input * moveSpeed;
+      GetComponent<Rigidbody2D>().linearVelocity = input * _playerStat.moveSpeed;
    }
 
    public void MoveStop(InputAction.CallbackContext context)
