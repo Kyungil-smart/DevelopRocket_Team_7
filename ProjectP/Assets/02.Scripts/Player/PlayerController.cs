@@ -6,20 +6,20 @@ using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour , IDamage
 {
+   [Header("Components")]
    [SerializeField] private InputActionReference _inputActionReference;
    [SerializeField] private InputActionAsset _inputActionAsset;
-
+   [SerializeField] private Rigidbody2D _rb;
+   [SerializeField] private Animator _animator;
+   
+   [Header("Stat")]
    [SerializeField] private PlayerStat _playerStat;
-   
-   [SerializeField] private Vector2 input;
-   
-   
    [SerializeField] private float dashSpeed = 30f;  // 플레이어 대쉬 속도
    [SerializeField] private float dashTime = 0.5f;  // 플레이어 대쉬 시간
    [SerializeField] private float dashCooldown = 5f; // 대쉬 쿨타임 
    [SerializeField] private float countDownInterval = 0.5f;
-   
-   [SerializeField]private bool isDashing = false;  // 플레이어 대쉬 중인지 체크
+   [SerializeField] private Vector2 input;
+   [SerializeField] private bool isDashing = false;  // 플레이어 대쉬 중인지 체크
 
    private Coroutine _dashCountDownCoroutine;
    [SerializeField] private int _dashStack = 2;
@@ -34,9 +34,11 @@ public class PlayerController : MonoBehaviour , IDamage
    private void Awake()
    {
       _inputActionAsset.Enable();
-      _inputActionAsset["Move"].started += Move;
+      _inputActionAsset["Move"].performed += Move;
       _inputActionAsset["Move"].canceled += MoveStop;
       _inputActionAsset["Dash"].started += OnDash;
+      
+      _rb = GetComponent<Rigidbody2D>();
    }
 
    public void Move(InputAction.CallbackContext context)
@@ -44,14 +46,17 @@ public class PlayerController : MonoBehaviour , IDamage
       if(isDashing) return;
 
       input = context.ReadValue<Vector2>();
-      GetComponent<Rigidbody2D>().linearVelocity = input * _playerStat.moveSpeed;
+      Debug.Log(input);
+      _rb.linearVelocity = input * _playerStat.moveSpeed;
+      _animator.SetFloat("Horizontal", input.x);
+      _animator.SetFloat("Vertical", input.y);
    }
 
    public void MoveStop(InputAction.CallbackContext context)
    {
       if(isDashing) return;
 
-      GetComponent<Rigidbody2D>().linearVelocity = Vector2.zero;
+      _rb.linearVelocity = Vector2.zero;
    }
    
    public void OnDash(InputAction.CallbackContext context)
