@@ -17,11 +17,12 @@ GameObject:
   - component: {fileID: 7640020673053498113}
   - component: {fileID: 7852729278631129208}
   - component: {fileID: 4518823704271107187}
-  - component: {fileID: 9179731338857887059}
+  - component: {fileID: -8765309708649479264}
   - component: {fileID: 2308586525656864447}
   - component: {fileID: 4399569638293127352}
+  - component: {fileID: 1027717941263676621}
   m_Layer: 10
-  m_Name: MonsterChase
+  m_Name: MonsterRange
   m_TagString: Monster
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -36,7 +37,7 @@ Transform:
   m_GameObject: {fileID: 1423331314761006867}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -5.52, y: 1.86, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -91,8 +92,8 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 5
   m_MaskInteraction: 0
-  m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
-  m_Color: {r: 1, g: 0, b: 0, a: 1}
+  m_Sprite: {fileID: -726147234, guid: ecc285903547ed743b36bf4b709adedc, type: 3}
+  m_Color: {r: 0.2679505, g: 0.754717, b: 0.010679938, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -130,7 +131,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f51c9b7e83630644281a6cb4a752477d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyStateMachine
-  _originData: {fileID: 11400000, guid: c8ce11dbf73d1d34a988784db28ca312, type: 2}
+  _originData: {fileID: 11400000, guid: 3d46e28b24de63a45afec82a5e169d45, type: 2}
   _agent: {fileID: 6620970736402573091}
   _graph: {fileID: 11400000, guid: 41f309f4c52a924409e6b93a7346f7dc, type: 2}
   _currentNode: {fileID: 0}
@@ -149,7 +150,7 @@ MonoBehaviour:
   _layerMask:
     serializedVersion: 2
     m_Bits: 64
-  _attackBehavior: {fileID: 9179731338857887059}
+  _attackBehavior: {fileID: -8765309708649479264}
 --- !u!114 &569647428306579683
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -186,7 +187,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 073321a33780b7744af3d319a3ab9afd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyMovement
-  _animator: {fileID: 0}
+  _animator: {fileID: 1027717941263676621}
   _layerMask:
     serializedVersion: 2
     m_Bits: 2147484672
@@ -202,7 +203,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6a742ed64200413eacea5779ecd7cbd0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyDamaged
---- !u!114 &9179731338857887059
+--- !u!114 &-8765309708649479264
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -211,9 +212,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 1423331314761006867}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0f3717503813a104d9037f7e1aca283e, type: 3}
+  m_Script: {fileID: 11500000, guid: 0506bc12f3606e2418bef43912806882, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::EnemyAttackChase
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyAttackRange
+  _animator: {fileID: 1027717941263676621}
+  _bulletPrefab: {fileID: 5003985306608549234, guid: cf0fb01e77c87d9449bb1f6948bd74a9, type: 3}
 --- !u!58 &2308586525656864447
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -248,8 +251,8 @@ CircleCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0}
-  m_Radius: 0.5
+  m_Offset: {x: 0.008142829, y: 0}
+  m_Radius: 0.16614223
 --- !u!50 &4399569638293127352
 Rigidbody2D:
   serializedVersion: 5
@@ -258,7 +261,7 @@ Rigidbody2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1423331314761006867}
-  m_BodyType: 1
+  m_BodyType: 0
   m_Simulated: 1
   m_UseFullKinematicContacts: 1
   m_UseAutoMass: 0
@@ -277,3 +280,25 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 4
+--- !u!95 &1027717941263676621
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1423331314761006867}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 0f464635b0a543e448cfe1d23f480468, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0

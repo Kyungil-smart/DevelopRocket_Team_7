@@ -4,6 +4,12 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Pool;
 
+public struct EnemySpawnMsg
+{
+    public Dictionary<string, int> spawnNums;
+    public List<Vector2> positions;
+}
+
 public struct EnemyDespawnMsg
 {
     public string name;
@@ -25,11 +31,13 @@ public class EnemySpawner : MonoBehaviour
 
     private void OnEnable()
     {
+        PostManager.Instance.Subscribe<EnemySpawnMsg>(PostMessageKey.EnemySpawned, SpawnEnemy);
         PostManager.Instance.Subscribe<EnemyDespawnMsg>(PostMessageKey.EnemyDespawned, Despawn);
     }
 
     private void OnDisable()
     {
+        PostManager.Instance.Unsubscribe<EnemySpawnMsg>(PostMessageKey.EnemySpawned, SpawnEnemy);
         PostManager.Instance.Unsubscribe<EnemyDespawnMsg>(PostMessageKey.EnemyDespawned, Despawn);
     }
     
@@ -64,12 +72,18 @@ public class EnemySpawner : MonoBehaviour
     }
 
     /// <summary>
+    /// 실제 다른 객체에서 제어 가능한 함수.
+    /// </summary>
+    /// <param name="msg">EnemySpawnMsg 데이터</param>
+    private void SpawnEnemy(EnemySpawnMsg msg) => Spwan(msg.spawnNums, msg.positions);
+
+    /// <summary>
     /// 일반 몬스터 스폰 함수. 
     /// </summary>
     /// <param name="spawnNums">몬스터별 스폰 개수</param>
     /// <param name="positions">몬스터 스폰 위치 리스트</param>
     /// <returns></returns>
-    public List<GameObject> Spwan(Dictionary<string, int> spawnNums, List<Vector2> positions)
+    private List<GameObject> Spwan(Dictionary<string, int> spawnNums, List<Vector2> positions)
     {
         List<GameObject> spawnedEnemies = new List<GameObject>();
         Queue<Vector2> spawnedPositions = new Queue<Vector2>(positions);
@@ -95,7 +109,7 @@ public class EnemySpawner : MonoBehaviour
     /// <param name="spawnNums">몬스터별 스폰 개수</param>
     /// <param name="position">몬스터 스폰 위치</param>
     /// <returns></returns>
-    public List<GameObject> Spwan(Dictionary<string, int> spawnNums, Vector2 position)
+    private List<GameObject> Spwan(Dictionary<string, int> spawnNums, Vector2 position)
     {
         List<GameObject> spawnedEnemies = new List<GameObject>();
         foreach (var spawnNum in spawnNums)
@@ -119,12 +133,12 @@ public class EnemySpawner : MonoBehaviour
     /// <param name="name">Prefab name</param>
     /// <param name="position">스폰 위치</param>
     /// <returns></returns>
-    public IEnumerator SpawnEach(string name, Vector2 position, System.Action<GameObject> returnObj)
+    private IEnumerator SpawnEach(string name, Vector2 position, System.Action<GameObject> returnObj)
     {
         // 소환 이팩트 생성
         yield return new WaitForSeconds(0.1f);
         GameObject effectObj = _objectDict[_spawnEffectPrefab.name].Dequeue();
-        effectObj.transform.position = new Vector2(position.x, position.y - 0.5f);
+        effectObj.transform.position = new Vector2(position.x, position.y - 0.2f);
         effectObj.SetActive(true);
         yield return new WaitForSeconds(1f);
         
@@ -140,7 +154,7 @@ public class EnemySpawner : MonoBehaviour
         returnObj?.Invoke(obj);
     }
 
-    public void Despawn(EnemyDespawnMsg msg)
+    private void Despawn(EnemyDespawnMsg msg)
     {
         msg.obj.SetActive(false);
         _objectDict[msg.name].Enqueue(msg.obj);
@@ -155,11 +169,11 @@ public class EnemySpawner : MonoBehaviour
         spawnNums.Add("MonsterTank", 1);
         
         List<Vector2> positions = new List<Vector2>();
-        positions.Add(new Vector2(-16, -8));
-        positions.Add(new Vector2(16, 8));
-        positions.Add(new Vector2(-16, 8));
+        positions.Add(new Vector2(-4.16f, -2.12f));
+        positions.Add(new Vector2(4.16f, 2.12f));
+        positions.Add(new Vector2(-4.16f, 2.12f));
         positions.Add(new Vector2(0, 0));
-        positions.Add(new Vector2(-4, 4));
+        positions.Add(new Vector2(-1f, 1f));
         
         Spwan(spawnNums, positions);
     }
