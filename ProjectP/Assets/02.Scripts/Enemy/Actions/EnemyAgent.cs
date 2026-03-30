@@ -111,7 +111,7 @@ public class EnemyAgent : MonoBehaviour
             name = name,
             obj = gameObject
         };
-        PostManager.Instance.Post<EnemyDespawnMsg>(PostMessageKey.EnemyDespawned, msg);
+        PostManager.Instance.Post(PostMessageKey.EnemyDespawned, msg);
     }
     
     // Test Code
