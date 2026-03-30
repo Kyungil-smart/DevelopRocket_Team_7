@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Stat
   m_EditorClassIdentifier: Assembly-CSharp::StatNode
   graph: {fileID: 11400000}
-  position: {x: 24, y: 376}
+  position: {x: 24, y: 920}
   ports:
     keys:
     - Input
@@ -46,6 +46,52 @@ MonoBehaviour:
   _nodeData: {fileID: 11400000, guid: 5fc1e4e5689101a4fbbf46417c66112b, type: 2}
   _state: 2
   _mainNode: 0
+--- !u!114 &-8527156861720897941
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aef6ccb60d16758429ffafa59da98a9c, type: 3}
+  m_Name: Stat
+  m_EditorClassIdentifier: Assembly-CSharp::StatNode
+  graph: {fileID: 11400000}
+  position: {x: 680, y: 504}
+  ports:
+    keys:
+    - Input
+    - Output
+    values:
+    - _fieldName: Input
+      _node: {fileID: -8527156861720897941}
+      _typeQualifiedName: System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral,
+        PublicKeyToken=b77a5c561934e089
+      connections:
+      - fieldName: Output
+        node: {fileID: 2612180680807316443}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: Output
+      _node: {fileID: -8527156861720897941}
+      _typeQualifiedName: System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral,
+        PublicKeyToken=b77a5c561934e089
+      connections: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  Input: 0
+  Output: 0
+  _nodeId: 10052
+  _nodeData: {fileID: 11400000, guid: ebbfe3943b25464499fd522ce34a3898, type: 2}
+  _state: 2
+  _mainNode: 0
 --- !u!114 &-5751401553051035350
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -59,7 +105,7 @@ MonoBehaviour:
   m_Name: Stat
   m_EditorClassIdentifier: Assembly-CSharp::StatNode
   graph: {fileID: 11400000}
-  position: {x: 456, y: 376}
+  position: {x: 456, y: 920}
   ports:
     keys:
     - Input
@@ -71,7 +117,7 @@ MonoBehaviour:
         PublicKeyToken=b77a5c561934e089
       connections:
       - fieldName: Output
-        node: {fileID: 1067153000663791774}
+        node: {fileID: 3730374139592879484}
         reroutePoints: []
       _direction: 0
       _connectionType: 0
@@ -108,7 +154,7 @@ MonoBehaviour:
   m_Name: Stat
   m_EditorClassIdentifier: Assembly-CSharp::StatNode
   graph: {fileID: 11400000}
-  position: {x: 232, y: 376}
+  position: {x: 232, y: 920}
   ports:
     keys:
     - Input
@@ -132,7 +178,7 @@ MonoBehaviour:
         PublicKeyToken=b77a5c561934e089
       connections:
       - fieldName: Input
-        node: {fileID: 1067153000663791774}
+        node: {fileID: 3730374139592879484}
         reroutePoints: []
       _direction: 1
       _connectionType: 0
@@ -143,6 +189,128 @@ MonoBehaviour:
   _nodeId: 10051
   _nodeData: {fileID: 11400000, guid: ebbfe3943b25464499fd522ce34a3898, type: 2}
   _state: 1
+  _mainNode: 0
+--- !u!114 &-2155037205775972425
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a3e5bdc5b72504c4f8d557f09a62362f, type: 3}
+  m_Name: Special Stat
+  m_EditorClassIdentifier: Assembly-CSharp::SpecialStatNode
+  graph: {fileID: 11400000}
+  position: {x: 360, y: 680}
+  ports:
+    keys:
+    - SpecialToSpecialDown
+    - SpecialToSpecialUp
+    - Input
+    - Output
+    values:
+    - _fieldName: SpecialToSpecialDown
+      _node: {fileID: -2155037205775972425}
+      _typeQualifiedName: System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral,
+        PublicKeyToken=b77a5c561934e089
+      connections:
+      - fieldName: SpecialToSpecialUp
+        node: {fileID: 3730374139592879484}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: SpecialToSpecialUp
+      _node: {fileID: -2155037205775972425}
+      _typeQualifiedName: System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral,
+        PublicKeyToken=b77a5c561934e089
+      connections: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: Input
+      _node: {fileID: -2155037205775972425}
+      _typeQualifiedName: System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral,
+        PublicKeyToken=b77a5c561934e089
+      connections:
+      - fieldName: Output
+        node: {fileID: 686531416717742989}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: Output
+      _node: {fileID: -2155037205775972425}
+      _typeQualifiedName: System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral,
+        PublicKeyToken=b77a5c561934e089
+      connections:
+      - fieldName: Input
+        node: {fileID: 2612180680807316443}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  Input: 0
+  Output: 0
+  _nodeId: 10032
+  _nodeData: {fileID: 11400000, guid: 83028cb081bb6f448aefa808390e49ea, type: 2}
+  _state: 2
+  _mainNode: 0
+  SpecialToSpecialDown: 0
+  SpecialToSpecialUp: 0
+  _specialNodeId: 10102
+  _specialNodeData: {fileID: 11400000, guid: 59a15d1c7710b26469888ad2ed554a79, type: 2}
+--- !u!114 &-1710567527309044617
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aef6ccb60d16758429ffafa59da98a9c, type: 3}
+  m_Name: Stat
+  m_EditorClassIdentifier: Assembly-CSharp::StatNode
+  graph: {fileID: 11400000}
+  position: {x: 40, y: 504}
+  ports:
+    keys:
+    - Input
+    - Output
+    values:
+    - _fieldName: Input
+      _node: {fileID: -1710567527309044617}
+      _typeQualifiedName: System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral,
+        PublicKeyToken=b77a5c561934e089
+      connections: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: Output
+      _node: {fileID: -1710567527309044617}
+      _typeQualifiedName: System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral,
+        PublicKeyToken=b77a5c561934e089
+      connections:
+      - fieldName: Input
+        node: {fileID: 686531416717742989}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  Input: 0
+  Output: 0
+  _nodeId: 10012
+  _nodeData: {fileID: 11400000, guid: 0f19bdd2c0da02b4f966e32177b5921c, type: 2}
+  _state: 2
   _mainNode: 0
 --- !u!114 &-50174010474229281
 MonoBehaviour:
@@ -157,7 +325,7 @@ MonoBehaviour:
   m_Name: Stat
   m_EditorClassIdentifier: Assembly-CSharp::StatNode
   graph: {fileID: 11400000}
-  position: {x: 664, y: 376}
+  position: {x: 664, y: 920}
   ports:
     keys:
     - Input
@@ -203,12 +371,17 @@ MonoBehaviour:
   m_Name: New Stat Node Graph
   m_EditorClassIdentifier: Assembly-CSharp::StatNodeGraph
   nodes:
-  - {fileID: 1067153000663791774}
   - {fileID: -5751401553051035350}
   - {fileID: -8548813596020385515}
   - {fileID: -3587910223939480280}
   - {fileID: -50174010474229281}
---- !u!114 &1067153000663791774
+  - {fileID: 3730374139592879484}
+  - {fileID: -2155037205775972425}
+  - {fileID: 2612180680807316443}
+  - {fileID: -8527156861720897941}
+  - {fileID: 686531416717742989}
+  - {fileID: -1710567527309044617}
+--- !u!114 &686531416717742989
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -221,14 +394,135 @@ MonoBehaviour:
   m_Name: Stat
   m_EditorClassIdentifier: Assembly-CSharp::StatNode
   graph: {fileID: 11400000}
-  position: {x: 344, y: 552}
+  position: {x: 248, y: 504}
   ports:
     keys:
     - Input
     - Output
     values:
     - _fieldName: Input
-      _node: {fileID: 1067153000663791774}
+      _node: {fileID: 686531416717742989}
+      _typeQualifiedName: System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral,
+        PublicKeyToken=b77a5c561934e089
+      connections:
+      - fieldName: Output
+        node: {fileID: -1710567527309044617}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: Output
+      _node: {fileID: 686531416717742989}
+      _typeQualifiedName: System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral,
+        PublicKeyToken=b77a5c561934e089
+      connections:
+      - fieldName: Input
+        node: {fileID: -2155037205775972425}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  Input: 0
+  Output: 0
+  _nodeId: 10072
+  _nodeData: {fileID: 11400000, guid: 32d727a72900fcd4bb2e17a09a4beec9, type: 2}
+  _state: 2
+  _mainNode: 0
+--- !u!114 &2612180680807316443
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aef6ccb60d16758429ffafa59da98a9c, type: 3}
+  m_Name: Stat
+  m_EditorClassIdentifier: Assembly-CSharp::StatNode
+  graph: {fileID: 11400000}
+  position: {x: 472, y: 504}
+  ports:
+    keys:
+    - Input
+    - Output
+    values:
+    - _fieldName: Input
+      _node: {fileID: 2612180680807316443}
+      _typeQualifiedName: System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral,
+        PublicKeyToken=b77a5c561934e089
+      connections:
+      - fieldName: Output
+        node: {fileID: -2155037205775972425}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: Output
+      _node: {fileID: 2612180680807316443}
+      _typeQualifiedName: System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral,
+        PublicKeyToken=b77a5c561934e089
+      connections:
+      - fieldName: Input
+        node: {fileID: -8527156861720897941}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  Input: 0
+  Output: 0
+  _nodeId: 10062
+  _nodeData: {fileID: 11400000, guid: d4fa68046a244fb479122eaea614aeca, type: 2}
+  _state: 2
+  _mainNode: 0
+--- !u!114 &3730374139592879484
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a3e5bdc5b72504c4f8d557f09a62362f, type: 3}
+  m_Name: Special Stat
+  m_EditorClassIdentifier: Assembly-CSharp::SpecialStatNode
+  graph: {fileID: 11400000}
+  position: {x: 344, y: 1096}
+  ports:
+    keys:
+    - SpecialToSpecialDown
+    - SpecialToSpecialUp
+    - Input
+    - Output
+    values:
+    - _fieldName: SpecialToSpecialDown
+      _node: {fileID: 3730374139592879484}
+      _typeQualifiedName: System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral,
+        PublicKeyToken=b77a5c561934e089
+      connections: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: SpecialToSpecialUp
+      _node: {fileID: 3730374139592879484}
+      _typeQualifiedName: System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral,
+        PublicKeyToken=b77a5c561934e089
+      connections:
+      - fieldName: SpecialToSpecialDown
+        node: {fileID: -2155037205775972425}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: Input
+      _node: {fileID: 3730374139592879484}
       _typeQualifiedName: System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral,
         PublicKeyToken=b77a5c561934e089
       connections:
@@ -240,7 +534,7 @@ MonoBehaviour:
       _typeConstraint: 0
       _dynamic: 0
     - _fieldName: Output
-      _node: {fileID: 1067153000663791774}
+      _node: {fileID: 3730374139592879484}
       _typeQualifiedName: System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral,
         PublicKeyToken=b77a5c561934e089
       connections:
@@ -257,3 +551,7 @@ MonoBehaviour:
   _nodeData: {fileID: 11400000, guid: d4fa68046a244fb479122eaea614aeca, type: 2}
   _state: 1
   _mainNode: 1
+  SpecialToSpecialDown: 0
+  SpecialToSpecialUp: 0
+  _specialNodeId: 10101
+  _specialNodeData: {fileID: 11400000, guid: 59a15d1c7710b26469888ad2ed554a79, type: 2}

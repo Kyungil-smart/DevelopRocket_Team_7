@@ -151,6 +151,7 @@ MonoBehaviour:
   _url: https://docs.google.com/spreadsheets/d/1kg7q9cQNKw5tksgh9pD_iVCW6uLvrzECEi2y9duVHLY/edit?gid=1430081326#gid=1430081326
   _gid: 1430081326
   _dataContainer: {fileID: 11400000, guid: 5fc1e4e5689101a4fbbf46417c66112b, type: 2}
+  _specialDataContainer: {fileID: 0}
   _treeView: {fileID: 1595255951}
 --- !u!4 &18915003
 Transform:
@@ -214,6 +215,7 @@ MonoBehaviour:
   _url: https://docs.google.com/spreadsheets/d/1kg7q9cQNKw5tksgh9pD_iVCW6uLvrzECEi2y9duVHLY/edit?gid=994647618#gid=994647618
   _gid: 994647618
   _dataContainer: {fileID: 11400000, guid: d4fa68046a244fb479122eaea614aeca, type: 2}
+  _specialDataContainer: {fileID: 0}
   _treeView: {fileID: 1595255951}
 --- !u!1 &410344655
 GameObject:
@@ -289,6 +291,7 @@ MonoBehaviour:
   _url: https://docs.google.com/spreadsheets/d/1kg7q9cQNKw5tksgh9pD_iVCW6uLvrzECEi2y9duVHLY/edit?gid=636585821#gid=636585821
   _gid: 636585821
   _dataContainer: {fileID: 11400000, guid: ebbfe3943b25464499fd522ce34a3898, type: 2}
+  _specialDataContainer: {fileID: 0}
   _treeView: {fileID: 1595255951}
 --- !u!4 &972255257
 Transform:
@@ -337,6 +340,7 @@ MonoBehaviour:
   _url: https://docs.google.com/spreadsheets/d/1kg7q9cQNKw5tksgh9pD_iVCW6uLvrzECEi2y9duVHLY/edit?gid=7667405#gid=7667405
   _gid: 7667405
   _dataContainer: {fileID: 11400000, guid: 0f19bdd2c0da02b4f966e32177b5921c, type: 2}
+  _specialDataContainer: {fileID: 0}
   _treeView: {fileID: 1595255951}
 --- !u!4 &1006738069
 Transform:
@@ -537,6 +541,7 @@ MonoBehaviour:
   _url: https://docs.google.com/spreadsheets/d/1kg7q9cQNKw5tksgh9pD_iVCW6uLvrzECEi2y9duVHLY/edit?gid=227604789#gid=227604789
   _gid: 227604789
   _dataContainer: {fileID: 11400000, guid: 9ed6b41323c05d747aaee8104188d1b6, type: 2}
+  _specialDataContainer: {fileID: 0}
   _treeView: {fileID: 1595255951}
 --- !u!1 &1114719818
 GameObject:
@@ -585,6 +590,7 @@ MonoBehaviour:
   _url: https://docs.google.com/spreadsheets/d/1kg7q9cQNKw5tksgh9pD_iVCW6uLvrzECEi2y9duVHLY/edit?gid=924749920#gid=924749920
   _gid: 924749920
   _dataContainer: {fileID: 11400000, guid: 32d727a72900fcd4bb2e17a09a4beec9, type: 2}
+  _specialDataContainer: {fileID: 0}
   _treeView: {fileID: 1595255951}
 --- !u!1 &1330962788
 GameObject:
@@ -633,6 +639,7 @@ MonoBehaviour:
   _url: https://docs.google.com/spreadsheets/d/1kg7q9cQNKw5tksgh9pD_iVCW6uLvrzECEi2y9duVHLY/edit?gid=1503602691#gid=1503602691
   _gid: 1503602691
   _dataContainer: {fileID: 11400000, guid: 0c40b3718d7ce0344b2525cb68700cf6, type: 2}
+  _specialDataContainer: {fileID: 0}
   _treeView: {fileID: 1595255951}
 --- !u!1 &1472766867
 GameObject:
@@ -680,7 +687,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::NodeLoader
   _url: https://docs.google.com/spreadsheets/d/1kg7q9cQNKw5tksgh9pD_iVCW6uLvrzECEi2y9duVHLY/edit?gid=1000189591#gid=1000189591
   _gid: 1000189591
-  _dataContainer: {fileID: 11400000, guid: 59a15d1c7710b26469888ad2ed554a79, type: 2}
+  _dataContainer: {fileID: 0}
+  _specialDataContainer: {fileID: 11400000, guid: 59a15d1c7710b26469888ad2ed554a79, type: 2}
   _treeView: {fileID: 1595255951}
 --- !u!1 &1473130493
 GameObject:
@@ -729,6 +737,7 @@ MonoBehaviour:
   _url: https://docs.google.com/spreadsheets/d/1kg7q9cQNKw5tksgh9pD_iVCW6uLvrzECEi2y9duVHLY/edit?gid=695641258#gid=695641258
   _gid: 695641258
   _dataContainer: {fileID: 11400000, guid: 83028cb081bb6f448aefa808390e49ea, type: 2}
+  _specialDataContainer: {fileID: 0}
   _treeView: {fileID: 1595255951}
 --- !u!1 &1595255948
 GameObject:
@@ -741,7 +750,6 @@ GameObject:
   - component: {fileID: 1595255950}
   - component: {fileID: 1595255949}
   - component: {fileID: 1595255951}
-  - component: {fileID: 1595255952}
   m_Layer: 5
   m_Name: StatTreeMain
   m_TagString: Untagged
@@ -801,20 +809,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::StatTreeView
   statGraph: {fileID: 11400000, guid: fe94c6b73152571479b7052435a7c1c8, type: 2}
   nodeTemplate: {fileID: 9197481963319205126, guid: 3b0db938a3f75f842b52b2ab700dc452, type: 3}
---- !u!114 &1595255952
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1595255948}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5c775bd26b988c64bbdcfaec5b1a8c29, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::StatNodeManager
-  _statNodeGraph: {fileID: 11400000, guid: fe94c6b73152571479b7052435a7c1c8, type: 2}
-  _openNodePoint: 0
 --- !u!1 &1807931158
 GameObject:
   m_ObjectHideFlags: 0

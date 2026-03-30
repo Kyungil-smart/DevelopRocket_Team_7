@@ -55,7 +55,7 @@ public class StatNode : Node {
 	}
 
 	// 외부에서 Init을 해야 할 상황이 생겨 public으로 설정
-	public void InitData()
+	public virtual void InitData()
 	{
 		if (_nodeData == null) return;
 
@@ -174,8 +174,7 @@ public class StatNode : Node {
 		
 		Debug.Log($"노드 ID : {_nodeId}  / 왼쪽 노드, 오른쪽 노드 활성화 여부 : {_isActiveLeft} , {_isActiveRight}");
 	}
-
-	// 자신 노드가 Active 상태여야 함
+	
 	// 양 옆 노드 검사 후 해당 노드의 상태가 Locked이면 Inactive로 변경하는 메서드
 	private void ChangeSideNodeState()
 	{
