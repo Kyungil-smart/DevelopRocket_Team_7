@@ -330,6 +330,67 @@ TilemapCollider2D:
   m_MaximumTileChangeCount: 1000
   m_ExtrusionFactor: 0
   m_UseDelaunayMesh: 0
+--- !u!1 &1315879097
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1315879100}
+  - component: {fileID: 1315879099}
+  - component: {fileID: 1315879098}
+  m_Layer: 0
+  m_Name: Spa
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1315879098
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1315879097}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a4182cb8fa397eb4faee3f8ab5e62aec, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemySpawner
+  _enemyPrefabs: []
+  _spawnEffectPrefab: {fileID: 3403569181562746045, guid: 7b5db69c745296f4c8d935a81205511e, type: 3}
+  _maxNumPerEnemy: 10
+--- !u!114 &1315879099
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1315879097}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d2c00c21bafd4ac69dfc5b68360d5247, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PostManager
+  m_DontDestroyOnLoad: 0
+--- !u!4 &1315879100
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1315879097}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.35981, y: 41.42127, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1489995537
 GameObject:
   m_ObjectHideFlags: 0
@@ -476,6 +537,18 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 4260147485156291659, guid: 7d7ceb9601c0ac743a9cfcd41af3aa84, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4260147485156291659, guid: 7d7ceb9601c0ac743a9cfcd41af3aa84, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4260147485156291659, guid: 7d7ceb9601c0ac743a9cfcd41af3aa84, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4260147485156291659, guid: 7d7ceb9601c0ac743a9cfcd41af3aa84, type: 3}
       propertyPath: m_LocalPosition.x
       value: 43.993156
       objectReference: {fileID: 0}
@@ -560,8 +633,10 @@ MonoBehaviour:
   mapHeight: 100
   minRoomSize: 15
   maxRooms: 10
-  monsterPrefab: {fileID: 0}
-  restCampfirePrefab: {fileID: 0}
+  monsterPrefab:
+  - {fileID: 1423331314761006867, guid: f23f33bff8e1b944ca3e82ebc83f9569, type: 3}
+  - {fileID: 1423331314761006867, guid: 4c1200407cd8d624ab4c723f219ed59a, type: 3}
+  - {fileID: 1423331314761006867, guid: 8c1ef54d70f3a304e9bfdf74263f0128, type: 3}
 --- !u!4 &1748380614
 Transform:
   m_ObjectHideFlags: 0
@@ -585,3 +660,4 @@ SceneRoots:
   - {fileID: 1027080689}
   - {fileID: 1743160970}
   - {fileID: 1489995541}
+  - {fileID: 1315879100}
