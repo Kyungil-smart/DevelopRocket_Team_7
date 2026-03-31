@@ -32,7 +32,9 @@ public class PlayerController : MonoBehaviour , IDamage
 
    private RaycastHit2D hit;
    private Ray ray;
-   
+
+   private Vector2 lastDir; // 플레이어가 마지막으로 바라보는 방향
+   [SerializeField] private LayerMask interactLayer; // 레이캐스트가 감지할 레이어
    
    private void Awake()
    {
@@ -79,6 +81,25 @@ public class PlayerController : MonoBehaviour , IDamage
       if(isDashing) return;
 
       input = context.ReadValue<Vector2>();
+
+      if (input.x > 0)  // Interact를 위한 방향 확인
+      {
+         lastDir=Vector2.right;
+      }
+      else if (input.x < 0)
+      {
+         lastDir = Vector2.left;
+      }
+      else if (input.y > 0)
+      {
+         lastDir = Vector2.up;
+      }
+      else if (input.y < 0)
+      {
+         lastDir = Vector2.down;
+      }
+
+
       _rb.linearVelocity = input * _playerStat.moveSpeed;
       _animator.SetFloat("Horizontal", input.x);
       _animator.SetFloat("Vertical", input.y);
@@ -147,15 +168,15 @@ public class PlayerController : MonoBehaviour , IDamage
 
    public void Interact(InputAction.CallbackContext context)   // 플레이어 상호작용
    {
-      ray = new Ray(transform.position, transform.forward); // 플레이어가 바라보는 방향으로 레이캐스트
-      if (Physics2D.Raycast(ray.origin, ray.direction, raycastDistance)) // 레이캐스트 범위 안에서 물체 확인
+      if (!context.started) return;
+      
+      //레이캐스트가 시작하는 지점, 레이캐스트 방향, 레이캐스트 감지 거리, 레이캐스트가 감지할 레이어 순으로 인자가 들어감
+      hit = Physics2D.Raycast(transform.position, lastDir, raycastDistance, interactLayer);
+
+      if (hit.collider != null) // 무언가 레이캐스트에 충돌되면
       {
-         GameObject hitObject = hit.collider.gameObject; // 감지 범위의 물체 정보 전달
-         if (hitObject != null)  // 물체가 있을 경우
-         {
-            Debug.Log(gameObject.name); // 그 물체의 레이어? 오브젝트?에 따라 상호작용처리
-         }
-         
+         GameObject hitObject = hit.collider.gameObject; 
+         // 추후 석상이나 신전에 따라 구별하여 상호작용 처리 코드 추가
       }
    }
 
