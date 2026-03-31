@@ -35,6 +35,7 @@ public class EnemyAttackTank : MonoBehaviour, IEnemyAttackBehavior
     {
         // ToDo. 공격관련 내용 추가
         _animator.SetBool("Attack", false);
+        if (_blackboard.IsAttacking) _blackboard.IsAttacking = false;
     }
 
     private void OnDrawGizmos()

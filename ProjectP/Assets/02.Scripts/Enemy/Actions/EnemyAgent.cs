@@ -72,27 +72,28 @@ public class EnemyAgent : MonoBehaviour
         _blackboard.targetPosition = position;
     }
 
-    public void OnPatrol()
+    private void OnPatrol()
     {
         if (_movementScript != null) _movementScript.Patrol(_blackboard);
     }
     
-    public void OnMoveToPlayer()
+    private void OnMoveToPlayer()
     {
         if (_movementScript != null) _movementScript.GoToPlayer(_blackboard);
     }
 
-    public void OnAttackDelay()
+    private void OnAttackDelay()
     {
         if (_attackDelayScript != null) _attackDelayScript.OnDelayBeforeAttack(_blackboard);
     }
     
-    public void OnAttack()
+    private void OnAttack()
     {
+        Debug.Log("Attack!!");
         if (_attackScript != null) _attackScript.Attack(_blackboard);
     }
     
-    public void OnDead()
+    private void OnDead()
     {
         if (_deadScript != null) _deadScript.Dead(_blackboard);
         // 경험치를 100% 확률로 전달.
