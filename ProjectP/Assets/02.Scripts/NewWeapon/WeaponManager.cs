@@ -71,10 +71,26 @@ namespace NewWeaponSystem
         {
             WeaponController wc = _selectedWeapon.GetComponent<WeaponController>();
             WeaponBlackboard blackboard = wc.Blackboard;
-            if (data.damage != 0) blackboard.damage = Mathf.CeilToInt(blackboard.damage * (1 + data.damage));
-            else if (data.attackSpeed != 0) blackboard.attackSpeed += data.attackSpeed;
-            else if (data.critRate != 0) blackboard.critRate += data.critRate;
-            else if (data.critMultiplier != 0) blackboard.critMultiplier += data.critMultiplier;
+            if (data.damage != 0)
+            {
+                Debug.Log("damage Upgrade");
+                blackboard.damage = Mathf.CeilToInt(blackboard.damage * (1 + data.damage));
+            }
+            else if (data.attackSpeed != 0)
+            {
+                Debug.Log("attackSpeed Upgrade");
+                blackboard.attackSpeed += data.attackSpeed;
+            }
+            else if (data.critRate != 0)
+            {
+                Debug.Log("critRate Upgrade");
+                blackboard.critRate += data.critRate;
+            }
+            else if (data.critMultiplier != 0)
+            {
+                Debug.Log("critMultiplier Upgrade");
+                blackboard.critMultiplier += data.critMultiplier;
+            }
         }
 
         [ContextMenu("Test/SelectWeapon")]

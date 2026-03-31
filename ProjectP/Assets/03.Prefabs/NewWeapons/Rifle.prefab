@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 8845169920052516932}
   - component: {fileID: 2827349738506615909}
   - component: {fileID: 800470939858292811}
-  m_Layer: 6
+  m_Layer: 8
   m_Name: Rifle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -107,7 +107,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::NewWeaponSystem.WeaponController
   _weaponData: {fileID: 11400000, guid: 535eaed59cbf7cc408d5bc4513ef7d22, type: 2}
-  _scopePrefab: {fileID: 0}
   _portTf: {fileID: 1699006571113171784}
 --- !u!95 &800470939858292811
 Animator:
@@ -140,7 +139,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1699006571113171784}
-  m_Layer: 6
+  m_Layer: 8
   m_Name: Port
   m_TagString: Untagged
   m_Icon: {fileID: 0}
