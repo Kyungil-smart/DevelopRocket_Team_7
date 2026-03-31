@@ -51,7 +51,7 @@ public class EnemyMovement : MonoBehaviour
     {
         if (_blackboard == null) return;
         float distance = Vector2.Distance(transform.position, _blackboard.targetPosition);
-        if (distance <= _blackboard.origin.attackRange)
+        if (distance <= _blackboard.origin.attackRange - 0.01f)
         {
             _rb.linearVelocity = Vector2.zero;
             _animator.SetBool("Move", false);
@@ -61,14 +61,9 @@ public class EnemyMovement : MonoBehaviour
         if (Vector2.Distance(_prevPos, transform.position) > 0) _animator.SetBool("Move", true);    
         else  _animator.SetBool("Move", false);
         
-        // float step = _blackboard.origin.speed * Time.deltaTime;
-        if (_isChasing)  // 쫒아가는 Moving
-        {
-            Vector2 direction = _blackboard.targetPosition - (Vector2)transform.position;
-            _ray = GetRay(_blackboard.targetPosition.normalized);
-            RaycastHit2D hit = Physics2D.Raycast(_ray.origin, _ray.direction, _detectDistance, _layerMask);
-            if (!hit) _rb.linearVelocity = direction.normalized * _blackboard.origin.speed;
-        }  
+        if (_isChasing) 
+            _rb.linearVelocity = (_blackboard.targetPosition - (Vector2)transform.position).normalized 
+                                 * _blackboard.origin.speed;
         else _rb.linearVelocity = _targetPos.normalized * _blackboard.origin.speed;
         
         // ToDo. Y Sorting 관련. 우선적으로 이렇게 처리하지만, 추후 자연스럽게 하기 위해 어떻게 해야할지 연구 필요.
@@ -81,6 +76,7 @@ public class EnemyMovement : MonoBehaviour
     public void GoToPlayer(EnemyBlackboard blackboard) {  
         if (_blackboard == null) _blackboard = blackboard;
         _isChasing = true;
+        _rb.linearVelocity = Vector2.zero;
         if (_nxPosCoroutine != null) StopCoroutine(_nxPosCoroutine);
         _nxPosCoroutine = null;
     }
@@ -90,9 +86,7 @@ public class EnemyMovement : MonoBehaviour
         if (_blackboard == null) _blackboard = blackboard;
         _isChasing = false;
         if (_nxPosCoroutine == null && !_blackboard.IsDead)
-        {
-            _nxPosCoroutine = StartCoroutine(ChoiceNextPositionInPatrolCoroutine());    
-        }
+            _nxPosCoroutine = StartCoroutine(ChoiceNextPositionInPatrolCoroutine());
     }
     
     private IEnumerator ChoiceNextPositionInPatrolCoroutine()
