@@ -16,9 +16,12 @@ namespace NewWeaponSystem
         private Camera _cam;
         private Vector2 _mousePos;
         private int _sortingOffset;
-        private bool _isRightFacing;
         private Vector2 _prePos;
+        
+        // 각종 Flags; state 로 하기도 참 애매하고...
+        private bool _isRightFacing;
         private bool _isReloading;
+        private bool _cannotFire;
 
         private void Awake()
         {
@@ -91,6 +94,7 @@ namespace NewWeaponSystem
         
         private void Fire(InputAction.CallbackContext context)
         {
+            if (_cannotFire) return;
             if (_blackboard.currentAmmo <= 0)
             {
                 if (!_isReloading) StartCoroutine(Reload());
@@ -105,6 +109,8 @@ namespace NewWeaponSystem
                 blackboard = _blackboard
             });
             _blackboard.currentAmmo--;
+            _cannotFire = true;
+            StartCoroutine(AttackRate());
         }
 
         private IEnumerator Reload()
@@ -113,6 +119,13 @@ namespace NewWeaponSystem
             yield return new WaitForSecondsRealtime(_blackboard.reloadTime);
             _blackboard.currentAmmo = _blackboard.origin.magazineSize;
             _isReloading = false;
+        }
+
+        private IEnumerator AttackRate()
+        {
+            float rate = (1 / _blackboard.attackSpeed);
+            yield return new WaitForSecondsRealtime(rate);
+            _cannotFire = false;
         }
     }
 }

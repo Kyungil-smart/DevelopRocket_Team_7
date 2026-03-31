@@ -9,7 +9,7 @@ public struct WeaponUpgradeMsg
     public float critMultiplier;
 }
 
-public class WeaponUpgradeManager : MonoBehaviour
+public class WeaponManager : MonoBehaviour
 {
     WeaponBlackboard _blackboard;
     
