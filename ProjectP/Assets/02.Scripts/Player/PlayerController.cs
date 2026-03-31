@@ -28,12 +28,19 @@ public class PlayerController : MonoBehaviour , IDamage
 
    private Vector2 prePos;
 
+   public float raycastDistance = 3f;  // 레이캐스트 감지 거리
+
+   private RaycastHit2D hit;
+   private Ray ray;
+   
+   
    private void Awake()
    {
       _inputActionAsset.Enable();
       _inputActionAsset["Move"].performed += Move;
       _inputActionAsset["Move"].canceled += MoveStop;
       _inputActionAsset["Dash"].started += OnDash;
+      _inputActionAsset["Interact"].started += Interact;
       
       _rb = GetComponent<Rigidbody2D>();
       _sp = GetComponent<SpriteRenderer>();
@@ -138,8 +145,23 @@ public class PlayerController : MonoBehaviour , IDamage
       }
    }
 
+   public void Interact(InputAction.CallbackContext context)   // 플레이어 상호작용
+   {
+      ray = new Ray(transform.position, transform.forward); // 플레이어가 바라보는 방향으로 레이캐스트
+      if (Physics2D.Raycast(ray.origin, ray.direction, raycastDistance)) // 레이캐스트 범위 안에서 물체 확인
+      {
+         GameObject hitObject = hit.collider.gameObject; // 감지 범위의 물체 정보 전달
+         if (hitObject != null)  // 물체가 있을 경우
+         {
+            Debug.Log(gameObject.name); // 그 물체의 레이어? 오브젝트?에 따라 상호작용처리
+         }
+         
+      }
+   }
+
    private void UpdatePosition(Vector2 position)
    {
+      // 플레이어 현재 위치
       transform.position = position;
    }
    
@@ -153,4 +175,28 @@ public class PlayerController : MonoBehaviour , IDamage
    {
       Dead();
    }
+
+   public void GetExp() // 플레이어가 경험치 획득 시 (포스트매니저 통해서 몬스터 구독하여 경험치 습득 코드 추가할 예정)
+   {
+
+      if (_playerStat.playerLevel >= _playerStat.playerMaxLevel) return; // 현재 플레이어 레벨이 최대레벨 이상일 경우 리턴
+      
+      if (_playerStat.playerExp >= _playerStat.NeedLevelUpExp) // 현재 경험치가 레벨업 시 필요한 경험치 이상일 경우    
+      {
+         _playerStat.playerExp -= _playerStat.NeedLevelUpExp; // 현재 경험치에서 레벨업 시 필요한 경험치 만큼 감소
+         LevelUp();
+      }
+   }
+
+
+   public void LevelUp()
+   {
+      _playerStat.playerLevel++;
+
+      // (협업해서 구현 필요)레벨 업 후 노드에 레벨업 정보 전달
+      
+   }
+   
+   
+
 }
