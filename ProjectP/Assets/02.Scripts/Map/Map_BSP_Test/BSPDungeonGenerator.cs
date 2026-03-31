@@ -20,8 +20,8 @@ public class BSPDungeonGenerator : MonoBehaviour
     //분할 추적하기 위한 카운터
     private int currentRoomCount = 1;
     [Header("오브젝트 프리팹")]
-    public GameObject monsterPrefab;
-    public GameObject restCampfirePrefab;
+    public List<GameObject> monsterPrefab;
+  
 
     // 생성된 최종 방(Leaf Node)들을 모아둘 리스트
     private List<BSPNode> leafRooms = new List<BSPNode>();
@@ -262,6 +262,42 @@ public class BSPDungeonGenerator : MonoBehaviour
             
             if (room.roomType ==RoomType.MiddleNode)
             {
+                EnemySpawnMsg spawnMSG=new EnemySpawnMsg();
+                spawnMSG.positions=new List<Vector2>();
+                spawnMSG.spawnNums=new Dictionary<string, int>();
+                int spawnCount = 0;
+                foreach (var prefab in monsterPrefab)
+                {
+                    //탱커1==최소 1~ 최대 3
+                    //추적2==최소 2~ 최대 3
+                    //원거리3==최소 6~ 최대 9
+                    if (prefab.name== "MonsterTank")
+                    {
+                        var spawnNums = Random.Range(1, 3);
+                        spawnMSG.spawnNums.Add(prefab.name, spawnNums);
+                        spawnCount += spawnNums;
+                    }
+                    else if(prefab.name == "MonsterChase")
+                    {
+                        var spawnNums = Random.Range(2, 3);
+                        spawnMSG.spawnNums.Add(prefab.name, spawnNums);
+                        spawnCount += spawnNums;
+                    }
+                    else if(prefab.name == "MonsterRange")
+                    {
+                        var spawnNums = Random.Range(6, 9);
+                        spawnMSG.spawnNums.Add(prefab.name, spawnNums);
+                        spawnCount += spawnNums;
+                    }
+                    ///////
+                }
+                for(int i=0; i< spawnCount; i++)
+                {
+                    spawnMSG.positions.Add(new Vector2(
+                        Random.Range(room.roomRect.xMin + 1.5f, room.roomRect.xMax - 1.5f),
+                        Random.Range(room.roomRect.yMin + 1.5f, room.roomRect.yMax - 1.5f)
+                    ));
+                }
                 var obj = new GameObject();
                 var data = obj.AddComponent<BoxCollider2D>();
                 data.isTrigger = true;
@@ -273,6 +309,9 @@ public class BSPDungeonGenerator : MonoBehaviour
                 manager.wallTile = wallTile;
                 manager.floorTile = floorTile;
                 manager.roomRect = room.roomRect;
+
+                manager.m_spawnMSG = spawnMSG;
+                manager.MonsterSpawnCount = spawnCount;
             }
             else if (room.roomType == RoomType.StartNode)
             {
