@@ -14,9 +14,9 @@ public class EnemyRangeBulletMovement : MonoBehaviour
         _rb = GetComponent<Rigidbody2D>();
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
+    private void OnTriggerEnter2D(Collider2D other)
     {
-        if (Utils.CompareLayer(collision.gameObject.layer, _layerMask))
+        if (Utils.CompareLayer(other.gameObject.layer, _layerMask))
             DespawnBullet();
     }
 
@@ -30,8 +30,6 @@ public class EnemyRangeBulletMovement : MonoBehaviour
 
     public void FireBullet()
     {
-        _rb.WakeUp();
-        Debug.Log($"fire bullet: {_direction.normalized * speed}");
         _rb.linearVelocity = _direction.normalized * speed;
     }
 }

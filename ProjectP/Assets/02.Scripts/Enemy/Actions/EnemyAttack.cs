@@ -15,6 +15,10 @@ public class EnemyAttack : MonoBehaviour, IEnemyAttackable
             if (_attackBehavior is EnemyAttackChase chaseBh) chaseBh.OnAttack(collider, blackboard);
             else if (_attackBehavior is EnemyAttackRange rangeBh) rangeBh.OnAttack(collider, blackboard);
             else (_attackBehavior as EnemyAttackTank)?.OnAttack(collider, blackboard);
-        }        
+        }
+        else
+        {   // Player 가 없을 경우 강제로 IsAttacking 을 false 로.
+            blackboard.IsAttacking = false;
+        }
     }
 }
