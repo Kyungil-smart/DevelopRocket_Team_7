@@ -14,7 +14,7 @@ public class EnemyAttackDelay : MonoBehaviour
     private IEnumerator WaitBeforeAttackCorutine(EnemyBlackboard blackboard)
     {
         yield return new WaitForSeconds(blackboard.origin.attackDelay);
-        blackboard.IsAttacking = true;
         _delayCoroutine = null;
+        blackboard.IsAttacking = true;
     }
 }

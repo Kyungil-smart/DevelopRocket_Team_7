@@ -9,7 +9,7 @@ public class EnemyAttack : MonoBehaviour, IEnemyAttackable
     
     public void Attack(EnemyBlackboard blackboard)
     {
-        Collider2D collider = Physics2D.OverlapCircle(transform.position, blackboard.origin.attackRange, _layerMask);
+        Collider2D collider = Physics2D.OverlapCircle(transform.position, blackboard.origin.attackRange * 0.3f, _layerMask);
         if (collider != null)
         {
             if (_attackBehavior is EnemyAttackChase chaseBh) chaseBh.OnAttack(collider, blackboard);

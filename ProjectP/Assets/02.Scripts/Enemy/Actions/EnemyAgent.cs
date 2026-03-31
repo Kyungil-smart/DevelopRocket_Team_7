@@ -89,7 +89,6 @@ public class EnemyAgent : MonoBehaviour
     
     private void OnAttack()
     {
-        Debug.Log("Attack!!");
         if (_attackScript != null) _attackScript.Attack(_blackboard);
     }
     

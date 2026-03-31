@@ -164,8 +164,8 @@ public class EnemySpawner : MonoBehaviour
     public void TestSpawn()
     {
         Dictionary<string, int> spawnNums = new Dictionary<string, int>();
-        // spawnNums.Add("MonsterChase", 2);
-        spawnNums.Add("MonsterRange", 1);
+        spawnNums.Add("MonsterChase", 1);
+        // spawnNums.Add("MonsterRange", 1);
         // spawnNums.Add("MonsterTank", 1);
         
         List<Vector2> positions = new List<Vector2>();
