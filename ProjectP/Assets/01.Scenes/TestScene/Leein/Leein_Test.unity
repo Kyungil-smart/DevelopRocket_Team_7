@@ -384,12 +384,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1315879097}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.35981, y: 41.42127, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -45.64878, y: -2.1084824, z: 10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 1489995541}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1489995537
 GameObject:
@@ -525,7 +525,8 @@ Transform:
   m_LocalPosition: {x: 45.28897, y: 43.52975, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 1315879100}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1743160970
@@ -608,7 +609,7 @@ GameObject:
   - component: {fileID: 1748380614}
   - component: {fileID: 1748380613}
   m_Layer: 0
-  m_Name: GameObject
+  m_Name: BSPMapGenerate
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -637,6 +638,7 @@ MonoBehaviour:
   - {fileID: 1423331314761006867, guid: f23f33bff8e1b944ca3e82ebc83f9569, type: 3}
   - {fileID: 1423331314761006867, guid: 4c1200407cd8d624ab4c723f219ed59a, type: 3}
   - {fileID: 1423331314761006867, guid: 8c1ef54d70f3a304e9bfdf74263f0128, type: 3}
+  m_obj: {fileID: 9016385812359818081, guid: 8986ce0905fe7a6479d3f941d9899ea3, type: 3}
 --- !u!4 &1748380614
 Transform:
   m_ObjectHideFlags: 0
@@ -660,4 +662,3 @@ SceneRoots:
   - {fileID: 1027080689}
   - {fileID: 1743160970}
   - {fileID: 1489995541}
-  - {fileID: 1315879100}
