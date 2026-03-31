@@ -8,6 +8,7 @@ namespace NewWeaponSystem
     {
         public Vector2 startPos;
         public Vector2 direction;
+        public WeaponBlackboard blackboard;
     }
     
     public class ProjectilePoolManager : MonoBehaviour
@@ -60,8 +61,8 @@ namespace NewWeaponSystem
             }
             GameObject obj = _pool.Dequeue();
             obj.transform.position = spawnMsg.startPos;
-            StraightMovement sm = obj.GetComponent<StraightMovement>();
-            sm.SetDirection(spawnMsg.direction);
+            RifleProjectile sm = obj.GetComponent<RifleProjectile>();
+            sm.SetData(spawnMsg.direction, spawnMsg.blackboard);
             obj.SetActive(true);
             sm.Fire();
         }

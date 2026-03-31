@@ -102,6 +102,7 @@ namespace NewWeaponSystem
             {
                 startPos = _portTf.position,
                 direction = direction,
+                blackboard = _blackboard
             });
             _blackboard.currentAmmo--;
         }
