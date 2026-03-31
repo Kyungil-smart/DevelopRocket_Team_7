@@ -18,11 +18,11 @@ namespace NewWeaponSystem
         private Vector2 _mousePos;
         private int _sortingOffset;
         private Vector2 _prePos;
+        private Coroutine _fireCoroutine;
         
         // 각종 Flags; state 로 하기도 참 애매하고...
         private bool _isRightFacing;
         private bool _isReloading;
-        private bool _cannotFire;
 
         private void Awake()
         {
@@ -47,6 +47,7 @@ namespace NewWeaponSystem
         {
             _input.Enable();
             _input.Player.Attack.started += Fire;
+            _input.Player.Attack.canceled += FireStop;
             _input.Player.Move.performed += GetMovePos;
             _input.Player.MousePosition.performed += GetMousePosition;
         }
@@ -54,6 +55,7 @@ namespace NewWeaponSystem
         private void OnDisable()
         {
             _input.Player.Attack.started -= Fire;
+            _input.Player.Attack.canceled -= FireStop;
             _input.Player.Move.performed -= GetMovePos;
             _input.Player.MousePosition.performed -= GetMousePosition;
             _input.Disable();
@@ -100,39 +102,47 @@ namespace NewWeaponSystem
         
         private void Fire(InputAction.CallbackContext context)
         {
-            Debug.Log($"{_blackboard.damage} damage");
-            if (_cannotFire) return;
-            if (_blackboard.currentAmmo <= 0)
+            if (_fireCoroutine == null) _fireCoroutine = StartCoroutine(FireCoroutine());
+        }
+
+        private void FireStop(InputAction.CallbackContext context)
+        {
+            if (_fireCoroutine != null) StopCoroutine(_fireCoroutine);
+            _fireCoroutine = null;
+        }
+
+        private IEnumerator FireCoroutine()
+        {
+            while (true)
             {
-                if (!_isReloading) StartCoroutine(Reload());
-                _isReloading = true;
-                return;
+                if (_blackboard.currentAmmo <= 0)
+                {
+                    if (!_isReloading) StartCoroutine(Reload());
+                }
+                else
+                {
+                    Debug.Log($"{_blackboard.damage} damage");
+                    Vector2 direction = _mousePos - (Vector2)transform.position;
+                    PostManager.Instance.Post(PostMessageKey.ProjectileSpawned, new ProjectileSpwanMsg()
+                    {
+                        startPos = _portTf.position,
+                        direction = direction,
+                        blackboard = _blackboard
+                    });
+                    _blackboard.currentAmmo--;
+                }
+                float rate = (1 / _blackboard.attackSpeed);
+                yield return new WaitForSecondsRealtime(rate);    
             }
-            Vector2 direction = _mousePos - (Vector2)transform.position;
-            PostManager.Instance.Post(PostMessageKey.ProjectileSpawned, new ProjectileSpwanMsg()
-            {
-                startPos = _portTf.position,
-                direction = direction,
-                blackboard = _blackboard
-            });
-            _blackboard.currentAmmo--;
-            _cannotFire = true;
-            StartCoroutine(AttackRate());
         }
 
         private IEnumerator Reload()
         {
             Debug.Log("Reload");
+            _isReloading = true;
             yield return new WaitForSecondsRealtime(_blackboard.reloadTime);
             _blackboard.currentAmmo = _blackboard.origin.magazineSize;
             _isReloading = false;
-        }
-
-        private IEnumerator AttackRate()
-        {
-            float rate = (1 / _blackboard.attackSpeed);
-            yield return new WaitForSecondsRealtime(rate);
-            _cannotFire = false;
         }
     }
 }
