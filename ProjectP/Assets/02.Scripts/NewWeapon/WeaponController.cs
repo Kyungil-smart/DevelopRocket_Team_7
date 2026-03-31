@@ -7,18 +7,22 @@ namespace NewWeaponSystem
     public class WeaponController : MonoBehaviour
     {
         [SerializeField] private CommonWeaponData _weaponData;
-        [SerializeField] private GameObject _scopePrefab;
         [SerializeField] private Transform _portTf;
+        private GameObject _scopePrefab;
         private InputSystem_Actions _input;
         private SpriteRenderer _sp;
         private Animator _animator;
         private WeaponBlackboard _blackboard;
+        public WeaponBlackboard Blackboard { get => _blackboard; }
         private Camera _cam;
         private Vector2 _mousePos;
         private int _sortingOffset;
-        private bool _isRightFacing;
         private Vector2 _prePos;
+        
+        // 각종 Flags; state 로 하기도 참 애매하고...
+        private bool _isRightFacing;
         private bool _isReloading;
+        private bool _cannotFire;
 
         private void Awake()
         {
@@ -35,7 +39,7 @@ namespace NewWeaponSystem
 
         private void Update()
         {
-            _scopePrefab.transform.position = _mousePos;
+            if (_scopePrefab != null) _scopePrefab.transform.position = _mousePos;
             transform.rotation = GetRotation();
         }
         
@@ -53,6 +57,11 @@ namespace NewWeaponSystem
             _input.Player.Move.performed -= GetMovePos;
             _input.Player.MousePosition.performed -= GetMousePosition;
             _input.Disable();
+        }
+
+        public void SetScopePrefab(GameObject prefab)
+        {
+            _scopePrefab = prefab;
         }
 
         private void GetMousePosition(InputAction.CallbackContext context)
@@ -91,6 +100,8 @@ namespace NewWeaponSystem
         
         private void Fire(InputAction.CallbackContext context)
         {
+            Debug.Log($"{_blackboard.damage} damage");
+            if (_cannotFire) return;
             if (_blackboard.currentAmmo <= 0)
             {
                 if (!_isReloading) StartCoroutine(Reload());
@@ -105,6 +116,8 @@ namespace NewWeaponSystem
                 blackboard = _blackboard
             });
             _blackboard.currentAmmo--;
+            _cannotFire = true;
+            StartCoroutine(AttackRate());
         }
 
         private IEnumerator Reload()
@@ -113,6 +126,13 @@ namespace NewWeaponSystem
             yield return new WaitForSecondsRealtime(_blackboard.reloadTime);
             _blackboard.currentAmmo = _blackboard.origin.magazineSize;
             _isReloading = false;
+        }
+
+        private IEnumerator AttackRate()
+        {
+            float rate = (1 / _blackboard.attackSpeed);
+            yield return new WaitForSecondsRealtime(rate);
+            _cannotFire = false;
         }
     }
 }
