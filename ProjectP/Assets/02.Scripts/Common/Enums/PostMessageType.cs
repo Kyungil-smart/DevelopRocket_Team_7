@@ -11,5 +11,7 @@
     InitPlayerPosition,  // 처음 플레이어 등장시 시작 위치 보내기
     ProjectileSpawned,  // 플레이어 탄환체 꺼내기
     ProjectileDespawned,  // 플레이어 탄환체 반납하기
-    PlayerStat, // 플레이어 스탯 정보
+    PlayerStat, // 노드에서 플레이어에게 스탯을 전달하는 이벤트
+    NodeUIIconUpdate, // 노드 UI 갱신 이벤트
+    NodeLevelUp, // 노드 Level 증가 이벤트
 }

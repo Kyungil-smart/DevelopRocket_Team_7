@@ -7,6 +7,7 @@ using XNode;
 // 현재 노드 UI 관련하여 디자인이나 기타 사항들이 정해진 사항이 없어서 임시로 화면에 출력만 되게끔 만든 TempUI
 // 변경될 여지가 아주 많음
 
+/*
 public class StatTreeView : MonoBehaviour
 {
     public StatNodeGraph statGraph;     // xNode 그래프 에셋
@@ -108,4 +109,5 @@ public class StatTreeView : MonoBehaviour
     }
     
 }
+*/
 

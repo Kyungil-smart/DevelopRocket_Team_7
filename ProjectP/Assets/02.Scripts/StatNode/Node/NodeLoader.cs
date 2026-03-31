@@ -1,8 +1,6 @@
-using System;
-using Unity.VisualScripting;
 using UnityEngine;
 using System.Collections.Generic;
-using UnityEditor;
+
 public class NodeLoader : MonoBehaviour
 {
     [Header("불러올 시트 링크 전체 입력")]
@@ -17,13 +15,15 @@ public class NodeLoader : MonoBehaviour
     [Header("특수 노드 데이터를 저장할 타겟 SO 연결")] 
     [SerializeField] private NodeDataSO _specialDataContainer;
     
-    [Header("UI 스크립트 연결")] 
-    [SerializeField] private StatTreeView _treeView; // UI 스크립트 연결
-    
     private SheetLoader<NodeInfo> _data;
     private SheetLoader<SpecialNodeInfo> _specialData;
    
-    async void Start()
+    private void Start()
+    {
+        InitDataSO();
+    }
+
+    public async void InitDataSO()
     {
         // 1. 로더 생성
         _data = new SheetLoader<NodeInfo>(_url, _gid);
@@ -46,26 +46,6 @@ public class NodeLoader : MonoBehaviour
             _specialDataContainer.SpecialNodeInfos.Clear();
             _specialDataContainer.SpecialNodeInfos.AddRange(loadedSpecialList);
         }
-        
-        // 트리 그래프 에셋에 직접 접근하여 노드를 찾아 init 실행
-        if (_treeView != null && _treeView.statGraph != null)
-        {
-            foreach (var node in _treeView.statGraph.nodes)
-            {
-                // 노드가 StatNode 타입인 경우에만 초기화 실행
-                if (node is StatNode statNode)
-                {
-                    statNode.InitData();
-                }
-            }
-        }
-        
-        // 불러온 후 UI 새로고침
-        if (_treeView != null)
-        {
-            _treeView.GenerateTree();
-        }
-        
     }
 
 }

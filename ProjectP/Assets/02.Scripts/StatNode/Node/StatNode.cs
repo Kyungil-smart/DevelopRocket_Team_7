@@ -1,8 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using System.Reflection;
-using TMPro;
-using UnityEngine.UI;
+﻿using System;
 using UnityEngine;
 using XNode;
 
@@ -33,6 +29,8 @@ public class StatNode : Node {
 	
 	// 불러올 노드 데이터의 ID
 	[SerializeField] protected int _nodeId;
+	// getter
+	public int GetID() => _nodeId;
 	
 	// 노드 정보를 불러올 SO
 	[SerializeField] protected NodeDataSO _nodeData;
@@ -137,13 +135,7 @@ public class StatNode : Node {
 		Debug.Log($"스킬 노드 type: {_nodeType} / 노드 ID : {_nodeId} ");
 	}
 
-	public int GetID() => _info.Id;
-	//public string GetNodeName() => _info?.NameVariable;
-	public string GetNodeStatType() => _info?.NodeStatType;
-	//public int GetNodeLevel() => _info.NodeLevel;
-
 	// 노드의 3가지 상태인 Active,InActive,Locked에 따라 상태 여부를 문자열로 반환
-	// 추후 노드 전용 UI에서 해당 상태에 따라 노드 버튼 위에 자물쇠 아이콘,노드 버튼 비활성화 시 어떻게 보일지 등을 처리할 예정
 	public string GetNodeState() => NodeStateDescription();
 	
 	// 노드 활성화 조건에 맞지 않으면 _canActive가 false, 맞으면 true
@@ -154,6 +146,8 @@ public class StatNode : Node {
 		if (_mainNode && _state == StatNodeState.Inactive)
 		{
 			_state = StatNodeState.Active;
+			var specialNodeNameTmp = ExtractSpecialNodeName();
+			StatNodeManager.Instance.SelectFirstMainNode(specialNodeNameTmp);
 			Debug.Log($"메인 노드 ID : {_nodeId}  / 노드 상태 : {_state}");
 		}
 		
@@ -167,21 +161,14 @@ public class StatNode : Node {
 			Debug.Log($"서브 노드 ID : {_nodeId}  / 노드 상태 : {_state}");
 		}
 		
-		/*
-		// 양 옆 노드 상태 검사
-		HasActiveNeighbor();
-		*/
-		
 		// 양 옆 노드 중 하나가 Active 상태이면 해당 노드 활성화 가능
 		if (_isActiveLeft || _isActiveRight)
 		{
 			_canActive = true;
 		}
 		
-		
 		// 그 후 양 옆 노드 상태 변경
 		ChangeSideNodeState();
-		
 		
 		Debug.Log($"노드 ID : {_nodeId}  / 노드 상태 : {_state}");
 	}
@@ -287,6 +274,21 @@ public class StatNode : Node {
 			case("Projectile_Count") : _nodeType = StatNodeType.ProjectileCount;
 				break;
 		}
+	}
+
+	// 선택한 메인노드의 이름 중 _LV 뒷 부분부터 잘라 다시 전달하기 위한 메서드
+	private string ExtractSpecialNodeName()
+	{
+		string nodeName = name;
+		int targetIndex = nodeName.LastIndexOf("_LV", StringComparison.Ordinal);
+
+		// _LV 뒷 내용이 있을 경우
+		if (targetIndex != -1)
+		{
+			return nodeName.Substring(0,targetIndex);
+		}
+		
+		return "Unknown";
 	}
 	
 }

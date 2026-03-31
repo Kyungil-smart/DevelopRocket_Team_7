@@ -35,7 +35,7 @@ public class SpecialNodeInfo : ISheetParsable, IIdentifiable
         int.TryParse(data[2], out _id);    // C열 (ID)
         int.TryParse(data[3], out _nodeLevel); // D열 노드 레벨
         int.TryParse(data[4], out _currentNodePoints); // E열 노드 코스트 포인트
-        int.TryParse(data[5], out _requiredNodeID); // F열 증감치
+        int.TryParse(data[5], out _requiredNodeID); // F열 요구 노드 ID
         _description = data[6];            // G열 설명
     }
 }

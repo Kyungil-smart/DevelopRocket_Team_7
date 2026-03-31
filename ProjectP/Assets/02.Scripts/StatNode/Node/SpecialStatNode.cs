@@ -60,4 +60,42 @@ public class SpecialStatNode : StatNode
 			}
 		}
 	}
+
+	// 메인노드가 선택된 후에 선택되지 않은 노드들 잠금 처리
+	// 맨 처음에 각 메인 Lv1 노드와 그 좌우 노드만 inactive 처리를 함
+	// 선택되지 않은 노드들만 다시 locked로 바꿈
+	public void LockMainNodes()
+	{
+		LockSideNodes();
+		
+		// 좌우 잠근 후에 자기 자신 잠금
+		_canActive = false;
+		_state = StatNodeState.Locked;
+	}
+
+	// 특수 노드의 좌 우 노드들 잠금처리
+	public void LockSideNodes()
+	{
+		var leftPort = GetPort("Input");
+		if (leftPort.IsConnected)
+		{
+			var leftNode = leftPort.Connection.node as StatNode;
+			if (leftNode != null && leftNode.GetNodeState() == nameof(StatNodeState.Inactive))
+			{
+				leftNode.SetStatNodeState(StatNodeState.Locked);
+				Debug.Log($"미선택 왼쪽 노드 잠금 성공 / ID : {leftNode.GetID()}");
+			}
+		}
+		
+		NodePort rightPort = GetPort("Output");
+		if (rightPort.IsConnected)
+		{
+			var rightNode = rightPort.Connection.node as StatNode;
+			if (rightNode != null && rightNode.GetNodeState() == nameof(StatNodeState.Inactive))
+			{
+				rightNode.SetStatNodeState(StatNodeState.Locked);
+				Debug.Log($"미선택 오른쪽 노드 잠금 성공 / ID : {rightNode.GetID()}");
+			}
+		}
+	}
 }
