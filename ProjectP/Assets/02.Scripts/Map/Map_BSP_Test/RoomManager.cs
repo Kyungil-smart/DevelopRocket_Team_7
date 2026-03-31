@@ -95,12 +95,12 @@ namespace sadsmile
         }
         private void OnEnable()
         {
-            PostManager.Instance.Subscribe<int>(PostMessageKey.EnemyDeadAlram, CheckClear);
+            PostManager.Instance.Subscribe<int>(PostMessageKey.EnemyDeadAlarm, CheckClear);
 
         }
         private void OnDisable()
         {
-            PostManager.Instance.Unsubscribe<int>(PostMessageKey.EnemyDeadAlram, CheckClear);
+            PostManager.Instance.Unsubscribe<int>(PostMessageKey.EnemyDeadAlarm, CheckClear);
 
         }
 
