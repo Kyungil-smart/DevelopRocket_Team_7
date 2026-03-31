@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 5483050099298282615}
   - component: {fileID: 5666000645630317884}
   - component: {fileID: 3648988751685187160}
+  - component: {fileID: 1945366587202265950}
   m_Layer: 0
   m_Name: Battery
   m_TagString: Untagged
@@ -29,7 +30,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 11.5515, y: -2.5266, z: 0}
-  m_LocalScale: {x: 0.3471, y: 0.4015, z: 1}
+  m_LocalScale: {x: 0.11187032, y: 0.15092385, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -157,3 +158,23 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 4
+--- !u!114 &1945366587202265950
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5477179358774822315}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b428721d301498fbd1aef5e1a7541f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Battery
+  batteryStatuses:
+  - {fileID: 11400000, guid: c7006f1ba6b78a84e9165c2daa0bd30f, type: 2}
+  - {fileID: 11400000, guid: 7784e5527d6247d4dbb574e9a8358bd0, type: 2}
+  - {fileID: 11400000, guid: 5f555e558029fb34a95e570e437e37c0, type: 2}
+  - {fileID: 11400000, guid: 05ce36b14369ac447ae3ea7924aac903, type: 2}
+  _layerMask:
+    serializedVersion: 2
+    m_Bits: 64
