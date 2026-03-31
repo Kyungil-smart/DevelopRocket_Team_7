@@ -8,10 +8,11 @@
     BatterySpawned,  // Enemy 사망 후 배터리 스폰
     BatteryDespawned,  // Enemy 사망 후 배터리 디스폰
     BossBulletDespawned,  // 보스의 Bullet 이 사라지기 위함.
-    PostExp,  // 보스 사망 후 경험치 추가
+    PostExp,  // 적 사망 후 경험치 추가
     InitPlayerPosition,  // 처음 플레이어 등장시 시작 위치 보내기
     ProjectileSpawned,  // 플레이어 탄환체 꺼내기
     ProjectileDespawned,  // 플레이어 탄환체 반납하기
     EnemyRangeBulletSpawned,  // 몬스터 탄환체 꺼내기
     EnemyRangeBulletDespawned,  // 몬스터 탄환체 반납하기
+    UpgradeWeapon,  // 무기 업그레이드 하기
 }

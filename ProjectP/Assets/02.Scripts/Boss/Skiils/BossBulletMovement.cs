@@ -36,7 +36,7 @@ public class BossBulletMovement : MonoBehaviour
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (Utils.CompareLayer(collision.gameObject.layer, _layerMask))
-            PostManager.Instance.Post<GameObject>(PostMessageKey.BossBulletDespawned, gameObject);
+            PostManager.Instance.Post(PostMessageKey.BossBulletDespawned, gameObject);
     }
     
     private void Movement()
@@ -54,7 +54,7 @@ public class BossBulletMovement : MonoBehaviour
     private IEnumerator AliveRoutine()
     {
         yield return new WaitForSeconds(5);
-        PostManager.Instance.Post<GameObject>(PostMessageKey.BossBulletDespawned, gameObject);
+        PostManager.Instance.Post(PostMessageKey.BossBulletDespawned, gameObject);
     }
     
 }

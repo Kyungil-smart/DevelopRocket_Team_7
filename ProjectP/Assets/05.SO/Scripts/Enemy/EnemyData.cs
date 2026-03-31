@@ -10,4 +10,5 @@ public class EnemyData : ScriptableObject
     public float detectRadius;
     public float attackDelay;
     public float batteryProbability;
+    public int exp;
 }
