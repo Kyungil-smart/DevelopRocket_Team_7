@@ -102,11 +102,6 @@ namespace NewWeaponSystem
         
         private void Fire(InputAction.CallbackContext context)
         {
-            if (_blackboard.currentAmmo <= 0)
-            {
-                if (!_isReloading) StartCoroutine(Reload());
-                return;
-            }
             if (_fireCoroutine == null) _fireCoroutine = StartCoroutine(FireCoroutine());
         }
 
