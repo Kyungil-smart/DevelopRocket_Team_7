@@ -17,5 +17,6 @@ MonoBehaviour:
   speed: 1
   attackRange: 0.1
   detectRadius: 2
-  attackDelay: 5
+  attackDelay: 1
   batteryProbability: 1
+  exp: 0

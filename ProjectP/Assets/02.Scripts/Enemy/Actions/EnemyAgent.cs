@@ -95,8 +95,8 @@ public class EnemyAgent : MonoBehaviour
     public void OnDead()
     {
         if (_deadScript != null) _deadScript.Dead(_blackboard);
-        // 경험치를 100% 확률로 전달해. 누구에게? 지금 그 데이터 공간이 없는데..?
-        
+        // 경험치를 100% 확률로 전달.
+        PostManager.Instance.Post(PostMessageKey.PostExp, _blackboard.origin.exp);
         
         // 배터리를 특정 활률로 떨궈
         if (UnityEngine.Random.value <= _blackboard.origin.batteryProbability)
@@ -111,7 +111,7 @@ public class EnemyAgent : MonoBehaviour
             name = name,
             obj = gameObject
         };
-        PostManager.Instance.Post<EnemyDespawnMsg>(PostMessageKey.EnemyDespawned, msg);
+        PostManager.Instance.Post(PostMessageKey.EnemyDespawned, msg);
     }
     
     // Test Code

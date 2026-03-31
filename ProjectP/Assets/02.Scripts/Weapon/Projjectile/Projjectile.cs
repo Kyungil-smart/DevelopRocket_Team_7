@@ -36,7 +36,7 @@ public class Projectile : MonoBehaviour
 
         if (lifeTimer <= 0f)
         {
-            PostManager.Instance.Post<GameObject>(PostMessageKey.ProjectileDespawned, gameObject);
+            PostManager.Instance.Post(PostMessageKey.ProjectileDespawned, gameObject);
         }
     }
 
@@ -52,7 +52,7 @@ public class Projectile : MonoBehaviour
 
             Debug.Log($"[투사체] 데미지: {damage}");
 
-            PostManager.Instance.Post<GameObject>(PostMessageKey.ProjectileDespawned, gameObject);
+            PostManager.Instance.Post(PostMessageKey.ProjectileDespawned, gameObject);
             return;
         }
 
@@ -60,7 +60,7 @@ public class Projectile : MonoBehaviour
         if (collision.CompareTag("Wall"))
         {
             Debug.Log("[투사체] 벽 충돌 → 제거");
-            PostManager.Instance.Post<GameObject>(PostMessageKey.ProjectileDespawned, gameObject);
+            PostManager.Instance.Post(PostMessageKey.ProjectileDespawned, gameObject);
         }
     }
 }
