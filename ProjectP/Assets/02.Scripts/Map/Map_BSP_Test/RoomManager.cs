@@ -18,19 +18,43 @@ namespace sadsmile
         private List<Vector3Int> doorPositions = new List<Vector3Int>();
 
         private bool isPlayerInside = false;
+        private bool RoomClear=false;
         private bool isCleared = false;
+        public EnemySpawnMsg m_spawnMSG;
 
+        public int MonsterSpawnCount = 0;
+        /*
+          EnemySpawnMsg
+         public Dictionary<string, int> spawnNums;
+         몬스터 프리팹 관리,int는 마릿수
+
+         public List<Vector2> positions;
+        몬스터 들이 소환되는 위치
+
+        소환되어야할 총 수
+         */
+
+        /*
+        몬스터가 죽을때마다 post보내주시는데 
+        카운트 1보내주시면
+
+        룸매니저에서 현재 스폰된 마릿수에서 -1씩하고
+        그러다가 0이되면 문 열기 호출
+         */
         private void OnTriggerEnter2D(Collider2D collision)
         {
             // 플레이어가 처음 방에 들어왔을 때
             if (!isCleared && !isPlayerInside && collision.CompareTag("Player"))
             {
                 isPlayerInside = true;
-                CloseDoors(); 
+                RoomClear=false;
+                CloseDoors();
+                // 몬스터 소환 요청
+                PostManager.Instance.Post(PostMessageKey.EnemySpawned, m_spawnMSG);
             }
         }
+        
 
-      
         private void CloseDoors()
         {            // 방의 테두리(상하좌우 1칸 밖)를 스캔
             for (int x = roomRect.x -1; x <= roomRect.xMax; x++)
@@ -58,15 +82,39 @@ namespace sadsmile
         }
 
         // 몬스터를 다 잡았을 때 호출할 함수
-        [ContextMenu("해방")]
-        public void OpenDoors()
+         
+        public void OpenDoors( )
         {
-           //벽에서 다시 길로 변경
+            RoomClear = true;
+            //벽에서 다시 길로 변경
             foreach (Vector3Int pos in doorPositions)
             {
                 tilemap.SetTile(pos, floorTile);
             }
             isCleared = true;
         }
+        private void OnEnable()
+        {
+            PostManager.Instance.Subscribe<int>(PostMessageKey.EnemyDeadAlram, CheckClear);
+
+        }
+        private void OnDisable()
+        {
+            PostManager.Instance.Unsubscribe<int>(PostMessageKey.EnemyDeadAlram, CheckClear);
+
+        }
+
+        public void CheckClear(int count)
+        {
+            //방에 안들어왔거나 이미 클리어 했으면 패스
+            if (isPlayerInside == false || RoomClear == true) return;
+
+            MonsterSpawnCount -= count;
+            if (MonsterSpawnCount <= 0)
+            {
+                OpenDoors();
+            }
+        }
     }
-}
+       
+    }
