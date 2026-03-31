@@ -637,6 +637,7 @@ MonoBehaviour:
   - {fileID: 1423331314761006867, guid: f23f33bff8e1b944ca3e82ebc83f9569, type: 3}
   - {fileID: 1423331314761006867, guid: 4c1200407cd8d624ab4c723f219ed59a, type: 3}
   - {fileID: 1423331314761006867, guid: 8c1ef54d70f3a304e9bfdf74263f0128, type: 3}
+  _bossMonsterPrefab: {fileID: 4846614634818495135, guid: e1e4b7466415a534eb1305301fc2c5dd, type: 3}
 --- !u!4 &1748380614
 Transform:
   m_ObjectHideFlags: 0

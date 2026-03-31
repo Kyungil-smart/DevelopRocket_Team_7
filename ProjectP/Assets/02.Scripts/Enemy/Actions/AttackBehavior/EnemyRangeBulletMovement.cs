@@ -5,27 +5,18 @@ public class EnemyRangeBulletMovement : MonoBehaviour
 {
     [SerializeField][Range (1, 20)] private float speed;
     [SerializeField] private LayerMask _layerMask;
+    private Rigidbody2D _rb;
     private Vector2 _direction;
     private bool _isMoving;
 
-    private void Update()
+    private void Awake()
     {
-        if (_isMoving) Movement();
+        _rb = GetComponent<Rigidbody2D>();
     }
 
-    private void OnDisable()
+    private void OnTriggerEnter2D(Collider2D other)
     {
-        _isMoving = false;
-    }
-
-    private void Movement()
-    {
-        transform.position = Vector2.MoveTowards(transform.position, _direction, speed * Time.deltaTime);
-    }
-
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        if (Utils.CompareLayer(collision.gameObject.layer, _layerMask))
+        if (Utils.CompareLayer(other.gameObject.layer, _layerMask))
             DespawnBullet();
     }
 
@@ -39,6 +30,6 @@ public class EnemyRangeBulletMovement : MonoBehaviour
 
     public void FireBullet()
     {
-        _isMoving = true;
+        _rb.linearVelocity = _direction.normalized * speed;
     }
 }

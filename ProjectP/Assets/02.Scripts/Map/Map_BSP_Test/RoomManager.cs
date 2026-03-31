@@ -21,7 +21,7 @@ namespace sadsmile
         private bool RoomClear=false;
         private bool isCleared = false;
         public EnemySpawnMsg m_spawnMSG;
-
+        public RoomType m_CurrentRoomType;
         public int MonsterSpawnCount = 0;
         /*
           EnemySpawnMsg
@@ -49,7 +49,8 @@ namespace sadsmile
                 isPlayerInside = true;
                 RoomClear=false;
                 CloseDoors();
-                // 몬스터 소환 요청
+                // 몬스터 소환 요청 +추가 보스방이면 소환 안함
+                if (m_CurrentRoomType == RoomType.BossNode) return;
                 PostManager.Instance.Post(PostMessageKey.EnemySpawned, m_spawnMSG);
             }
         }
