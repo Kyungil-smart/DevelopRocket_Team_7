@@ -10,16 +10,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 74c263bb61df4865a9aec97c47cfbba2, type: 3}
-  m_Name: ShotgunCommon
+  m_Name: SniperCommon
   m_EditorClassIdentifier: Assembly-CSharp::CommonWeaponData
-  weaponName: Shotgun
-  WeaponType: 1
+  weaponName: Sniper
+  WeaponType: 2
   attackSpeed: 4
   damage: 10
   critRate: 0.05
   critMultiplier: 1.5
   magazineSize: 30
   reloadTime: 1.5
-  projectilePrefab: {fileID: 4835018492568507452, guid: 7408d49090f77164096a4da3351a452b, type: 3}
+  projectilePrefab: {fileID: 4835018492568507452, guid: ce3135a4b41e66145938e5a10b4e7de7, type: 3}
   projectileSpeed: 15
   projectileCount: 1

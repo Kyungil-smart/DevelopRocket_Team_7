@@ -30,7 +30,8 @@ namespace NewWeaponSystem
             _input = new InputSystem_Actions();
             _sp = GetComponent<SpriteRenderer>();
             _animator = GetComponent<Animator>();
-            if (_weaponData.WeaponType == WeaponType.Rifle) _fireType = GetComponent<RifleFire>();
+            if (_weaponData.WeaponType == WeaponType.Rifle || _weaponData.WeaponType == WeaponType.Sniper) 
+                _fireType = GetComponent<RifleSniperFire>();
             else if (_weaponData.WeaponType == WeaponType.Shotgun) _fireType = GetComponent<ShotgunFire>();
         }
 

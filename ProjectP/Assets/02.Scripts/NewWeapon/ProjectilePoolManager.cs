@@ -62,10 +62,14 @@ namespace NewWeaponSystem
                 }
                 GameObject obj = _pool.Dequeue();
                 obj.transform.position = spawnMsg.startPos;
-                BulletProjectile sm = obj.GetComponent<BulletProjectile>();
-                sm.SetData(direction, spawnMsg.blackboard);
+                BulletMovement bm = obj.GetComponent<BulletMovement>();
+                bm.SetDirection(direction);
+                if (spawnMsg.blackboard.origin.WeaponType == WeaponType.Sniper)
+                    obj.GetComponent<SniperProjectile>().SetUpData(spawnMsg.blackboard);
+                else
+                    obj.GetComponent<BulletProjectile>().SetUpData(spawnMsg.blackboard);
                 obj.SetActive(true);
-                sm.Fire();    
+                bm.Fire();    
             }
         }
 

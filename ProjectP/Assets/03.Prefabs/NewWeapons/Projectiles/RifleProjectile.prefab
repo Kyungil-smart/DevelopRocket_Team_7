@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 1423797112781454957}
   - component: {fileID: 4322377413905286252}
   - component: {fileID: 884444050504595966}
+  - component: {fileID: -9201791536437098543}
   - component: {fileID: 1026486519505383846}
   - component: {fileID: 6576199162793167875}
   m_Layer: 7
@@ -106,10 +107,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c172cd2ac7bb47ecbea4ab0d1c371f16, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::NewWeaponSystem.StraightMovement
-  _speed: 5
   _layerMask:
     serializedVersion: 2
     m_Bits: 2684355584
+--- !u!114 &-9201791536437098543
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4835018492568507452}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 04a1a0b579cd459eb78ea8e1cdf31174, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::NewWeaponSystem.BulletMovement
+  _speed: 3
 --- !u!50 &1026486519505383846
 Rigidbody2D:
   serializedVersion: 5
@@ -167,7 +180,7 @@ CircleCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0

@@ -5,7 +5,7 @@ using UnityEngine.InputSystem;
 
 namespace NewWeaponSystem
 {
-    public class RifleFire : FireAbstractClass
+    public class RifleSniperFire : FireAbstractClass
     {
         public override void SetUp(WeaponBlackboard blackboard, Transform portTf)
         {
