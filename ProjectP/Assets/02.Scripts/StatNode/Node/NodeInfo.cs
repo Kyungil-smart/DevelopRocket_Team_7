@@ -8,7 +8,8 @@ public class NodeInfo: ISheetParsable, IIdentifiable
     private int _id;
     private int _nodeLevel;
     private int _nodeCostPoint;
-    private int _nodeIncrValue;
+    private float _nodeIncrValue;
+    private string _description;
     
     // getter
     public string NodeStatType => _nodeStatType;
@@ -16,7 +17,8 @@ public class NodeInfo: ISheetParsable, IIdentifiable
     public int Id => _id;
     public int NodeLevel => _nodeLevel;
     public int NodeCostPoint => _nodeCostPoint;
-    public int NodeIncrValue => _nodeIncrValue;
+    public float NodeIncrValue => _nodeIncrValue;
+    public string Description => _description;
     
     [field: SerializeField] public string Name { get; set; }
     public void ApplyRowData(string[] data)
@@ -24,15 +26,16 @@ public class NodeInfo: ISheetParsable, IIdentifiable
         // 데이터가 없으면 무시
         if (data == null || data.Length == 0) return;
 
-        // 1. 인스펙터 리스트에 표시될 '이름' 설정 (A열 값 사용)
+        // 인스펙터 리스트에 표시될 '이름' 설정 (A열 값 사용)
         Name = data[0];
 
-        // 2. 순서대로 꽂아넣기 (형변환 실패해도 0으로 들어가서 에러 안 남)
-        _nodeStatType = data[0];           // A열
-        _nameVariable = data[1];           // B열
+        // 순서대로 꽂아넣기
+        _nodeStatType = data[0];           // A열 노드 이름
+        _nameVariable = data[1];           // B열 
         int.TryParse(data[2], out _id);    // C열 (ID)
-        int.TryParse(data[3], out _nodeLevel); // D열
-        int.TryParse(data[4], out _nodeCostPoint); // E열
-        int.TryParse(data[5], out _nodeIncrValue); // F열
+        int.TryParse(data[3], out _nodeLevel); // D열 노드 레벨
+        int.TryParse(data[4], out _nodeCostPoint); // E열 노드 코스트 포인트
+        float.TryParse(data[5], out _nodeIncrValue); // F열 증감치
+        _description = data[6];            // G열 설명
     }
 }
