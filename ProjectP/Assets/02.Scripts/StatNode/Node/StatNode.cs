@@ -1,4 +1,5 @@
 ﻿using System;
+using NewWeaponSystem;
 using UnityEngine;
 using XNode;
 
@@ -32,9 +33,6 @@ public class StatNode : Node {
 	// 현재 노드가 실제로 사용할 데이터
 	protected NodeInfo _info = new();
 	
-	// 플레이어에게 넘겨줄 증감수치
-	//protected PlayerStat _postStat;
-	
 	// 노드 타입
 	protected StatNodeType _nodeType;
 	
@@ -67,11 +65,6 @@ public class StatNode : Node {
 		_canActive = false;
 		_isActiveLeft = false;
 		_isActiveRight = false;
-		
-		/*
-		_postStat.moveSpeed = 0f;
-		_postStat.playerHp = 0;
-		*/
 		
 		// SO 리스트에서 내 ID와 일치하는 데이터 찾기
 		_info = _nodeData.NodeInfos.Find(match => match.Id == _nodeId);
@@ -109,19 +102,41 @@ public class StatNode : Node {
 		
 		if (_info != null && _canActive)
 		{
+			WeaponUpgradeMsg data = new();
+			PlayerStatMSG playerData = new();
+			
 			switch (_nodeType)
 			{
 				case StatNodeType.MovementSpeed :
-					//_postStat.moveSpeed += _info.NodeIncrValue;
+					playerData.moveSpeed = _info.NodeIncrValue;
+					PostManager.Instance.Post(PostMessageKey.PlayerStat,playerData);
 					break;
 				
 				case StatNodeType.MaxHP :
-					//_postStat.playerHp = (int)_info.NodeIncrValue;
+					playerData.PlayerHp = (int)_info.NodeIncrValue;
+					PostManager.Instance.Post(PostMessageKey.PlayerStat,playerData);
+					break;
+				
+				case StatNodeType.Damage:
+					data.damage = _info.NodeIncrValue;
+					PostManager.Instance.Post(PostMessageKey.UpgradeWeapon, data);
+					break;
+				
+				case StatNodeType.AttackSpeed:
+					data.attackSpeed = _info.NodeIncrValue;
+					PostManager.Instance.Post(PostMessageKey.UpgradeWeapon, data);
+					break;
+				
+				case StatNodeType.CriticalRate:
+					data.critRate = _info.NodeIncrValue;
+					PostManager.Instance.Post(PostMessageKey.UpgradeWeapon, data);
+					break;
+				
+				case StatNodeType.CriticalDamage:
+					data.critMultiplier = _info.NodeIncrValue;
+					PostManager.Instance.Post(PostMessageKey.UpgradeWeapon, data);
 					break;
 			}
-			//PostManager.Instance.Post<PlayerStat>(PostMessageKey.PlayerStat, _postStat);
-			// 해당 이벤트를 받는 쪽에 UI 갱신 구현
-			// levelUp 시도를 세번 하여 3번째에 레벨업 실시
 			StatNodeManager.Instance.SetNodePoint(-_info.NodeCostPoint);
 			PostManager.Instance.Post(PostMessageKey.NodeLevelUp, 1);
 		}

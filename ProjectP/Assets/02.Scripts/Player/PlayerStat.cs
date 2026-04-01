@@ -4,7 +4,7 @@ using UnityEngine;
 public struct PlayerStatMSG
 {
     public int PlayerHp;
-    public int moveSpeed;
+    public float moveSpeed;
 }
 public class PlayerStat : MonoBehaviour
 {
@@ -25,12 +25,12 @@ public class PlayerStat : MonoBehaviour
     private void OnEnable()
     { 
         //TODo : PostMessageKey쪽에서 PlayerStat 관련 enum 추가 해야함.
-      //PostManager.Instance.Subscribe<PlayerStatMSG>(PostMessageKey. , GetStat);
+      PostManager.Instance.Subscribe<PlayerStatMSG>(PostMessageKey.PlayerStat , GetStat);
     }
     private void OnDisable()
     {
         //TODo : PostMessageKey쪽에서 PlayerStat 관련 enum 추가 해야함.
-        //PostManager.Instance.Unsubscribe<PlayerStatMSG>(PostMessageKey. , GetStat);
+        PostManager.Instance.Unsubscribe<PlayerStatMSG>(PostMessageKey.PlayerStat , GetStat);
     }
     public void GetStat(PlayerStatMSG _MSG)
     {
@@ -41,6 +41,7 @@ public class PlayerStat : MonoBehaviour
         */
         //임시
         MAX_Hp += _MSG.PlayerHp;
+        moveSpeed += _MSG.moveSpeed;
     }
    
 }
