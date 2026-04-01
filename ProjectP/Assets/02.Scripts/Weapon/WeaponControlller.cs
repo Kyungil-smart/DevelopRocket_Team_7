@@ -19,7 +19,7 @@ public class WeaponController : MonoBehaviour
     [Header("무기 장착 위치")]
     [SerializeField] private Transform weaponHolder;
     // 무기 프리팹이 붙는 위치 (플레이어)
-
+    
     private WeaponBlackboard blackboard;
     private float lastAttackTime;
     private bool isReloading = false;
@@ -44,21 +44,19 @@ public class WeaponController : MonoBehaviour
 
     private void Start()
     {
-        InitAmmo();
+        Init();
         SetWeapon(currentIndex);
-        foreach (var w in weapons)
-        {
-            blackboards.Add(new WeaponBlackboard(w));
-        }
     }
 
-    private void InitAmmo()
+    private void Init()
     {
-        foreach (var weapon in weapons)
+        foreach (var w in weapons)
         {
-            if (!ammoDict.ContainsKey(weapon))
+            WeaponBlackboard wb = new WeaponBlackboard(w);
+            blackboards.Add(wb);
+            if (!ammoDict.ContainsKey(w))
             {
-                ammoDict.Add(weapon, weapon.magazineSize);
+                ammoDict.Add(w, wb.currentAmmo);
             }
         }
     }

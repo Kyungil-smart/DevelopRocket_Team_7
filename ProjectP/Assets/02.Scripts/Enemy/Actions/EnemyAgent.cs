@@ -72,31 +72,31 @@ public class EnemyAgent : MonoBehaviour
         _blackboard.targetPosition = position;
     }
 
-    public void OnPatrol()
+    private void OnPatrol()
     {
         if (_movementScript != null) _movementScript.Patrol(_blackboard);
     }
     
-    public void OnMoveToPlayer()
+    private void OnMoveToPlayer()
     {
         if (_movementScript != null) _movementScript.GoToPlayer(_blackboard);
     }
 
-    public void OnAttackDelay()
+    private void OnAttackDelay()
     {
         if (_attackDelayScript != null) _attackDelayScript.OnDelayBeforeAttack(_blackboard);
     }
     
-    public void OnAttack()
+    private void OnAttack()
     {
         if (_attackScript != null) _attackScript.Attack(_blackboard);
     }
     
-    public void OnDead()
+    private void OnDead()
     {
         if (_deadScript != null) _deadScript.Dead(_blackboard);
-        // 경험치를 100% 확률로 전달해. 누구에게? 지금 그 데이터 공간이 없는데..?
-        
+        // 경험치를 100% 확률로 전달.
+        PostManager.Instance.Post(PostMessageKey.PostExp, _blackboard.origin.exp);
         
         // 배터리를 특정 활률로 떨궈
         if (UnityEngine.Random.value <= _blackboard.origin.batteryProbability)
@@ -111,7 +111,7 @@ public class EnemyAgent : MonoBehaviour
             name = name,
             obj = gameObject
         };
-        PostManager.Instance.Post<EnemyDespawnMsg>(PostMessageKey.EnemyDespawned, msg);
+        PostManager.Instance.Post(PostMessageKey.EnemyDespawned, msg);
     }
     
     // Test Code

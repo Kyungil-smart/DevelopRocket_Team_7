@@ -14,8 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EnemyData
   maxHp: 100
   damage: 1
-  speed: 3
-  attackRange: 4
-  detectRadius: 7
-  attackDelay: 5
+  speed: 0.5
+  attackRange: 2
+  detectRadius: 4
+  attackDelay: 1
   batteryProbability: 0.2
+  exp: 100

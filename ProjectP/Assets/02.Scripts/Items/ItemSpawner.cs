@@ -47,4 +47,11 @@ public class ItemSpawner : MonoBehaviour
         obj.SetActive(false);
         _batteryQueue.Enqueue(obj);
     }
+
+    [ContextMenu("Test/Spwan")]
+    public void OnTestSpwan()
+    {
+        Vector2 position = Vector2.zero;
+        Spwan(position);
+    }
 }

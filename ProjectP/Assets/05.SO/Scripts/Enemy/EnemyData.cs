@@ -4,10 +4,11 @@ using UnityEngine;
 public class EnemyData : ScriptableObject
 {
     public int maxHp;
-    public float damage;
+    public int damage;
     public float speed;
     public float attackRange;
     public float detectRadius;
     public float attackDelay;
     public float batteryProbability;
+    public int exp;
 }

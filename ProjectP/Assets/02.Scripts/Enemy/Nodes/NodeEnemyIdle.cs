@@ -12,7 +12,6 @@ public class NodeEnemyIdle : EnemyBaseNode
 	public override string Execute(EnemyBlackboard blackboard)
 	{
 		blackboard.IsIdle = false;
-		
 		// 1. 인식 범위안에 있는지 확인
 		string transitionName;
 		transitionName = ToFollowingToPlayer(blackboard);

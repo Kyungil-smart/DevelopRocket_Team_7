@@ -27,7 +27,7 @@ public class WeaponDataSO : ScriptableObject
     [Tooltip("기본 공격력")]
     public int damage = 10;
     // 모든 무기 기본 데미지 기준값
-
+    
     [Header("탄창")]
 
     [Tooltip("탄창 크기")]

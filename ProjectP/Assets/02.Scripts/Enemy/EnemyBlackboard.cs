@@ -70,6 +70,7 @@ public class EnemyBlackboard
     // Action 을 위한 Agent
     public EnemyAgent agent;
     public Vector2 targetPosition;
+    public Vector2 facingDirection;
 
     public EnemyBlackboard(EnemyData origin, EnemyAgent agent)
     {
