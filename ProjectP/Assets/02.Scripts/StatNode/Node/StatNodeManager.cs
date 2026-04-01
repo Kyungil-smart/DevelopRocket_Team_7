@@ -28,6 +28,15 @@ public class StatNodeManager : Singleton<StatNodeManager>
     // 최대 노드 포인트
     private int _maxNodePoint;
     
+    [SerializeField] UnityEngine.UI.Text _nodePointText;
+    [SerializeField] UnityEngine.UI.Text _curnodePointText;
+    
+    private void Update()
+    {
+        _nodePointText.text = _maxNodePoint.ToString();
+        _curnodePointText.text = _nodePoint.ToString();
+    }
+    
     // 현재 위치한 특수 노드
     private SpecialStatNode _currentSpecialNode;
     // 첫 노드 선택 시 고른 메인 테크 노드
@@ -50,7 +59,9 @@ public class StatNodeManager : Singleton<StatNodeManager>
 
     private void Awake()
     {
+        base.Awake();
         _nodePoint = 9;
+        _maxNodePoint = _nodePoint;
         _nodeScanner = gameObject.AddComponent<NodeScanner>();
     }
     
@@ -73,8 +84,6 @@ public class StatNodeManager : Singleton<StatNodeManager>
                 _specialNodeDict.Add(specialTmp.SpecialNodeId, specialTmp);
             }
         }
-        
-        _maxNodePoint = _nodePoint;
         
         ResetNodes();
     }
