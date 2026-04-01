@@ -1957,7 +1957,7 @@ MonoBehaviour:
   _nodeId: 10051
   _nodeData: {fileID: 11400000, guid: ebbfe3943b25464499fd522ce34a3898, type: 2}
   _mainNode: 1
-  _isFirst: 0
+  _isFirst: 1
   SpecialToSpecialUp: 0
   SpecialToSpecialDown: 0
   _specialNodeId: 10101
