@@ -14436,7 +14436,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 8715967921351649099, guid: c6553e1076372ef47a86e992071a47bb, type: 3}
         m_TargetAssemblyTypeName: StatNodeManager, Assembly-CSharp
-        m_MethodName: ResetNodes
+        m_MethodName: ClickResetButton
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
