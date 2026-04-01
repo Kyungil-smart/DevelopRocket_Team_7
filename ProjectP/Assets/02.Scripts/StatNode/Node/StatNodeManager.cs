@@ -31,15 +31,9 @@ public class StatNodeManager : Singleton<StatNodeManager>
     // 최대 노드 포인트
     private int _maxNodePoint;
     
-    [SerializeField] UnityEngine.UI.Text _nodePointText;
-    [SerializeField] UnityEngine.UI.Text _curnodePointText;
+   
     
-    private void Update()
-    {
-        _nodePointText.text = _maxNodePoint.ToString();
-        _curnodePointText.text = _nodePoint.ToString();
-        Debug.Log(_nodePoint);
-    }
+     
     
     // 현재 위치한 특수 노드
     private SpecialStatNode _currentSpecialNode;
