@@ -1,5 +1,7 @@
+using System;
 using UnityEngine;
 
+[Serializable]
 public class SpecialNodeInfo : ISheetParsable, IIdentifiable
 {
     // 구글 시트에서 가져온 데이터를 저장할 변수

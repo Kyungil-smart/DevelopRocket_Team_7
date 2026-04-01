@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System;
+using System.Threading.Tasks;
 using UnityEngine;
 
 public class StatNodeManager : Singleton<StatNodeManager>
@@ -62,26 +63,21 @@ public class StatNodeManager : Singleton<StatNodeManager>
         _nodeScanner = gameObject.AddComponent<NodeScanner>();
     }
     
-    private async Awaitable Start()
+    
+    private void Start()
     {
-        // 각 노드 로더에서 데이터 불러오기
-        foreach (var nodeLoader in _nodeLoaderList)
-        {
-            await nodeLoader.InitDataSO();
-        }
-        
         // 그래프 내 모든 특수 노드들 dict에 저장
         _specialNodeDict.Clear();
         foreach (var node in _statNodeGraph.nodes)
         {
             if (node == null) continue;
-            
+
             if (node is SpecialStatNode specialTmp)
             {
                 _specialNodeDict.Add(specialTmp.SpecialNodeId, specialTmp);
             }
         }
-        
+
         ResetNodes();
     }
     
@@ -260,6 +256,16 @@ public class StatNodeManager : Singleton<StatNodeManager>
         {
             PostManager.Instance.Unsubscribe<int>(PostMessageKey.NodeLevelUp, NodesLevelUp);
             PostManager.Instance.Unsubscribe<int>(PostMessageKey.PlayerLevelUp, PlayerLevelUp);
+        }
+    }
+
+    [ContextMenu("LoadGSheet")]
+    public async Task LoadGSheet()
+    {
+        // 각 노드 로더에서 데이터 불러오기
+        foreach (var nodeLoader in _nodeLoaderList)
+        {
+            await nodeLoader.InitDataSO();
         }
     }
 }
