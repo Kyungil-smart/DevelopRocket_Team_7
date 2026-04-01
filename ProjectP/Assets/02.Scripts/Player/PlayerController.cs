@@ -198,6 +198,7 @@ public class PlayerController : MonoBehaviour , IDamage
       }
    }
 
+   [ContextMenu("LevelUp")]
    public void LevelUp()
    {
       PostManager.Instance.Post(PostMessageKey.PlayerLevelUp, ++_playerStat.playerLevel);

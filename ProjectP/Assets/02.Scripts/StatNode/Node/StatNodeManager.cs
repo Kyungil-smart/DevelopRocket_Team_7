@@ -24,7 +24,10 @@ public class StatNodeManager : Singleton<StatNodeManager>
     // Getter
     public int NodePoint => _nodePoint;
     // Setter
-    public void SetNodePoint(int nodePoint){ _nodePoint +=  nodePoint; }
+    public void SetNodePoint(int nodePoint)
+    {
+        _nodePoint +=  nodePoint;
+    }
     // 최대 노드 포인트
     private int _maxNodePoint;
     
@@ -61,7 +64,6 @@ public class StatNodeManager : Singleton<StatNodeManager>
     private void Awake()
     {
         base.Awake();
-        _nodePoint = 9;
         _maxNodePoint = _nodePoint;
         _nodeScanner = gameObject.AddComponent<NodeScanner>();
     }
@@ -93,6 +95,7 @@ public class StatNodeManager : Singleton<StatNodeManager>
     {
         // 노드 ui에서 버튼을 누를때마다 해당 메서드를 불러 3번 부를 경우 노드 계층 레벨업하게 처리
         PostManager.Instance.Subscribe<int>(PostMessageKey.NodeLevelUp, NodesLevelUp);
+        PostManager.Instance.Subscribe<int>(PostMessageKey.PlayerLevelUp, PlayerLevelUp);
     }
 
     private void InitNodes()
@@ -238,6 +241,12 @@ public class StatNodeManager : Singleton<StatNodeManager>
         RequestUiUpdate();
     }
 
+    private void PlayerLevelUp(int count)
+    {
+        StatNodeManager.Instance.SetNodePoint(3);
+        StatNodeManager.Instance._maxNodePoint += 3;
+    }
+
     // 노드 UI를 갱신해야 할 경우 요청
     private void RequestUiUpdate()
     {
@@ -250,6 +259,7 @@ public class StatNodeManager : Singleton<StatNodeManager>
         if (PostManager.Instance != null)
         {
             PostManager.Instance.Unsubscribe<int>(PostMessageKey.NodeLevelUp, NodesLevelUp);
+            PostManager.Instance.Unsubscribe<int>(PostMessageKey.PlayerLevelUp, PlayerLevelUp);
         }
     }
 }
