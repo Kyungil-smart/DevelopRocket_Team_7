@@ -29,11 +29,8 @@ namespace NewWeaponSystem
         
         public void SetUpData(WeaponBlackboard data)
         {
-            Debug.Log("Setting up projectile");
             _blackboard = data;
-            Debug.Log("Set blackboard data");
             _hitCount = 0;
-            Debug.Log("_hitCount: 0");
         }
     }
 }
