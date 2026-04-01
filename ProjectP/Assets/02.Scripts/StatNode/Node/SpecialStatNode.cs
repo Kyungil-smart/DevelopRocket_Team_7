@@ -56,7 +56,6 @@ public class SpecialStatNode : StatNode
 			if (upNode != null && upNode.GetNodeState() == nameof(StatNodeState.Locked) && _canActive)
 			{
 				upNode.SetStatNodeState(StatNodeState.Inactive);
-				Debug.Log($"위 노드 {upNode.GetID()} 의 상태 : {upNode.GetNodeState()}");
 			}
 		}
 	}
@@ -83,7 +82,6 @@ public class SpecialStatNode : StatNode
 			if (leftNode != null && leftNode.GetNodeState() == nameof(StatNodeState.Inactive))
 			{
 				leftNode.SetStatNodeState(StatNodeState.Locked);
-				Debug.Log($"미선택 왼쪽 노드 잠금 성공 / ID : {leftNode.GetID()}");
 			}
 		}
 		
@@ -94,7 +92,6 @@ public class SpecialStatNode : StatNode
 			if (rightNode != null && rightNode.GetNodeState() == nameof(StatNodeState.Inactive))
 			{
 				rightNode.SetStatNodeState(StatNodeState.Locked);
-				Debug.Log($"미선택 오른쪽 노드 잠금 성공 / ID : {rightNode.GetID()}");
 			}
 		}
 	}

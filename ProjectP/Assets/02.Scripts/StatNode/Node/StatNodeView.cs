@@ -42,18 +42,15 @@ public class StatNodeView : MonoBehaviour
         }
     }
     
+    // 버튼 클릭시 실행될 메서드
     public void OnNodeClick()
     {
-        Debug.Log("OnNodeClick");
         if (_statNodeData == null) return;
         
         _statNodeData.OnClick();
-        // 해당 이벤트를 받는 쪽에 UI 갱신 구현
-        // levelUp 시도를 세번 하여 3번째에 레벨업 실시
-        PostManager.Instance.Post(PostMessageKey.NodeLevelUp, 1);
-        Debug.Log("클릭 처리 완료");
     }
 
+    // 상태 변환 후 갱신될 아이콘 처리
     private void UpdateActiveIcon(Action callback)
     {
         if (_statNodeData.IsActive())
@@ -75,6 +72,9 @@ public class StatNodeView : MonoBehaviour
 
     private void OnDisable()
     {
-        PostManager.Instance.Unsubscribe<Action>(PostMessageKey.NodeUIIconUpdate,UpdateActiveIcon);
+        if (PostManager.Instance != null) 
+        {
+            PostManager.Instance.Unsubscribe<Action>(PostMessageKey.NodeUIIconUpdate,UpdateActiveIcon);
+        }
     }
 }

@@ -14,6 +14,7 @@ public class NodeScanner : MonoBehaviour
         
         LeftNodes.Clear();
         RightNodes.Clear();
+        _AllNodes.Clear();
         
         ScanNodes(center, "Input", LeftNodes);
         ScanNodes(center, "Output", RightNodes);
@@ -29,7 +30,7 @@ public class NodeScanner : MonoBehaviour
         return _AllNodes;
     }
 
-    private void ScanNodes(Node currentNode, string portName, List<StatNode> targetList)
+    private void ScanNodes(StatNode currentNode, string portName, List<StatNode> targetList)
     {
         // 현재 노드의 지정된 포트 가져오기
         NodePort port = currentNode.GetPort(portName);
@@ -44,11 +45,17 @@ public class NodeScanner : MonoBehaviour
             // 존재하거나 이미 저장되지 않았을 경우에만 저장
             if (nextNode != null && !targetList.Contains(nextNode))
             {
+                
+                if (nextNode is SpecialStatNode)
+                {
+                    // 다음 노드가 특수 노드이면 탐색 X
+                    continue; 
+                }
+                
                 targetList.Add(nextNode);
+                // 다음 일반 노드에 대해서도 같은 방향으로 재귀적 진행
+                ScanNodes(nextNode, portName, targetList);
             }
-            
-            // 다음 노드에 대해서도 같은 방향으로 재귀적 진행
-            ScanNodes(nextNode, portName, targetList);
         }
     }
 }

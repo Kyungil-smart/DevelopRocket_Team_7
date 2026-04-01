@@ -1400,8 +1400,8 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8715967921351649099, guid: c6553e1076372ef47a86e992071a47bb, type: 3}
-      propertyPath: m_DontDestroyOnLoad
-      value: 1
+      propertyPath: NodePoint
+      value: 9
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1504,6 +1504,10 @@ PrefabInstance:
       propertyPath: m_Camera
       value: 
       objectReference: {fileID: 1038779605}
+    - target: {fileID: 6570002212086994711, guid: edb31814bd1973847a88bc78b0d6ad0b, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

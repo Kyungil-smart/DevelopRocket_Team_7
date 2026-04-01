@@ -1,19 +1,11 @@
-using System.Collections;
 using System.Collections.Generic;
 using System;
-using Unity.VisualScripting;
-using XNode;
 using UnityEngine;
 
 public class StatNodeManager : Singleton<StatNodeManager>
 {
     [Header("스탯 노드그래프 연결")]
     [SerializeField] private StatNodeGraph _statNodeGraph;
-
-    [Header("보유 노드 포인트")] 
-    [SerializeField] private int _openNodePoint;
-    // getter
-    public int OpenNodePoint => _openNodePoint;
     
     [Header("Node Loader")]
     [SerializeField] private List<NodeLoader> _nodeLoaderList;
@@ -27,15 +19,19 @@ public class StatNodeManager : Singleton<StatNodeManager>
     [Header("황금 사냥꾼 노드 ID 리스트")] 
     [SerializeField] private List<int> _goldHunterNodeId;
     
-    [Header("현재 특수 노드 인덱스/단순 확인용")]
-    [SerializeField] private int _currentSpecialNodeIndex;
+    // 보유 노드 포인트
+    public int NodePoint;
+    // 최대 노드 포인트
+    private int _maxNodePoint;
     
     // 현재 위치한 특수 노드
     private SpecialStatNode _currentSpecialNode;
     // 첫 노드 선택 시 고른 메인 테크 노드
     private List<SpecialStatNode> _currentSpecialNodeList = new();
+    // 고른 메인 테크 노드에 접근하기 위한 인덱스
+    private int _currentSpecialNodeIndex;
     // 고른 메인 노드의 해당 계층에 있는 스탯 노드들
-    private List<StatNode> _currentStatNodeList= new();
+    private List<StatNode> _currentStatNodeList = new();
     // 메인 테크 노드 이름
     private string _selectSpecialNodeName;
     // 노드 계층 레벨업 도달까지 남은 횟수를 세는 변수
@@ -46,20 +42,36 @@ public class StatNodeManager : Singleton<StatNodeManager>
     private NodeScanner _nodeScanner;
     
     // 그래프에 있는 모든 특수 노드들을 저장
-    private Dictionary<int, SpecialStatNode> _specialNodeDict = new Dictionary<int, SpecialStatNode>();
+    private Dictionary<int, SpecialStatNode> _specialNodeDict = new ();
 
-    protected override void Awake()
+    private void Awake()
     {
-        // 싱글톤 초기화
-        base.Awake();
-        
+        _nodeScanner = gameObject.AddComponent<NodeScanner>();
+    }
+    
+    private async Awaitable Start()
+    {
         // 각 노드 로더에서 데이터 불러오기
         foreach (var nodeLoader in _nodeLoaderList)
         {
-            nodeLoader.InitDataSO();
+            await nodeLoader.InitDataSO();
         }
         
-        InitNodes();
+        // 그래프 내 모든 특수 노드들 dict에 저장
+        _specialNodeDict.Clear();
+        foreach (var node in _statNodeGraph.nodes)
+        {
+            if (node == null) continue;
+            
+            if (node is SpecialStatNode specialTmp)
+            {
+                _specialNodeDict.Add(specialTmp.SpecialNodeId, specialTmp);
+            }
+        }
+        
+        _maxNodePoint = NodePoint;
+        
+        ResetNodes();
     }
     
     private void OnEnable()
@@ -70,10 +82,6 @@ public class StatNodeManager : Singleton<StatNodeManager>
 
     private void InitNodes()
     {
-        // 초기 인덱스 0으로 설정
-        _currentSpecialNodeIndex = 0;
-
-        _levelUpCount = 3;
         foreach (var node in _statNodeGraph.nodes)
         {
             if (node is StatNode statNodeTmp)
@@ -89,34 +97,34 @@ public class StatNodeManager : Singleton<StatNodeManager>
                 {
                     statNodeTmp.SetStatNodeState(StatNodeState.Inactive);
                 }
-                else
-                {
-                    statNodeTmp.SetStatNodeState(StatNodeState.Locked);
-                }
             }
         }
+        RequestUiUpdate();
+    }
+
+    public void ResetNodes()
+    {
+        InitManagerData();
+        InitNodes();
+    }
+
+    private void InitManagerData()
+    {
+        NodePoint = _maxNodePoint;
+        _selectSpecialNodeName = string.Empty;
+        _currentSpecialNodeList.Clear();
+        _currentStatNodeList.Clear();
+        _currentSpecialNode = null;
+        _currentSpecialNodeIndex = 0;
+        _levelUpCount = 3;
     }
 
     // 처음 특수 노드를 고를 시 실행될 메서드
     public void SelectFirstMainNode(string specialNodeName)
     {
-        // 노드 초기화나 기타 이유 등으로 첫 노드를 다시 골라야할 상황이 생길 때
-        // 기존 데이터가 있을 경우 초기화
-        _selectSpecialNodeName = specialNodeName;
-        _specialNodeDict.Clear();
-        _currentSpecialNodeList.Clear();
-        _currentSpecialNode = null;
+        InitManagerData();
         
-        // 그래프 내 모든 특수 노드들 dict에 저장
-        foreach (var node in _statNodeGraph.nodes)
-        {
-            if (node == null) continue;
-            
-            if (node is SpecialStatNode specialTmp)
-            {
-                _specialNodeDict.Add(specialTmp.SpecialNodeId, specialTmp);
-            }
-        }
+        _selectSpecialNodeName = specialNodeName;
         
         // 맨 첫번째(LV 1) 특수 노드 저장 후 미선택 메인노드들 잠금
         switch (_selectSpecialNodeName)
@@ -156,9 +164,9 @@ public class StatNodeManager : Singleton<StatNodeManager>
                     _currentSpecialNodeList.Add(_specialNodeDict[_goldHunterNodeId[i]]);
                 }
                 var tmp2SpiritBlessing = _specialNodeDict[_spiritBlessingNodeId[_currentSpecialNodeIndex]];
-                tmp2SpiritBlessing.LockSideNodes();
+                tmp2SpiritBlessing.LockMainNodes();
                 var tmp2HeartSeeker = _specialNodeDict[_heartSeekerNodeId[_currentSpecialNodeIndex]];
-                tmp2HeartSeeker.LockSideNodes();
+                tmp2HeartSeeker.LockMainNodes();
                 break;
         }
         
@@ -177,7 +185,7 @@ public class StatNodeManager : Singleton<StatNodeManager>
     private void NodesLevelUp(int count)
     {
         // 인덱스 값이 튀었을 경우 일단 실행 안되게 함
-        if(_currentSpecialNodeIndex < 0 ||  _currentSpecialNodeIndex > _currentSpecialNodeList.Count)
+        if(_currentSpecialNodeIndex < 0 ||  _currentSpecialNodeIndex >= _currentSpecialNodeList.Count)
             return;
         
         _levelUpCount -= count;
@@ -199,16 +207,18 @@ public class StatNodeManager : Singleton<StatNodeManager>
             // 레벨업을 하여 전 레벨 노드들 저장 정보 초기화
             _currentStatNodeList.Clear();
             // 다음 특수 노드로 갱신
-            _currentSpecialNode = _currentSpecialNodeList[_currentSpecialNodeIndex];
-            // 다음 특수 노드와 연결되어 있는 좌 우 노드들 추가
-            var tmp = _nodeScanner.ScanSides(_currentSpecialNode);
-            _currentStatNodeList.AddRange(tmp);
-            // 그 후 levelUpCount 초기화
-            _levelUpCount = 3;
-
-            // UI 갱신
-            RequestUiUpdate();
+            if (_currentSpecialNodeIndex < _currentSpecialNodeList.Count)
+            {
+                _currentSpecialNode = _currentSpecialNodeList[_currentSpecialNodeIndex];
+                // 다음 특수 노드와 연결되어 있는 좌 우 노드들 추가
+                var tmp = _nodeScanner.ScanSides(_currentSpecialNode);
+                _currentStatNodeList.AddRange(tmp);
+                // 그 후 levelUpCount 초기화
+                _levelUpCount = 3;
+            }
         }
+        // UI 갱신
+        RequestUiUpdate();
     }
 
     // 노드 UI를 갱신해야 할 경우 요청
@@ -220,6 +230,9 @@ public class StatNodeManager : Singleton<StatNodeManager>
 
     private void OnDisable()
     {
-        PostManager.Instance.Unsubscribe<int>(PostMessageKey.NodeLevelUp, NodesLevelUp);
+        if (PostManager.Instance != null)
+        {
+            PostManager.Instance.Unsubscribe<int>(PostMessageKey.NodeLevelUp, NodesLevelUp);
+        }
     }
 }

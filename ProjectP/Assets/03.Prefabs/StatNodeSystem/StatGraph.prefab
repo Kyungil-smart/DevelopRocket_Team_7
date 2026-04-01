@@ -25,7 +25,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1710719812400330559}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -41,6 +41,7 @@ Transform:
   - {fileID: 8874873602161538128}
   - {fileID: 6770794498573600826}
   - {fileID: 9199343209234649692}
+  - {fileID: 835048519402202407}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &8715967921351649099
@@ -55,9 +56,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c775bd26b988c64bbdcfaec5b1a8c29, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::StatNodeManager
-  m_DontDestroyOnLoad: 0
+  m_DontDestroyOnLoad: 1
   _statNodeGraph: {fileID: 11400000, guid: fe94c6b73152571479b7052435a7c1c8, type: 2}
-  _openNodePoint: 0
+  NodePoint: 0
   _nodeLoaderList:
   - {fileID: 3243817568392398347}
   - {fileID: 4724291232182807064}
@@ -73,7 +74,6 @@ MonoBehaviour:
   _spiritBlessingNodeId: 752700007627000077270000
   _heartSeekerNodeId: d9270000da270000db270000
   _goldHunterNodeId: 3d2800003e2800003f280000
-  _currentSpecialNodeIndex: 0
 --- !u!1 &2216990830226482699
 GameObject:
   m_ObjectHideFlags: 0
@@ -170,6 +170,50 @@ MonoBehaviour:
   _gid: 994647618
   _dataContainer: {fileID: 11400000, guid: d4fa68046a244fb479122eaea614aeca, type: 2}
   _specialDataContainer: {fileID: 0}
+--- !u!1 &2641847191055363878
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 835048519402202407}
+  - component: {fileID: 1405067180117954690}
+  m_Layer: 0
+  m_Name: NodeScanner
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &835048519402202407
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2641847191055363878}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3870431683159659792}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1405067180117954690
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2641847191055363878}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e1dcebc7f300bcf4290f5637d60e7bbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::NodeScanner
 --- !u!1 &3136345556696117485
 GameObject:
   m_ObjectHideFlags: 0

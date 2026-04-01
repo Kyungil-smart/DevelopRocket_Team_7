@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 public class NodeLoader : MonoBehaviour
 {
@@ -17,13 +18,8 @@ public class NodeLoader : MonoBehaviour
     
     private SheetLoader<NodeInfo> _data;
     private SheetLoader<SpecialNodeInfo> _specialData;
-   
-    private void Start()
-    {
-        InitDataSO();
-    }
 
-    public async void InitDataSO()
+    public async Task InitDataSO()
     {
         // 1. 로더 생성
         _data = new SheetLoader<NodeInfo>(_url, _gid);
@@ -46,6 +42,7 @@ public class NodeLoader : MonoBehaviour
             _specialDataContainer.SpecialNodeInfos.Clear();
             _specialDataContainer.SpecialNodeInfos.AddRange(loadedSpecialList);
         }
+        
+        Debug.Log("데이터 로드 완료");
     }
-
 }
