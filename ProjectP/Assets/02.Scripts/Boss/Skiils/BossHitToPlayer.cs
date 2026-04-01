@@ -4,15 +4,15 @@ public class BossHitToPlayer : MonoBehaviour
 {
     private GameObject _player;
 
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (Utils.CompareLayer(other.gameObject.layer, LayerMask.NameToLayer("Player")))
-            _player = other.gameObject;
+        if (Utils.CompareLayer(collision.gameObject.layer, LayerMask.NameToLayer("Player")))
+            _player = collision.gameObject;
     }
 
-    private void OnTriggerExit(Collider other)
+    private void OnTriggerExit2D(Collider2D collision)
     {
-        if (Utils.CompareLayer(other.gameObject.layer, LayerMask.NameToLayer("Player")))
+        if (Utils.CompareLayer(collision.gameObject.layer, LayerMask.NameToLayer("Player")))
             _player = null;
     }
 
