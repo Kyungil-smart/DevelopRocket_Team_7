@@ -31,13 +31,13 @@ public class PlayerStat : MonoBehaviour
     { 
         //TODo : PostMessageKey쪽에서 PlayerStat 관련 enum 추가 해야함.
         PostManager.Instance.Subscribe<PlayerStatMSG>(PostMessageKey.PlayerStat , GetStat);
-        PostManager.Instance.Subscribe<PlayerStatMSG>(PostMessageKey.NodeReset, InitStat);
+        PostManager.Instance.Subscribe<int>(PostMessageKey.NodeReset, InitStat);
     }
     private void OnDisable()
     {
         //TODo : PostMessageKey쪽에서 PlayerStat 관련 enum 추가 해야함.
         PostManager.Instance.Unsubscribe<PlayerStatMSG>(PostMessageKey.PlayerStat , GetStat);
-        PostManager.Instance.Unsubscribe<PlayerStatMSG>(PostMessageKey.NodeReset, InitStat);
+        PostManager.Instance.Unsubscribe<int>(PostMessageKey.NodeReset, InitStat);
     }
     public void GetStat(PlayerStatMSG _MSG)
     {
@@ -50,7 +50,7 @@ public class PlayerStat : MonoBehaviour
         _AddStat.PlayerHp += _MSG.PlayerHp;
         _AddStat.moveSpeed += _MSG.moveSpeed;
     }
-    public void InitStat(PlayerStatMSG tmep)
+    public void InitStat(int tmep)
     {
         _AddStat.PlayerHp = 0;
         _AddStat.moveSpeed = 0;

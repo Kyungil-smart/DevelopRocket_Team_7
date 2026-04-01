@@ -114,6 +114,12 @@ public class StatNodeManager : Singleton<StatNodeManager>
         RequestUiUpdate();
     }
 
+    public void ClickResetButton()
+    {
+        ResetNodes();
+        PostManager.Instance.Post(PostMessageKey.NodeReset, 1);
+    }
+
     public void ResetNodes()
     {
         InitManagerData();
