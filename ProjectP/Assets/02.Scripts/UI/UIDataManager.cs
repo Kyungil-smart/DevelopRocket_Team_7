@@ -10,7 +10,6 @@ public class UIDataManager : MonoBehaviour
     [Header("Gsheet Info")] 
     [SerializeField] private string _url;
     [SerializeField] private List<int> _gids;
-    private Dictionary<int, string[]> _rawData = new();
     private TaskCompletionSource<bool> _loadTaskSource = new ();
     
     [SerializeField] private LanguageType _languageType;
@@ -20,33 +19,49 @@ public class UIDataManager : MonoBehaviour
     private void Awake()
     {
         if (_textDataSO != null) _textDataSO = ScriptableObject.CreateInstance<TextData>();
-        // string path = "Assets/05.SO/Datas/UI/TextData.asset";
     }
     
     private void OnEnable()
     {
         ConvertData();
         PostManager.Instance.Subscribe<int, string>(PostMessageKey.UITextReqeust, SearchText);
+        PostManager.Instance.Subscribe<LanguageType>(PostMessageKey.ChangeLanguage, ChangeLanguage);
     }
 
     private void OnDisable()
     {
         PostManager.Instance.Unsubscribe<int, string>(PostMessageKey.UITextReqeust, SearchText);
+        PostManager.Instance.Unsubscribe<LanguageType>(PostMessageKey.ChangeLanguage, ChangeLanguage);
     }
 
+    private void ChangeLanguage(LanguageType languageType)
+    {
+        _languageType = languageType;
+        PostManager.Instance.Post(PostMessageKey.RequestChangeText, true);
+    }
     private string SearchText(int textId)
     {
         return _textData[textId][_languageType];
     }
+
+    private void CreateTextDataAsset()
+    {
+        string path = "Assets/05.SO/Datas/UI/TextData.asset";
+        AssetDatabase.CreateAsset(_textDataSO, path);
+        AssetDatabase.SaveAssets();
+        AssetDatabase.Refresh();
+    }
     
     private void ConvertData()
     {   // SO to Dict
-        
-    }
-
-    private void LoadDataFromSheet()
-    {
-        
+        if (_textDataSO)
+        {
+            foreach (var line in _textDataSO.texts)
+            {
+                _textData[line.textId] = new();
+                _textData[line.textId][_languageType] = line.text;
+            }
+        }
     }
     
     public void NotifyLoadComplete()
@@ -54,8 +69,9 @@ public class UIDataManager : MonoBehaviour
         _loadTaskSource.TrySetResult(true);
     }
 
-    private async void RequestSheet()
+    private async Task LoadDataFromSheet()
     {
+        Debug.Log("Gsheet 에서 데이터 가져오기");
         for (int i = 0; i < _gids.Count; i++)
         {
             UnityWebRequest request = UnityWebRequest.Get(ConvertToDownloadUrl(_url, _gids[i].ToString()));
@@ -76,7 +92,6 @@ public class UIDataManager : MonoBehaviour
                 NotifyLoadComplete();
             }
         }
-        
     }
     
     private string ConvertToDownloadUrl(string url, string gid = "0")
@@ -92,22 +107,43 @@ public class UIDataManager : MonoBehaviour
         {
             return Regex.Replace(url, pattern, replacement);
         }
-
         return url; // 패턴이 없으면 그대로 반환
     }
     
     private void ParseCSV(string csv, int lId)
     {
-        // 줄 분리
+        Debug.Log("CSV Parsing 시작");
         string[] lines = csv.Split(new[] { "\r\n", "\n" }, System.StringSplitOptions.RemoveEmptyEntries);
       
         for (int i = 1; i < lines.Length; i++) // 0번은 헤더
         {
             string[] temp = lines[i].Split(',');
-            // temp[0] ; text
-            // temp[1] ; id
-            
-            _rawData.Add(i, lines[i].Split(','));
+            _textDataSO.texts.Add(new TextLine()
+            {
+                textId = int.Parse(temp[1]),
+                languageType = (LanguageType)lId,
+                text = temp[0]
+            });
         }
+    }
+
+    [ContextMenu("Load Data From Sheet")]
+    public async Task OnLoadDataFromSheet()
+    {
+        await LoadDataFromSheet();
+        CreateTextDataAsset();
+        ConvertData();
+    }
+
+    [ContextMenu("Test/CheckData")]
+    public void OnTestCheckData()
+    {
+        Debug.Log(_textData[101][_languageType]);
+    }
+    
+    [ContextMenu("Test/Trigger Change Language")]
+    public void OnTriggerChangeLanguage()
+    {
+        ChangeLanguage(_languageType);
     }
 }

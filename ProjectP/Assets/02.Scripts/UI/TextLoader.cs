@@ -6,7 +6,18 @@ public class TextLoader : MonoBehaviour
     [SerializeField] private int textId;
     private TextMeshProUGUI _textGui;
     
-    public void OnEnable()
+    private void OnEnable()
+    {
+        ChangeText(true);
+        PostManager.Instance.Subscribe<bool>(PostMessageKey.RequestChangeText, ChangeText);
+    }
+
+    private void OnDisable()
+    {
+        PostManager.Instance.Unsubscribe<bool>(PostMessageKey.RequestChangeText, ChangeText);
+    }
+
+    private void ChangeText(bool dummy)
     {
         if (textId == 0)
         {

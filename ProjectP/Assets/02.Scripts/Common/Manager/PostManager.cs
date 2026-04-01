@@ -93,16 +93,19 @@ public class PostManager : Singleton<PostManager>
     /// <typeparam name="T">데이터 타입</typeparam>
     public TRes Request<TReq, TRes>(PostMessageKey key, TReq data)
     {
+        Debug.Log("Come Request");
         if (!_subscribes.TryGetValue(key, out var postMessages))
         {
             postMessages = new RequestMessage<TReq, TRes>();
             _subscribes[key] = postMessages;
         }
-
+        Debug.Log("Hello");
         if (postMessages is RequestMessage<TReq, TRes> pm)
         {
-            return pm.function.Invoke(data);    
-        } 
+            Debug.Log("Bong");
+            if (pm.function != null) return pm.function.Invoke(data);
+            Debug.Log("Kuang");
+        }
         return default;
     }
 }

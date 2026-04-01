@@ -6,7 +6,7 @@ using UnityEngine;
 public struct TextLine
 {
     public int textId;
-    public LanguageType _languageType;
+    public LanguageType languageType;
     public string text;
 }
 
