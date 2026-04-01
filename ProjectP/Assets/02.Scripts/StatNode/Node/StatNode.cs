@@ -140,7 +140,7 @@ public class StatNode : Node {
 			//PostManager.Instance.Post<PlayerStat>(PostMessageKey.PlayerStat, _postStat);
 			// 해당 이벤트를 받는 쪽에 UI 갱신 구현
 			// levelUp 시도를 세번 하여 3번째에 레벨업 실시
-			StatNodeManager.Instance.NodePoint -= _info.NodeCostPoint;
+			StatNodeManager.Instance.SetNodePoint(-_info.NodeCostPoint);
 			PostManager.Instance.Post(PostMessageKey.NodeLevelUp, 1);
 		}
 	}

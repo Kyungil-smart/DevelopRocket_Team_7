@@ -20,7 +20,11 @@ public class StatNodeManager : Singleton<StatNodeManager>
     [SerializeField] private List<int> _goldHunterNodeId;
     
     // 보유 노드 포인트
-    public int NodePoint;
+    private int _nodePoint;
+    // Getter
+    public int NodePoint => _nodePoint;
+    // Setter
+    public void SetNodePoint(int nodePoint){ _nodePoint +=  nodePoint; }
     // 최대 노드 포인트
     private int _maxNodePoint;
     
@@ -46,6 +50,7 @@ public class StatNodeManager : Singleton<StatNodeManager>
 
     private void Awake()
     {
+        _nodePoint = 9;
         _nodeScanner = gameObject.AddComponent<NodeScanner>();
     }
     
@@ -69,7 +74,7 @@ public class StatNodeManager : Singleton<StatNodeManager>
             }
         }
         
-        _maxNodePoint = NodePoint;
+        _maxNodePoint = _nodePoint;
         
         ResetNodes();
     }
@@ -110,7 +115,7 @@ public class StatNodeManager : Singleton<StatNodeManager>
 
     private void InitManagerData()
     {
-        NodePoint = _maxNodePoint;
+        _nodePoint = _maxNodePoint;
         _selectSpecialNodeName = string.Empty;
         _currentSpecialNodeList.Clear();
         _currentStatNodeList.Clear();
