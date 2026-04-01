@@ -44,7 +44,6 @@ MonoBehaviour:
   Output: 0
   _nodeId: 10082
   _nodeData: {fileID: 11400000, guid: 0c40b3718d7ce0344b2525cb68700cf6, type: 2}
-  _state: 2
   _mainNode: 0
   _isFirst: 0
 --- !u!114 &-8548813596020385515
@@ -91,7 +90,6 @@ MonoBehaviour:
   Output: 0
   _nodeId: 10071
   _nodeData: {fileID: 11400000, guid: 32d727a72900fcd4bb2e17a09a4beec9, type: 2}
-  _state: 1
   _mainNode: 0
   _isFirst: 0
 --- !u!114 &-8281756395337102678
@@ -141,7 +139,6 @@ MonoBehaviour:
   Output: 0
   _nodeId: 10002
   _nodeData: {fileID: 11400000, guid: 5fc1e4e5689101a4fbbf46417c66112b, type: 2}
-  _state: 2
   _mainNode: 0
   _isFirst: 0
 --- !u!114 &-8164567527148053546
@@ -188,7 +185,6 @@ MonoBehaviour:
   Output: 0
   _nodeId: 10011
   _nodeData: {fileID: 11400000, guid: 0f19bdd2c0da02b4f966e32177b5921c, type: 2}
-  _state: 1
   _mainNode: 0
   _isFirst: 0
 --- !u!114 &-8093791914534881329
@@ -261,7 +257,6 @@ MonoBehaviour:
   Output: 0
   _nodeId: 10053
   _nodeData: {fileID: 11400000, guid: ebbfe3943b25464499fd522ce34a3898, type: 2}
-  _state: 2
   _mainNode: 1
   _isFirst: 0
   SpecialToSpecialUp: 0
@@ -312,7 +307,6 @@ MonoBehaviour:
   Output: 0
   _nodeId: 10031
   _nodeData: {fileID: 11400000, guid: 83028cb081bb6f448aefa808390e49ea, type: 2}
-  _state: 2
   _mainNode: 0
   _isFirst: 0
 --- !u!114 &-6862159314659687830
@@ -362,7 +356,6 @@ MonoBehaviour:
   Output: 0
   _nodeId: 10032
   _nodeData: {fileID: 11400000, guid: 83028cb081bb6f448aefa808390e49ea, type: 2}
-  _state: 2
   _mainNode: 0
   _isFirst: 0
 --- !u!114 &-6584145176551677967
@@ -412,7 +405,6 @@ MonoBehaviour:
   Output: 0
   _nodeId: 10013
   _nodeData: {fileID: 11400000, guid: 0f19bdd2c0da02b4f966e32177b5921c, type: 2}
-  _state: 2
   _mainNode: 0
   _isFirst: 0
 --- !u!114 &-6296660228295750231
@@ -459,7 +451,6 @@ MonoBehaviour:
   Output: 0
   _nodeId: 10072
   _nodeData: {fileID: 11400000, guid: 32d727a72900fcd4bb2e17a09a4beec9, type: 2}
-  _state: 2
   _mainNode: 0
   _isFirst: 0
 --- !u!114 &-5751401553051035350
@@ -509,7 +500,6 @@ MonoBehaviour:
   Output: 0
   _nodeId: 10051
   _nodeData: {fileID: 11400000, guid: ebbfe3943b25464499fd522ce34a3898, type: 2}
-  _state: 0
   _mainNode: 0
   _isFirst: 0
 --- !u!114 &-5556474520466016927
@@ -559,7 +549,6 @@ MonoBehaviour:
   Output: 0
   _nodeId: 10012
   _nodeData: {fileID: 11400000, guid: 0f19bdd2c0da02b4f966e32177b5921c, type: 2}
-  _state: 2
   _mainNode: 0
   _isFirst: 0
 --- !u!114 &-4452051939368240547
@@ -606,7 +595,6 @@ MonoBehaviour:
   Output: 0
   _nodeId: 10001
   _nodeData: {fileID: 11400000, guid: 5fc1e4e5689101a4fbbf46417c66112b, type: 2}
-  _state: 2
   _mainNode: 0
   _isFirst: 0
 --- !u!114 &-4443708452240826416
@@ -656,7 +644,6 @@ MonoBehaviour:
   Output: 0
   _nodeId: 10013
   _nodeData: {fileID: 11400000, guid: 0f19bdd2c0da02b4f966e32177b5921c, type: 2}
-  _state: 2
   _mainNode: 0
   _isFirst: 0
 --- !u!114 &-3999960630397685374
@@ -729,7 +716,6 @@ MonoBehaviour:
   Output: 0
   _nodeId: 10031
   _nodeData: {fileID: 11400000, guid: 83028cb081bb6f448aefa808390e49ea, type: 2}
-  _state: 0
   _mainNode: 1
   _isFirst: 1
   SpecialToSpecialUp: 0
@@ -809,7 +795,6 @@ MonoBehaviour:
   Output: 0
   _nodeId: 10032
   _nodeData: {fileID: 11400000, guid: 83028cb081bb6f448aefa808390e49ea, type: 2}
-  _state: 2
   _mainNode: 1
   _isFirst: 0
   SpecialToSpecialUp: 0
@@ -860,7 +845,6 @@ MonoBehaviour:
   Output: 0
   _nodeId: 10002
   _nodeData: {fileID: 11400000, guid: 5fc1e4e5689101a4fbbf46417c66112b, type: 2}
-  _state: 2
   _mainNode: 0
   _isFirst: 0
 --- !u!114 &-3587910223939480280
@@ -910,7 +894,6 @@ MonoBehaviour:
   Output: 0
   _nodeId: 10011
   _nodeData: {fileID: 11400000, guid: 0f19bdd2c0da02b4f966e32177b5921c, type: 2}
-  _state: 0
   _mainNode: 0
   _isFirst: 0
 --- !u!114 &-3506728233918019886
@@ -960,7 +943,6 @@ MonoBehaviour:
   Output: 0
   _nodeId: 10032
   _nodeData: {fileID: 11400000, guid: 83028cb081bb6f448aefa808390e49ea, type: 2}
-  _state: 2
   _mainNode: 0
   _isFirst: 0
 --- !u!114 &-2871190820013223554
@@ -1007,7 +989,6 @@ MonoBehaviour:
   Output: 0
   _nodeId: 10082
   _nodeData: {fileID: 11400000, guid: 0c40b3718d7ce0344b2525cb68700cf6, type: 2}
-  _state: 2
   _mainNode: 0
   _isFirst: 0
 --- !u!114 &-2757216113200616097
@@ -1083,7 +1064,6 @@ MonoBehaviour:
   Output: 0
   _nodeId: 10052
   _nodeData: {fileID: 11400000, guid: ebbfe3943b25464499fd522ce34a3898, type: 2}
-  _state: 2
   _mainNode: 1
   _isFirst: 0
   SpecialToSpecialUp: 0
@@ -1137,7 +1117,6 @@ MonoBehaviour:
   Output: 0
   _nodeId: 10011
   _nodeData: {fileID: 11400000, guid: 0f19bdd2c0da02b4f966e32177b5921c, type: 2}
-  _state: 0
   _mainNode: 0
   _isFirst: 0
 --- !u!114 &-2400644972262396962
@@ -1187,7 +1166,6 @@ MonoBehaviour:
   Output: 0
   _nodeId: 10013
   _nodeData: {fileID: 11400000, guid: 0f19bdd2c0da02b4f966e32177b5921c, type: 2}
-  _state: 2
   _mainNode: 0
   _isFirst: 0
 --- !u!114 &-1703223992110789429
@@ -1263,7 +1241,6 @@ MonoBehaviour:
   Output: 0
   _nodeId: 10002
   _nodeData: {fileID: 11400000, guid: 5fc1e4e5689101a4fbbf46417c66112b, type: 2}
-  _state: 2
   _mainNode: 1
   _isFirst: 0
   SpecialToSpecialUp: 0
@@ -1317,7 +1294,6 @@ MonoBehaviour:
   Output: 0
   _nodeId: 10012
   _nodeData: {fileID: 11400000, guid: 0f19bdd2c0da02b4f966e32177b5921c, type: 2}
-  _state: 2
   _mainNode: 0
   _isFirst: 0
 --- !u!114 &-512962395171777561
@@ -1364,7 +1340,6 @@ MonoBehaviour:
   Output: 0
   _nodeId: 10083
   _nodeData: {fileID: 11400000, guid: 0c40b3718d7ce0344b2525cb68700cf6, type: 2}
-  _state: 2
   _mainNode: 0
   _isFirst: 0
 --- !u!114 &-50174010474229281
@@ -1411,7 +1386,6 @@ MonoBehaviour:
   Output: 0
   _nodeId: 10011
   _nodeData: {fileID: 11400000, guid: 0f19bdd2c0da02b4f966e32177b5921c, type: 2}
-  _state: 1
   _mainNode: 0
   _isFirst: 0
 --- !u!114 &11400000
@@ -1519,7 +1493,6 @@ MonoBehaviour:
   Output: 0
   _nodeId: 10081
   _nodeData: {fileID: 11400000, guid: 0c40b3718d7ce0344b2525cb68700cf6, type: 2}
-  _state: 1
   _mainNode: 0
   _isFirst: 0
 --- !u!114 &248116789402216450
@@ -1566,7 +1539,6 @@ MonoBehaviour:
   Output: 0
   _nodeId: 10002
   _nodeData: {fileID: 11400000, guid: 5fc1e4e5689101a4fbbf46417c66112b, type: 2}
-  _state: 2
   _mainNode: 0
   _isFirst: 0
 --- !u!114 &664415581916523038
@@ -1613,7 +1585,6 @@ MonoBehaviour:
   Output: 0
   _nodeId: 10033
   _nodeData: {fileID: 11400000, guid: 83028cb081bb6f448aefa808390e49ea, type: 2}
-  _state: 2
   _mainNode: 0
   _isFirst: 0
 --- !u!114 &824422967408608775
@@ -1663,7 +1634,6 @@ MonoBehaviour:
   Output: 0
   _nodeId: 10053
   _nodeData: {fileID: 11400000, guid: ebbfe3943b25464499fd522ce34a3898, type: 2}
-  _state: 2
   _mainNode: 0
   _isFirst: 0
 --- !u!114 &1318044436294500732
@@ -1736,7 +1706,6 @@ MonoBehaviour:
   Output: 0
   _nodeId: 10033
   _nodeData: {fileID: 11400000, guid: 83028cb081bb6f448aefa808390e49ea, type: 2}
-  _state: 2
   _mainNode: 1
   _isFirst: 0
   SpecialToSpecialUp: 0
@@ -1790,7 +1759,6 @@ MonoBehaviour:
   Output: 0
   _nodeId: 10053
   _nodeData: {fileID: 11400000, guid: ebbfe3943b25464499fd522ce34a3898, type: 2}
-  _state: 2
   _mainNode: 0
   _isFirst: 0
 --- !u!114 &2629700693134050827
@@ -1863,7 +1831,6 @@ MonoBehaviour:
   Output: 0
   _nodeId: 10001
   _nodeData: {fileID: 11400000, guid: 5fc1e4e5689101a4fbbf46417c66112b, type: 2}
-  _state: 0
   _mainNode: 1
   _isFirst: 1
   SpecialToSpecialUp: 0
@@ -1917,7 +1884,6 @@ MonoBehaviour:
   Output: 0
   _nodeId: 10002
   _nodeData: {fileID: 11400000, guid: 5fc1e4e5689101a4fbbf46417c66112b, type: 2}
-  _state: 2
   _mainNode: 0
   _isFirst: 0
 --- !u!114 &3730374139592879484
@@ -1990,7 +1956,6 @@ MonoBehaviour:
   Output: 0
   _nodeId: 10051
   _nodeData: {fileID: 11400000, guid: ebbfe3943b25464499fd522ce34a3898, type: 2}
-  _state: 0
   _mainNode: 1
   _isFirst: 1
   SpecialToSpecialUp: 0
@@ -2044,7 +2009,6 @@ MonoBehaviour:
   Output: 0
   _nodeId: 10031
   _nodeData: {fileID: 11400000, guid: 83028cb081bb6f448aefa808390e49ea, type: 2}
-  _state: 1
   _mainNode: 0
   _isFirst: 0
 --- !u!114 &4864763246751451790
@@ -2091,7 +2055,6 @@ MonoBehaviour:
   Output: 0
   _nodeId: 10012
   _nodeData: {fileID: 11400000, guid: 0f19bdd2c0da02b4f966e32177b5921c, type: 2}
-  _state: 2
   _mainNode: 0
   _isFirst: 0
 --- !u!114 &5108777375541041659
@@ -2138,7 +2101,6 @@ MonoBehaviour:
   Output: 0
   _nodeId: 10073
   _nodeData: {fileID: 11400000, guid: 32d727a72900fcd4bb2e17a09a4beec9, type: 2}
-  _state: 2
   _mainNode: 0
   _isFirst: 0
 --- !u!114 &5675236113891725469
@@ -2185,7 +2147,6 @@ MonoBehaviour:
   Output: 0
   _nodeId: 10033
   _nodeData: {fileID: 11400000, guid: 83028cb081bb6f448aefa808390e49ea, type: 2}
-  _state: 2
   _mainNode: 0
   _isFirst: 0
 --- !u!114 &5986793110920441894
@@ -2232,7 +2193,6 @@ MonoBehaviour:
   Output: 0
   _nodeId: 10003
   _nodeData: {fileID: 11400000, guid: 5fc1e4e5689101a4fbbf46417c66112b, type: 2}
-  _state: 2
   _mainNode: 0
   _isFirst: 0
 --- !u!114 &6082350973386607782
@@ -2282,7 +2242,6 @@ MonoBehaviour:
   Output: 0
   _nodeId: 10053
   _nodeData: {fileID: 11400000, guid: ebbfe3943b25464499fd522ce34a3898, type: 2}
-  _state: 2
   _mainNode: 0
   _isFirst: 0
 --- !u!114 &6168169307685900269
@@ -2329,7 +2288,6 @@ MonoBehaviour:
   Output: 0
   _nodeId: 10033
   _nodeData: {fileID: 11400000, guid: 83028cb081bb6f448aefa808390e49ea, type: 2}
-  _state: 2
   _mainNode: 0
   _isFirst: 0
 --- !u!114 &6991259209559525674
@@ -2376,7 +2334,6 @@ MonoBehaviour:
   Output: 0
   _nodeId: 10011
   _nodeData: {fileID: 11400000, guid: 0f19bdd2c0da02b4f966e32177b5921c, type: 2}
-  _state: 2
   _mainNode: 0
   _isFirst: 0
 --- !u!114 &7212538306612345059
@@ -2426,7 +2383,6 @@ MonoBehaviour:
   Output: 0
   _nodeId: 10081
   _nodeData: {fileID: 11400000, guid: 0c40b3718d7ce0344b2525cb68700cf6, type: 2}
-  _state: 1
   _mainNode: 0
   _isFirst: 0
 --- !u!114 &7647586623004912883
@@ -2499,7 +2455,6 @@ MonoBehaviour:
   Output: 0
   _nodeId: 10003
   _nodeData: {fileID: 11400000, guid: 5fc1e4e5689101a4fbbf46417c66112b, type: 2}
-  _state: 2
   _mainNode: 1
   _isFirst: 0
   SpecialToSpecialUp: 0

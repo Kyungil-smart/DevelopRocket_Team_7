@@ -2,24 +2,6 @@
 using UnityEngine;
 using XNode;
 
-public enum StatNodeState
-{ 
-	Active,	// 실제 활성화가 진행된 상태
-	Inactive,	// 특정 조건들을 만족하여 활성화 준비중인 상태
-	Locked	// 조건을 만족하지 못하여 활성 불가능 상태
-}
-
-public enum StatNodeType
-{
-	Damage = 100,
-	AttackSpeed,
-	CriticalRate,
-	CriticalDamage,
-	MovementSpeed,
-	MaxHP,
-	ProjectileCount,
-}
-
 public class StatNode : Node {
 	
 	// xNode에서는 input, output을 구분하여 다양한 작업을 하는 것을 의도하고 있음
