@@ -110,7 +110,7 @@ MonoBehaviour:
   _sniperData: {fileID: 11400000, guid: 0ad824a58d6590d498717d42bcb8b4d8, type: 2}
   _layerMask:
     serializedVersion: 2
-    m_Bits: 2684355584
+    m_Bits: 536871936
 --- !u!114 &1880132889255241697
 MonoBehaviour:
   m_ObjectHideFlags: 0

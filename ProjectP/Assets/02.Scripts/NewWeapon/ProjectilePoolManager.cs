@@ -10,11 +10,6 @@ namespace NewWeaponSystem
         public List<Vector2> direction;
         public WeaponBlackboard blackboard;
     }
-
-    public struct SelectProjectileMsg
-    {
-        public GameObject projectilePrefab;
-    }
     
     public class ProjectilePoolManager : MonoBehaviour
     {
@@ -26,19 +21,19 @@ namespace NewWeaponSystem
         {
             PostManager.Instance.Subscribe<ProjectileSpwanMsg>(PostMessageKey.ProjectileSpawned, Spawn);
             PostManager.Instance.Subscribe<GameObject>(PostMessageKey.ProjectileDespawned, Despawn);
-            PostManager.Instance.Subscribe<SelectProjectileMsg>(PostMessageKey.ProjectileSelection, SetUp);
+            PostManager.Instance.Subscribe<GameObject>(PostMessageKey.ProjectileSelection, SetUp);
         }
 
         private void OnDisable()
         {
             PostManager.Instance.Unsubscribe<ProjectileSpwanMsg>(PostMessageKey.ProjectileSpawned, Spawn);
             PostManager.Instance.Unsubscribe<GameObject>(PostMessageKey.ProjectileDespawned, Despawn);
-            PostManager.Instance.Unsubscribe<SelectProjectileMsg>(PostMessageKey.ProjectileSelection, SetUp);
+            PostManager.Instance.Unsubscribe<GameObject>(PostMessageKey.ProjectileSelection, SetUp);
         }
         
-        private void SetUp(SelectProjectileMsg data)
+        private void SetUp(GameObject prefab)
         {
-            _prefab = data.projectilePrefab;
+            _prefab = prefab;
         }
 
         private GameObject InstantiateProjectile(GameObject projectilePrefab)

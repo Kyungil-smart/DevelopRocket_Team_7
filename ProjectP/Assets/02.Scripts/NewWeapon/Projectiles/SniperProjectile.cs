@@ -12,11 +12,7 @@ namespace NewWeaponSystem
         
         private void OnTriggerEnter2D(Collider2D collision)
         {
-            if (Utils.CompareLayer(collision.gameObject.layer, LayerMask.NameToLayer("Walls")))
-            {
-                PostManager.Instance.Post(PostMessageKey.ProjectileDespawned, gameObject);
-            }
-            else if (Utils.CompareLayer(collision.gameObject.layer, _layerMask))
+            if (Utils.CompareLayer(collision.gameObject.layer, _layerMask))
             {
                 var damage = _blackboard.damage;
                 if (Random.value <= _blackboard.critRate)
@@ -33,8 +29,11 @@ namespace NewWeaponSystem
         
         public void SetUpData(WeaponBlackboard data)
         {
+            Debug.Log("Setting up projectile");
             _blackboard = data;
+            Debug.Log("Set blackboard data");
             _hitCount = 0;
+            Debug.Log("_hitCount: 0");
         }
     }
 }

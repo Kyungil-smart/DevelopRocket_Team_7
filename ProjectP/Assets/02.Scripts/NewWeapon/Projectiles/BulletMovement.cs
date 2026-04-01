@@ -23,6 +23,15 @@ namespace NewWeaponSystem
             PostManager.Instance.Post(PostMessageKey.ProjectileDespawned, gameObject);
         }
 
+        private void OnTriggerEnter2D(Collider2D collision)
+        {
+            if (Utils.CompareLayer(collision.gameObject.layer, LayerMask.NameToLayer("Wall")))
+            {
+                _rb.linearVelocity = Vector2.zero;
+                PostManager.Instance.Post(PostMessageKey.ProjectileDespawned, gameObject);
+            }
+        }
+        
         public void Fire() => _rb.linearVelocity = _direction.normalized * _speed;
         public void SetDirection(Vector2 direction) =>  _direction = direction;
     }
