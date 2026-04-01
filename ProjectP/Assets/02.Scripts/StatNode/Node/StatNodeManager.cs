@@ -35,6 +35,7 @@ public class StatNodeManager : Singleton<StatNodeManager>
     {
         _nodePointText.text = _maxNodePoint.ToString();
         _curnodePointText.text = _nodePoint.ToString();
+        Debug.Log(_nodePoint);
     }
     
     // 현재 위치한 특수 노드
@@ -124,13 +125,15 @@ public class StatNodeManager : Singleton<StatNodeManager>
 
     private void InitManagerData()
     {
-        _nodePoint = _maxNodePoint;
+        StatNodeManager.Instance._nodePoint = StatNodeManager.Instance._maxNodePoint;
+        
         _selectSpecialNodeName = string.Empty;
         _currentSpecialNodeList.Clear();
         _currentStatNodeList.Clear();
         _currentSpecialNode = null;
         _currentSpecialNodeIndex = 0;
         _levelUpCount = 3;
+        
     }
 
     // 처음 특수 노드를 고를 시 실행될 메서드
