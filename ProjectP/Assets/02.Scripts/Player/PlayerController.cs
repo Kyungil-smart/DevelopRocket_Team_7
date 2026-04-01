@@ -20,19 +20,21 @@ public class PlayerController : MonoBehaviour , IDamage
    [SerializeField] private float dashCooldown = 5f; // 대쉬 쿨타임 
    [SerializeField] private float countDownInterval = 0.5f;
    [SerializeField] private Vector2 input;
+   
+   [Header("Dash")]
    [SerializeField] private bool isDashing = false;  // 플레이어 대쉬 중인지 체크
-
-   private Coroutine _dashCountDownCoroutine;
    [SerializeField] private int _dashStack = 2;
+   private Coroutine _dashCountDownCoroutine;
    private int _maxDashStack = 2;
-
-   private Vector2 prePos;
-
+   
+   [Header("Interaction")]
+   [SerializeField] private float raycastDistance = 3f;  // 레이캐스트 감지 거리
+   [SerializeField] private LayerMask interactLayer; // 레이캐스트가 감지할 레이어
    private RaycastHit2D hit;
    private Ray2D ray;
    private GameObject _interactedGameObject;
-   [SerializeField] private float raycastDistance = 3f;  // 레이캐스트 감지 거리
-   [SerializeField] private LayerMask interactLayer; // 레이캐스트가 감지할 레이어
+   
+   private Vector2 prePos;  // 플레이어 현재 위치 계산용 Cache 값
    
    private void Awake()
    {  
@@ -185,12 +187,6 @@ public class PlayerController : MonoBehaviour , IDamage
       _animator.SetTrigger("Dead");
    }
 
-   [ContextMenu("Test/Dead")]
-   public void OnTestDead()
-   {
-      Dead();
-   }
-
    public void GetExp(int exp) // 플레이어가 경험치 획득 시 (포스트매니저 통해서 몬스터 구독하여 경험치 습득 코드 추가할 예정)
    {
 
@@ -212,5 +208,11 @@ public class PlayerController : MonoBehaviour , IDamage
    {
       Gizmos.color = Color.blue;
       Gizmos.DrawLine(ray.origin, ray.origin + ray.direction * raycastDistance);
+   }
+   
+   [ContextMenu("Test/Dead")]
+   public void OnTestDead()
+   {
+      Dead();
    }
 }
