@@ -20,7 +20,7 @@ public class StatNodeManager : Singleton<StatNodeManager>
     [SerializeField] private List<int> _goldHunterNodeId;
     
     // 보유 노드 포인트
-    private int _nodePoint;
+    [SerializeField]private int _nodePoint;
     // Getter
     public int NodePoint => _nodePoint;
     // Setter
@@ -29,7 +29,7 @@ public class StatNodeManager : Singleton<StatNodeManager>
         _nodePoint +=  nodePoint;
     }
     // 최대 노드 포인트
-    private int _maxNodePoint;
+    [SerializeField] private int _maxNodePoint;
     
    
     
