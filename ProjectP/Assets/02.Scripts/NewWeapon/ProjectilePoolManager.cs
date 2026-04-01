@@ -7,7 +7,7 @@ namespace NewWeaponSystem
     public struct ProjectileSpwanMsg
     {
         public Vector2 startPos;
-        public Vector2 direction;
+        public List<Vector2> direction;
         public WeaponBlackboard blackboard;
     }
     
@@ -16,30 +16,24 @@ namespace NewWeaponSystem
         [SerializeField] [Range (20, 50)] private int createStep = 20;
         private Queue<GameObject> _pool = new();
         [SerializeField] private GameObject _prefab;
-
-        private void Start()
-        {
-            Init();
-        }
         
         private void OnEnable()
         {
             PostManager.Instance.Subscribe<ProjectileSpwanMsg>(PostMessageKey.ProjectileSpawned, Spawn);
             PostManager.Instance.Subscribe<GameObject>(PostMessageKey.ProjectileDespawned, Despawn);
+            PostManager.Instance.Subscribe<GameObject>(PostMessageKey.ProjectileSelection, SetUp);
         }
 
         private void OnDisable()
         {
             PostManager.Instance.Unsubscribe<ProjectileSpwanMsg>(PostMessageKey.ProjectileSpawned, Spawn);
             PostManager.Instance.Unsubscribe<GameObject>(PostMessageKey.ProjectileDespawned, Despawn);
+            PostManager.Instance.Unsubscribe<GameObject>(PostMessageKey.ProjectileSelection, SetUp);
         }
         
-        public void Init()
-        {   
-            for (int i = 0; i < createStep; i++)
-            {
-                _pool.Enqueue(InstantiateProjectile(_prefab));
-            }
+        private void SetUp(GameObject prefab)
+        {
+            _prefab = prefab;
         }
 
         private GameObject InstantiateProjectile(GameObject projectilePrefab)
@@ -51,20 +45,27 @@ namespace NewWeaponSystem
         }
 
         private void Spawn(ProjectileSpwanMsg spawnMsg)
-        {   
-            if (_pool.Count <= 1)
+        {
+            foreach (var direction in spawnMsg.direction)
             {
-                for (int i = 0; i < createStep; i++)
+                if (_pool.Count <= 1)
                 {
-                    _pool.Enqueue(InstantiateProjectile(_prefab));
+                    for (int i = 0; i < createStep; i++)
+                    {
+                        _pool.Enqueue(InstantiateProjectile(_prefab));
+                    }
                 }
+                GameObject obj = _pool.Dequeue();
+                obj.transform.position = spawnMsg.startPos;
+                BulletMovement bm = obj.GetComponent<BulletMovement>();
+                bm.SetDirection(direction);
+                if (spawnMsg.blackboard.origin.WeaponType == WeaponType.Sniper)
+                    obj.GetComponent<SniperProjectile>().SetUpData(spawnMsg.blackboard);
+                else
+                    obj.GetComponent<BulletProjectile>().SetUpData(spawnMsg.blackboard);
+                obj.SetActive(true);
+                bm.Fire();    
             }
-            GameObject obj = _pool.Dequeue();
-            obj.transform.position = spawnMsg.startPos;
-            RifleProjectile sm = obj.GetComponent<RifleProjectile>();
-            sm.SetData(spawnMsg.direction, spawnMsg.blackboard);
-            obj.SetActive(true);
-            sm.Fire();
         }
 
         private void Despawn(GameObject obj)

@@ -56,6 +56,8 @@ namespace NewWeaponSystem
             _selectedWeapon.transform.position = _initPos.position;
             WeaponController wc = _selectedWeapon.GetComponent<WeaponController>();
             wc.SetScopePrefab(_scopePrefab);
+            GameObject projectile = wc.GetProjectilePrefab();
+            PostManager.Instance.Post(PostMessageKey.ProjectileSelection, projectile);
         }
 
         private GameObject GetWeaponPrefab(WeaponType wType)
@@ -93,10 +95,22 @@ namespace NewWeaponSystem
             }
         }
 
-        [ContextMenu("Test/SelectWeapon")]
-        public void OnTestSelectWeapon()
+        [ContextMenu("Test/SelectWeapon/Rifle")]
+        public void OnTestSelectWeaponRifle()
         {
             SelectWeapon(WeaponType.Rifle);
+        }
+        
+        [ContextMenu("Test/SelectWeapon/Shotgun")]
+        public void OnTestSelectWeaponShotgun()
+        {
+            SelectWeapon(WeaponType.Shotgun);
+        }
+        
+        [ContextMenu("Test/SelectWeapon/Sniper")]
+        public void OnTestSelectWeaponSniper()
+        {
+            SelectWeapon(WeaponType.Sniper);
         }
         
         [ContextMenu("Test/Upgrade")]

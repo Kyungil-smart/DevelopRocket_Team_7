@@ -10,12 +10,12 @@ GameObject:
   m_Component:
   - component: {fileID: 1423797112781454957}
   - component: {fileID: 4322377413905286252}
-  - component: {fileID: 884444050504595966}
-  - component: {fileID: -9201791536437098543}
+  - component: {fileID: 4427674160513668840}
+  - component: {fileID: 1880132889255241697}
   - component: {fileID: 1026486519505383846}
   - component: {fileID: 6576199162793167875}
   m_Layer: 7
-  m_Name: RifleProjectile
+  m_Name: SniperProjectile
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -86,7 +86,7 @@ SpriteRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
-  m_Color: {r: 0.6981132, g: 0.6981132, b: 0.6981132, a: 1}
+  m_Color: {r: 0.5943396, g: 0.18222678, b: 0.18222678, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -95,7 +95,7 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
---- !u!114 &884444050504595966
+--- !u!114 &4427674160513668840
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -104,13 +104,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 4835018492568507452}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c172cd2ac7bb47ecbea4ab0d1c371f16, type: 3}
+  m_Script: {fileID: 11500000, guid: 1a0fad82361147699871b5c18b8efdaa, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::NewWeaponSystem.StraightMovement
+  m_EditorClassIdentifier: Assembly-CSharp::NewWeaponSystem.SniperProjectile
+  _sniperData: {fileID: 11400000, guid: 0ad824a58d6590d498717d42bcb8b4d8, type: 2}
   _layerMask:
     serializedVersion: 2
-    m_Bits: 2684355584
---- !u!114 &-9201791536437098543
+    m_Bits: 536871936
+--- !u!114 &1880132889255241697
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -122,7 +123,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 04a1a0b579cd459eb78ea8e1cdf31174, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::NewWeaponSystem.BulletMovement
-  _speed: 3
+  _speed: 5
 --- !u!50 &1026486519505383846
 Rigidbody2D:
   serializedVersion: 5
