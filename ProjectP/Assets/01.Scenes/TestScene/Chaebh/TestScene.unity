@@ -478,6 +478,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 32311623}
+  - {fileID: 567237654}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!95 &352649556
@@ -527,6 +528,10 @@ MonoBehaviour:
   input: {x: 0, y: 0}
   isDashing: 0
   _dashStack: 2
+  raycastDistance: 1
+  interactLayer:
+    serializedVersion: 2
+    m_Bits: 2147483648
 --- !u!114 &352649558
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -541,6 +546,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerStat
   playerHp: 5
   moveSpeed: 10
+  playerLevel: 0
+  playerMaxLevel: 3
+  playerExp: 0
+  NeedLevelUpExp: 100
 --- !u!50 &352649559
 Rigidbody2D:
   serializedVersion: 5
@@ -949,7 +958,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 352649554}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &567237655
 MonoBehaviour:
@@ -1647,7 +1656,6 @@ Transform:
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
-  - {fileID: 567237654}
   - {fileID: 17414182}
   - {fileID: 346101920}
   - {fileID: 1844368485}

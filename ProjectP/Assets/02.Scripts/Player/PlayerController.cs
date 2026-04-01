@@ -28,34 +28,43 @@ public class PlayerController : MonoBehaviour , IDamage
 
    private Vector2 prePos;
 
-   public float raycastDistance = 3f;  // 레이캐스트 감지 거리
-
    private RaycastHit2D hit;
-   private Ray ray;
-
-   private Vector2 lastDir; // 플레이어가 마지막으로 바라보는 방향
+   private Ray2D ray;
+   private GameObject _interactedGameObject;
+   [SerializeField] private float raycastDistance = 3f;  // 레이캐스트 감지 거리
    [SerializeField] private LayerMask interactLayer; // 레이캐스트가 감지할 레이어
    
    private void Awake()
-   {
-      _inputActionAsset.Enable();
-      _inputActionAsset["Move"].performed += Move;
-      _inputActionAsset["Move"].canceled += MoveStop;
-      _inputActionAsset["Dash"].started += OnDash;
-      _inputActionAsset["Interact"].started += Interact;
-      
+   {  
       _rb = GetComponent<Rigidbody2D>();
       _sp = GetComponent<SpriteRenderer>();
    }
 
    private void OnEnable()
    {
+      _inputActionAsset.Enable();
+      _inputActionAsset["Move"].performed += Move;
+      _inputActionAsset["Move"].canceled += MoveStop;
+      _inputActionAsset["Dash"].started += OnDash;
+      _inputActionAsset["Interact"].started += Interact;
       PostManager.Instance.Subscribe<Vector2>(PostMessageKey.InitPlayerPosition, UpdatePosition);
+      PostManager.Instance.Subscribe<int>(PostMessageKey.PostExp, GetExp);
    }
 
    private void OnDisable()
    {
+      _inputActionAsset["Move"].performed -= Move;
+      _inputActionAsset["Move"].canceled -= MoveStop;
+      _inputActionAsset["Dash"].started -= OnDash;
+      _inputActionAsset["Interact"].started -= Interact;
+      _inputActionAsset.Disable();
       PostManager.Instance.Unsubscribe<Vector2>(PostMessageKey.InitPlayerPosition, UpdatePosition);
+      PostManager.Instance.Unsubscribe<int>(PostMessageKey.PostExp, GetExp);
+   }
+
+   private void Update()
+   {
+      RayCastingForInteraction();
    }
    
    private void FixedUpdate()
@@ -81,25 +90,6 @@ public class PlayerController : MonoBehaviour , IDamage
       if(isDashing) return;
 
       input = context.ReadValue<Vector2>();
-
-      if (input.x > 0)  // Interact를 위한 방향 확인
-      {
-         lastDir=Vector2.right;
-      }
-      else if (input.x < 0)
-      {
-         lastDir = Vector2.left;
-      }
-      else if (input.y > 0)
-      {
-         lastDir = Vector2.up;
-      }
-      else if (input.y < 0)
-      {
-         lastDir = Vector2.down;
-      }
-
-
       _rb.linearVelocity = input * _playerStat.moveSpeed;
       _animator.SetFloat("Horizontal", input.x);
       _animator.SetFloat("Vertical", input.y);
@@ -169,14 +159,18 @@ public class PlayerController : MonoBehaviour , IDamage
    public void Interact(InputAction.CallbackContext context)   // 플레이어 상호작용
    {
       if (!context.started) return;
-      
-      //레이캐스트가 시작하는 지점, 레이캐스트 방향, 레이캐스트 감지 거리, 레이캐스트가 감지할 레이어 순으로 인자가 들어감
-      hit = Physics2D.Raycast(transform.position, lastDir, raycastDistance, interactLayer);
+      // 추후 석상이나 신전에 따라 구별하여 상호작용 처리 코드 추가
+      Debug.Log($"인터렉트 중 {_interactedGameObject.name}");
+   }
 
-      if (hit.collider != null) // 무언가 레이캐스트에 충돌되면
+   private void RayCastingForInteraction()
+   {
+      //레이캐스트가 시작하는 지점, 레이캐스트 방향, 레이캐스트 감지 거리, 레이캐스트가 감지할 레이어 순으로 인자가 들어감
+      ray = new Ray2D(transform.position, input);
+      hit = Physics2D.Raycast(ray.origin, ray.direction, raycastDistance, interactLayer);
+      if (hit) // 무언가 레이캐스트에 충돌되면
       {
-         GameObject hitObject = hit.collider.gameObject; 
-         // 추후 석상이나 신전에 따라 구별하여 상호작용 처리 코드 추가
+         _interactedGameObject = hit.collider.gameObject;
       }
    }
 
@@ -197,7 +191,7 @@ public class PlayerController : MonoBehaviour , IDamage
       Dead();
    }
 
-   public void GetExp() // 플레이어가 경험치 획득 시 (포스트매니저 통해서 몬스터 구독하여 경험치 습득 코드 추가할 예정)
+   public void GetExp(int exp) // 플레이어가 경험치 획득 시 (포스트매니저 통해서 몬스터 구독하여 경험치 습득 코드 추가할 예정)
    {
 
       if (_playerStat.playerLevel >= _playerStat.playerMaxLevel) return; // 현재 플레이어 레벨이 최대레벨 이상일 경우 리턴
@@ -209,15 +203,14 @@ public class PlayerController : MonoBehaviour , IDamage
       }
    }
 
-
    public void LevelUp()
    {
-      _playerStat.playerLevel++;
-
-      // (협업해서 구현 필요)레벨 업 후 노드에 레벨업 정보 전달
-      
+      PostManager.Instance.Post(PostMessageKey.PlayerLevelUp, ++_playerStat.playerLevel);
    }
-   
-   
 
+   private void OnDrawGizmos()
+   {
+      Gizmos.color = Color.blue;
+      Gizmos.DrawLine(ray.origin, ray.origin + ray.direction * raycastDistance);
+   }
 }
