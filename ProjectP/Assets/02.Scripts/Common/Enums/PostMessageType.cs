@@ -22,4 +22,5 @@
     SelectWeapon,  // 무기 선택
     PlayerLevelUp,  // 플레이어 Level Up 정보 전달
     ProjectileSelection,  // 무기 선택 시 동시에 탄환 선택
+    NodeReset,  // 노드 초기화
 }
