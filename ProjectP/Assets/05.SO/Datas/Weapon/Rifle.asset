@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 74c263bb61df4865a9aec97c47cfbba2, type: 3}
-  m_Name: Common
+  m_Name: Rifle
   m_EditorClassIdentifier: Assembly-CSharp::CommonWeaponData
   weaponName: Rifle
   attackSpeed: 4

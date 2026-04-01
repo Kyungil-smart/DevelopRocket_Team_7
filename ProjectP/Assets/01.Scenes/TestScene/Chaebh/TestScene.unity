@@ -1222,6 +1222,8 @@ MonoBehaviour:
   _weapons:
   - type: 0
     prefab: {fileID: 6374110514529936258, guid: 04d52392a3d32aa44b5723232b15ccb0, type: 3}
+  - type: 1
+    prefab: {fileID: 4858377320195829462, guid: 0483ef4974078fd4089800cdfc564731, type: 3}
   _scopePrefab: {fileID: 1483327990}
 --- !u!4 &1371472463
 Transform:

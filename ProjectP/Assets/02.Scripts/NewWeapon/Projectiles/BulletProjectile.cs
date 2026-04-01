@@ -5,7 +5,7 @@ using Random = UnityEngine.Random;
 
 namespace NewWeaponSystem
 {
-    public class RifleProjectile : MonoBehaviour
+    public class BulletProjectile : MonoBehaviour
     {
         [SerializeField] private float _speed;
         [SerializeField] LayerMask _layerMask;

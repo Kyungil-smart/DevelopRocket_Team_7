@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -8,6 +9,7 @@ namespace NewWeaponSystem
     {
         [SerializeField] private CommonWeaponData _weaponData;
         [SerializeField] private Transform _portTf;
+        private FireAbstractClass _fireType;
         private GameObject _scopePrefab;
         private InputSystem_Actions _input;
         private SpriteRenderer _sp;
@@ -16,13 +18,11 @@ namespace NewWeaponSystem
         public WeaponBlackboard Blackboard { get => _blackboard; }
         private Camera _cam;
         private Vector2 _mousePos;
-        private int _sortingOffset;
         private Vector2 _prePos;
-        private Coroutine _fireCoroutine;
+        private int _sortingOffset;
         
         // 각종 Flags; state 로 하기도 참 애매하고...
         private bool _isRightFacing;
-        private bool _isReloading;
 
         private void Awake()
         {
@@ -30,32 +30,36 @@ namespace NewWeaponSystem
             _input = new InputSystem_Actions();
             _sp = GetComponent<SpriteRenderer>();
             _animator = GetComponent<Animator>();
+            if (_weaponData.WeaponType == WeaponType.Rifle) _fireType = GetComponent<RifleFire>();
+            else if (_weaponData.WeaponType == WeaponType.Shotgun) _fireType = GetComponent<ShotgunFire>();
         }
 
         private void Start()
         {
             _blackboard = new WeaponBlackboard(_weaponData);
+            _fireType.SetUp(_blackboard, _portTf);
         }
 
         private void Update()
         {
             if (_scopePrefab != null) _scopePrefab.transform.position = _mousePos;
             transform.rotation = GetRotation();
+            _fireType.UpdateMousePos(_mousePos);
         }
         
         private void OnEnable()
         {
             _input.Enable();
-            _input.Player.Attack.started += Fire;
-            _input.Player.Attack.canceled += FireStop;
+            _input.Player.Attack.started += _fireType.Fire;
+            _input.Player.Attack.canceled += _fireType.FireStop;
             _input.Player.Move.performed += GetMovePos;
             _input.Player.MousePosition.performed += GetMousePosition;
         }
 
         private void OnDisable()
         {
-            _input.Player.Attack.started -= Fire;
-            _input.Player.Attack.canceled -= FireStop;
+            _input.Player.Attack.started -= _fireType.Fire;
+            _input.Player.Attack.canceled -= _fireType.FireStop;
             _input.Player.Move.performed -= GetMovePos;
             _input.Player.MousePosition.performed -= GetMousePosition;
             _input.Disable();
@@ -64,6 +68,11 @@ namespace NewWeaponSystem
         public void SetScopePrefab(GameObject prefab)
         {
             _scopePrefab = prefab;
+        }
+
+        public GameObject GetProjectilePrefab()
+        {
+            return _weaponData.projectilePrefab;
         }
 
         private void GetMousePosition(InputAction.CallbackContext context)
@@ -98,51 +107,6 @@ namespace NewWeaponSystem
             else _sortingOffset = -2;
             
             _prePos = transform.position;
-        }
-        
-        private void Fire(InputAction.CallbackContext context)
-        {
-            if (_fireCoroutine == null) _fireCoroutine = StartCoroutine(FireCoroutine());
-        }
-
-        private void FireStop(InputAction.CallbackContext context)
-        {
-            if (_fireCoroutine != null) StopCoroutine(_fireCoroutine);
-            _fireCoroutine = null;
-        }
-
-        private IEnumerator FireCoroutine()
-        {
-            while (true)
-            {
-                if (_blackboard.currentAmmo <= 0)
-                {
-                    if (!_isReloading) StartCoroutine(Reload());
-                }
-                else
-                {
-                    Debug.Log($"{_blackboard.damage} damage");
-                    Vector2 direction = _mousePos - (Vector2)transform.position;
-                    PostManager.Instance.Post(PostMessageKey.ProjectileSpawned, new ProjectileSpwanMsg()
-                    {
-                        startPos = _portTf.position,
-                        direction = direction,
-                        blackboard = _blackboard
-                    });
-                    _blackboard.currentAmmo--;
-                }
-                float rate = (1 / _blackboard.attackSpeed);
-                yield return new WaitForSecondsRealtime(rate);    
-            }
-        }
-
-        private IEnumerator Reload()
-        {
-            Debug.Log("Reload");
-            _isReloading = true;
-            yield return new WaitForSecondsRealtime(_blackboard.reloadTime);
-            _blackboard.currentAmmo = _blackboard.origin.magazineSize;
-            _isReloading = false;
         }
     }
 }
