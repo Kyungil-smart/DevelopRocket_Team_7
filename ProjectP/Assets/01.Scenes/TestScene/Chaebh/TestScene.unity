@@ -1185,6 +1185,7 @@ MonoBehaviour:
   _url: https://docs.google.com/spreadsheets/d/1o2P6EKXmBV6wKbjUzZrxumVDRd1gsXunDdQPB40DHkI/edit?gid=0#gid=0
   _gids: 00000000a7627442
   _languageType: 0
+  _textDataSO: {fileID: 11400000, guid: 3ed555a6b7895ab4c85968e78af72200, type: 2}
 --- !u!4 &892900893
 Transform:
   m_ObjectHideFlags: 0
@@ -1218,7 +1219,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1026018370
 RectTransform:
   m_ObjectHideFlags: 0

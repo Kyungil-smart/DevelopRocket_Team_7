@@ -13,14 +13,9 @@ public class UIDataManager : MonoBehaviour
     private TaskCompletionSource<bool> _loadTaskSource = new ();
     
     [SerializeField] private LanguageType _languageType;
-    private TextData _textDataSO;
+    [SerializeField] private TextData _textDataSO;
     private Dictionary<int, Dictionary<LanguageType, string>> _textData = new();
 
-    private void Awake()
-    {
-        if (_textDataSO != null) _textDataSO = ScriptableObject.CreateInstance<TextData>();
-    }
-    
     private void OnEnable()
     {
         ConvertData();
@@ -41,13 +36,15 @@ public class UIDataManager : MonoBehaviour
     }
     private string SearchText(int textId)
     {
-        return _textData[textId][_languageType];
+        if (_textData == null) return "NotFound";
+        if (_textData.TryGetValue(textId, out var value))
+            return value[_languageType];
+        return "NotFound";
     }
 
     private void CreateTextDataAsset()
     {
-        string path = "Assets/05.SO/Datas/UI/TextData.asset";
-        AssetDatabase.CreateAsset(_textDataSO, path);
+        Debug.Log("SaveAssets");
         AssetDatabase.SaveAssets();
         AssetDatabase.Refresh();
     }
@@ -58,8 +55,10 @@ public class UIDataManager : MonoBehaviour
         {
             foreach (var line in _textDataSO.texts)
             {
-                _textData[line.textId] = new();
-                _textData[line.textId][_languageType] = line.text;
+                if (!_textData.ContainsKey(line.textId))
+                    _textData[line.textId] = new();
+                
+                _textData[line.textId].Add(line.languageType, line.text);
             }
         }
     }
@@ -138,7 +137,13 @@ public class UIDataManager : MonoBehaviour
     [ContextMenu("Test/CheckData")]
     public void OnTestCheckData()
     {
-        Debug.Log(_textData[101][_languageType]);
+        foreach (var text in _textData)
+        {
+            foreach (var line in text.Value)
+            {
+                Debug.Log($"{text.Key}: {line.Key}: {line.Value}");
+            }
+        }
     }
     
     [ContextMenu("Test/Trigger Change Language")]

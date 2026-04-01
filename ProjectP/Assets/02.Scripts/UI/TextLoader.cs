@@ -5,6 +5,11 @@ public class TextLoader : MonoBehaviour
 {
     [SerializeField] private int textId;
     private TextMeshProUGUI _textGui;
+
+    private void Awake()
+    {
+        _textGui = GetComponentInChildren<TextMeshProUGUI>();
+    }
     
     private void OnEnable()
     {
