@@ -2,5 +2,9 @@
 {
     Rifle,
     Shotgun,
-    Sniper
+    Sniper,
+    Bouncy,
+    Gauntlet,
+    Laser,
+    None
 }
