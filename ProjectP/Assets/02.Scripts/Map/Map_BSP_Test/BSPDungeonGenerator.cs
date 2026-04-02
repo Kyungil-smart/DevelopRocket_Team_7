@@ -1,9 +1,16 @@
 using sadsmile;
+using System;
 using System.Collections.Generic;
 using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.Tilemaps;
-
+using Random = UnityEngine.Random;
+[System.Serializable]
+public struct EnemySpawnOpction
+{
+    public int Min;
+    public int Max;
+}
 public class BSPDungeonGenerator : MonoBehaviour
 {
   [Header("타일 설정")]
@@ -25,6 +32,14 @@ public class BSPDungeonGenerator : MonoBehaviour
     public  GameObject  _bossMonsterPrefab;
     // 생성된 최종 방(Leaf Node)들을 모아둘 리스트
     private List<BSPNode> leafRooms = new List<BSPNode>();
+    [Header("휴식방 석상 오브젝트")]
+    [SerializeField]private GameObject _restRoomStatuePrefab;
+    [SerializeField]private List<GameObject> _restRoomsGimmic = new List<GameObject>();
+    [SerializeField]private int CurrentRestRoomGimmicIndex = 0;
+    [Header("몬스터 스폰 마릿수")]
+    [Tooltip("추적")] public EnemySpawnOpction m_chase;
+    [Tooltip("원거리")] public EnemySpawnOpction m_Range;
+    [Tooltip("탱커")] public EnemySpawnOpction m_Tank;
     private void Start()
     {
         GenerateDungeon();
@@ -233,6 +248,10 @@ public class BSPDungeonGenerator : MonoBehaviour
             {
                 leafRooms[i].roomType = RoomType.RestNode;
             }
+            else if (i == leafRooms.Count - 2 && leafRooms.Count > 3)
+            {
+                leafRooms[i].roomType = RoomType.RestNode;
+            }
             else if (i == leafRooms.Count - 1 && leafRooms.Count > 3)
             {
                 leafRooms[i].roomType = RoomType.BossNode;
@@ -273,19 +292,19 @@ public class BSPDungeonGenerator : MonoBehaviour
                     //원거리3==최소 6~ 최대 9
                     if (prefab.name== "MonsterTank")
                     {
-                        var spawnNums = Random.Range(1, 3);
+                        var spawnNums = UnityEngine.Random.Range(m_Tank.Min, m_Tank.Max);
                         spawnMSG.spawnNums.Add(prefab.name, spawnNums);
                         spawnCount += spawnNums;
                     }
                     else if(prefab.name == "MonsterChase")
                     {
-                        var spawnNums = Random.Range(2, 3);
+                        var spawnNums = UnityEngine.Random.Range(m_chase.Min, m_chase.Max);
                         spawnMSG.spawnNums.Add(prefab.name, spawnNums);
                         spawnCount += spawnNums;
                     }
                     else if(prefab.name == "MonsterRange")
                     {
-                        var spawnNums = Random.Range(6, 9);
+                        var spawnNums = UnityEngine.Random.Range(m_Tank.Min, m_Tank.Max);
                         spawnMSG.spawnNums.Add(prefab.name, spawnNums);
                         spawnCount += spawnNums;
                     }
@@ -295,7 +314,7 @@ public class BSPDungeonGenerator : MonoBehaviour
                 {
                     spawnMSG.positions.Add(new Vector2(
                         Random.Range(room.roomRect.xMin + 1.5f, room.roomRect.xMax - 1.5f),
-                        Random.Range(room.roomRect.yMin + 1.5f, room.roomRect.yMax - 1.5f)
+                        UnityEngine.Random.Range(room.roomRect.yMin + 1.5f, room.roomRect.yMax - 1.5f)
                     ));
                 }
                 var obj = new GameObject();
@@ -324,6 +343,10 @@ public class BSPDungeonGenerator : MonoBehaviour
             }
             else if(room.roomType == RoomType.RestNode)
             {
+                var obj=Instantiate(_restRoomStatuePrefab, room.roomRect.center, Quaternion.identity);
+                var AddObj=Instantiate( _restRoomsGimmic[CurrentRestRoomGimmicIndex++]);
+                AddObj.transform.SetParent(obj.transform);
+                 
 
             }
             else if(room.roomType == RoomType.BossNode)
