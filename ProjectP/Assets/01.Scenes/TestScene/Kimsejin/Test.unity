@@ -849,11 +849,12 @@ MonoBehaviour:
   _animator: {fileID: 1012029617}
   _sp: {fileID: 0}
   _playerStat: {fileID: 1012029619}
-  dashSpeed: 20
+  dashSpeed: 30
   dashTime: 0.5
   dashCooldown: 5
   coolDownInterval: 0.5
   input: {x: 0, y: 0}
+  isMoving: 0
   isDashing: 0
   _dashStack: 2
   raycastDistance: 3
