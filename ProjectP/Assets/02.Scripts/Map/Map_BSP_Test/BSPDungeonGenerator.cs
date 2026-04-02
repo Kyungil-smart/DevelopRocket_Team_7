@@ -349,6 +349,16 @@ public class BSPDungeonGenerator : MonoBehaviour
             {
                 var obj=Instantiate(_restRoomStatuePrefab, room.roomRect.center, Quaternion.identity);
                 var pos = obj.transform.GetChild(0);
+                if(CurrentRestRoomGimmicIndex ==0)
+                {
+                    Tilemap data= pos.GetComponent<Tilemap>();
+                    data.color = Color.red;
+                }
+                else
+                {
+                    Tilemap data = pos.GetComponent<Tilemap>();
+                    data.color = new Color(0,255,255);
+                }
                 var AddObj=Instantiate( _restRoomsGimmic[CurrentRestRoomGimmicIndex++]);
                 AddObj.transform.SetParent(pos.transform);
                  
