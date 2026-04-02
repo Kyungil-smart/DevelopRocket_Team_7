@@ -8,12 +8,32 @@ public struct PlayerStatMSG
 }
 public class PlayerStat : MonoBehaviour
 {
-    [SerializeField] public int playerHp = 5; // 플레이어 HP
-    [SerializeField]private int MAX_Hp; // 플레이어 최대 HP (MAX수치값 변동 있음)
+    
+    [SerializeField] private int _playerHp; // 플레이어 HP
+    public int PlayerHp
+    {
+        get { return _playerHp; }
+        set
+        {
+            _playerHp = value;
+            Debug.Log($"my hp {value}");
+            PostManager.Instance.Post(PostMessageKey.MainUIPlayerHp , value);
+        }
+    }
+    [SerializeField] private int MAX_Hp = 5; // 플레이어 최대 HP (MAX수치값 변동 있음)
 
     [SerializeField] public float moveSpeed = 10f;  // 플레이어 기본 속도
     
-    [SerializeField] public int playerLevel = 0; // 플레이어 현재 레벨
+    [SerializeField] private int _playerLevel = 0; // 플레이어 현재 레벨
+    public int PlayerLevel
+    {
+        get { return _playerLevel; }
+        set
+        {
+            _playerLevel = value;
+            PostManager.Instance.Post(PostMessageKey.MainUIPlayerLv , value);
+        }
+    }
     [SerializeField] public int playerMaxLevel = 3; // 플레이어 최대 레벨
     
     [SerializeField] public int playerExp = 0; // 플레이어 현재 경험치
@@ -23,9 +43,10 @@ public class PlayerStat : MonoBehaviour
     public float Sum_moveSpeed => moveSpeed+ _AddStat.moveSpeed;
     [SerializeField] public PlayerStatMSG _AddStat=new();
 
-    private void Awake()
+    private void Start()
     {
-        MAX_Hp=playerHp;
+        PlayerHp = MAX_Hp;
+        PlayerLevel = 0;
     }
     private void OnEnable()
     { 
@@ -57,6 +78,6 @@ public class PlayerStat : MonoBehaviour
     }
     public void FullRecovery()
     {
-        playerHp = Sum_hp;
+        _playerHp = Sum_hp;
     }
 }

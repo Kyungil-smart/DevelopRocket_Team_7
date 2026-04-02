@@ -117,6 +117,6 @@ public class MainMenuLoadingFlow : MonoBehaviour
         {
             return;
         }
-        SceneChanger.Instance.ChangeScene("InGameScene");
+        SceneChanger.Instance.ChangeScene("InGameSceneTest");
     }
 }

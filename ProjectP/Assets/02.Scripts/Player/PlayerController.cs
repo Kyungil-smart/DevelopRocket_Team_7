@@ -69,11 +69,6 @@ public class PlayerController : MonoBehaviour , IDamage
       PostManager.Instance.Unsubscribe<int>(PostMessageKey.PostExp, GetExp);
    }
 
-   private void Update()
-   {
-     // RayCastingForInteraction();
-   }
-   
    private void FixedUpdate()
    {  // Player 위치 정보 상시 체크를 위한 PostManager Channel 등록 및 데이터 전송.
       if (Vector2.Distance(_rb.position, prePos) > 0f)
@@ -88,7 +83,7 @@ public class PlayerController : MonoBehaviour , IDamage
    public void TakeDamage(int damage)
    {
       if(isDashing) return; // 대쉬 때 무적 판정
-      _playerStat.playerHp -= damage;
+      _playerStat.PlayerHp -= damage;
       if (_playerStat.Sum_hp <= 0) Dead();
    }
 
@@ -129,7 +124,7 @@ public class PlayerController : MonoBehaviour , IDamage
       isDashing = true;
       GetComponent<Rigidbody2D>().linearVelocity = direction * dashSpeed;
       _dashCountDownCoroutine = StartCoroutine(DashCountDownRoutine(input));
-      _dashStack--;
+      PostManager.Instance.Post(PostMessageKey.MainUIDashCount, --_dashStack);
    }
 
    private void DashStop()
@@ -164,11 +159,10 @@ public class PlayerController : MonoBehaviour , IDamage
             {
                // 대시 카운트 시간 초기화하고 스택 +1;
                currentTimeCount = dashCooldown;
-               _dashStack++;
+               PostManager.Instance.Post(PostMessageKey.MainUIDashCount, ++_dashStack);
             }
          }
       }
-
       _dashCoolDownCoroutine = null;
    }
 
@@ -190,7 +184,7 @@ public class PlayerController : MonoBehaviour , IDamage
          _interactedGameObject = hit.collider.gameObject;
             Oninteract(_interactedGameObject);
       }
-        Debug.Log(hit);
+      Debug.Log(hit);
    }
 
    private void UpdatePosition(Vector2 position)
@@ -204,10 +198,17 @@ public class PlayerController : MonoBehaviour , IDamage
       _animator.SetTrigger("Dead");
    }
 
+   // Player Dead Animation Event 함수로 등록함
+   public void SendSignalPlayerLose()
+   {
+      // false => 게임 실패
+      PostManager.Instance.Post(PostMessageKey.MainUIGameResult, false);
+   }
+
    public void GetExp(int exp) // 플레이어가 경험치 획득 시 (포스트매니저 통해서 몬스터 구독하여 경험치 습득 코드 추가할 예정)
    {
       _playerStat.playerExp += exp;
-      if (_playerStat.playerLevel >= _playerStat.playerMaxLevel) return; // 현재 플레이어 레벨이 최대레벨 이상일 경우 리턴
+      if (_playerStat.PlayerLevel >= _playerStat.playerMaxLevel) return; // 현재 플레이어 레벨이 최대레벨 이상일 경우 리턴
       if (_playerStat.playerExp >= _playerStat.NeedLevelUpExp) // 현재 경험치가 레벨업 시 필요한 경험치 이상일 경우    
       {
          _playerStat.playerExp -= _playerStat.NeedLevelUpExp; // 현재 경험치에서 레벨업 시 필요한 경험치 만큼 감소
@@ -218,7 +219,7 @@ public class PlayerController : MonoBehaviour , IDamage
    [ContextMenu("LevelUp")]
    public void LevelUp()
    {
-      PostManager.Instance.Post(PostMessageKey.PlayerLevelUp, ++_playerStat.playerLevel);
+      PostManager.Instance.Post(PostMessageKey.PlayerLevelUp, ++_playerStat.PlayerLevel);
    }
     
    private void OnDrawGizmos()
