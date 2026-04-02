@@ -2,6 +2,5 @@
   <Project Path="XNodeEditor.csproj" />
   <Project Path="Assembly-CSharp.csproj" />
   <Project Path="XNode.csproj" />
-  <Project Path="OccaSoftware.Crosshairs.Editor.csproj" />
   <Project Path="Assembly-CSharp-Editor.csproj" />
 </Solution>
