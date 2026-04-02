@@ -891,7 +891,8 @@ MonoBehaviour:
   raycastDistance: 1
   interactLayer:
     serializedVersion: 2
-    m_Bits: 2147483648
+    m_Bits: 32768
+  _NodeCanvas: {fileID: 5410834239993585605}
 --- !u!114 &1686085963
 MonoBehaviour:
   m_ObjectHideFlags: 0

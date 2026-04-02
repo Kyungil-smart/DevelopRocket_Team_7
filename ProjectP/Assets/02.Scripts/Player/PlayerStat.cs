@@ -55,4 +55,8 @@ public class PlayerStat : MonoBehaviour
         _AddStat.PlayerHp = 0;
         _AddStat.moveSpeed = 0;
     }
+    public void FullRecovery()
+    {
+        playerHp = Sum_hp;
+    }
 }

@@ -13,6 +13,6 @@ public interface IinteractiveObject
 
       플레이어가 풀피로 회복 관련 인터페이스는 아직 미구현 상태
      */
-    public void Interact(GameObject Obj);
+    public int Interact();
     
 }

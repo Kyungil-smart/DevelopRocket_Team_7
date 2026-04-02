@@ -344,8 +344,9 @@ public class BSPDungeonGenerator : MonoBehaviour
             else if(room.roomType == RoomType.RestNode)
             {
                 var obj=Instantiate(_restRoomStatuePrefab, room.roomRect.center, Quaternion.identity);
+                var pos = obj.transform.GetChild(0);
                 var AddObj=Instantiate( _restRoomsGimmic[CurrentRestRoomGimmicIndex++]);
-                AddObj.transform.SetParent(obj.transform);
+                AddObj.transform.SetParent(pos.transform);
                  
 
             }
