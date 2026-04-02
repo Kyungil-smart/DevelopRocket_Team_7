@@ -66,7 +66,7 @@ public class PlayerController : MonoBehaviour , IDamage
 
    private void Update()
    {
-      RayCastingForInteraction();
+     // RayCastingForInteraction();
    }
    
    private void FixedUpdate()
@@ -161,6 +161,7 @@ public class PlayerController : MonoBehaviour , IDamage
    public void Interact(InputAction.CallbackContext context)   // 플레이어 상호작용
    {
       if (!context.started) return;
+        RayCastingForInteraction();
       // 추후 석상이나 신전에 따라 구별하여 상호작용 처리 코드 추가
       Debug.Log($"인터렉트 중 {_interactedGameObject.name}");
    }
