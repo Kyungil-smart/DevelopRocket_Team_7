@@ -137,7 +137,9 @@ public class StatNode : Node {
 					PostManager.Instance.Post(PostMessageKey.UpgradeWeapon, data);
 					break;
 			}
+			// 요구 코스트 만큼 노드 포인트 감소
 			StatNodeManager.Instance.SetNodePoint(-_info.NodeCostPoint);
+			// 레벨업 시도
 			PostManager.Instance.Post(PostMessageKey.NodeLevelUp, 1);
 		}
 	}
