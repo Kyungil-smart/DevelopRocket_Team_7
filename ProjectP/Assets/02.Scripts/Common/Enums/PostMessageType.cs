@@ -31,6 +31,8 @@
     MainUIPlayerLv,
     MainUIDashCount,
     MainUICurAmmo,
-    MainUIGameResult
+    MainUIGameResult,
     // ------------------------------------------
+    NodePointTextUIUpdate, // 노드 포인트 UI text 갱신
+
 }
