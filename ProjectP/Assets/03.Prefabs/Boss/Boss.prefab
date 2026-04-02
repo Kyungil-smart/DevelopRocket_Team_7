@@ -667,6 +667,7 @@ MonoBehaviour:
   _movementScript: {fileID: 7311777237596395111}
   _rangeAttackHpRateStep: 0.11
   _burningPhaseHpRate: 0.5
+  _remnant: {fileID: 5099051620245623169, guid: 50c54a13c5f3a3144973e17c3d36a5b3, type: 3}
 --- !u!114 &7311777237596395111
 MonoBehaviour:
   m_ObjectHideFlags: 0
