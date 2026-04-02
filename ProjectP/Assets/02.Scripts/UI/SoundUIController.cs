@@ -2,34 +2,34 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class BgmSettingUI : MonoBehaviour
+public class SoundUIController : MonoBehaviour
 {
-    [Header("배경음악 UI 연결")]
+    [Header("사운드 관련 UI 연결")]
 
-    [Tooltip("배경음악 볼륨 조절 슬라이더")]
-    [SerializeField] private Slider bgmSlider;
+    [Tooltip("사운드 관련 볼륨 조절 슬라이더")]
+    [SerializeField] private Slider soundSlider;
 
-    [Tooltip("배경음악 볼륨 숫자 표시 텍스트")]
-    [SerializeField] private TMP_Text bgmValueText;
+    [Tooltip("사운드 관련 볼륨 숫자 표시 텍스트")]
+    [SerializeField] private TMP_Text soundValueText;
 
 
     private void Start()
     {
-        if (bgmSlider == null)
+        if (soundSlider == null)
         {
             Debug.LogError("BgmSettingUI : bgmSlider가 연결되지 않았습니다.");
             return;
         }
 
-        if (bgmValueText == null)
+        if (soundValueText == null)
         {
             Debug.LogError("BgmSettingUI : bgmValueText가 연결되지 않았습니다.");
             return;
         }
 
-        bgmSlider.minValue = 0;
-        bgmSlider.maxValue = 100;
-        bgmSlider.wholeNumbers = true;
+        soundSlider.minValue = 0;
+        soundSlider.maxValue = 100;
+        soundSlider.wholeNumbers = true;
 
         int savedVolume = 50;
 
@@ -38,23 +38,23 @@ public class BgmSettingUI : MonoBehaviour
             savedVolume = AudioSettingsManager.Instance.GetBgmVolume();
         }
 
-        bgmSlider.SetValueWithoutNotify(savedVolume);
+        soundSlider.SetValueWithoutNotify(savedVolume);
         UpdateVolumeText(savedVolume);
 
-        bgmSlider.onValueChanged.AddListener(OnChangedBgmSlider);
+        soundSlider.onValueChanged.AddListener(OnChangedSoundSlider);
     }
 
 
     private void OnDestroy()
     {
-        if (bgmSlider != null)
+        if (soundSlider != null)
         {
-            bgmSlider.onValueChanged.RemoveListener(OnChangedBgmSlider);
+            soundSlider.onValueChanged.RemoveListener(OnChangedSoundSlider);
         }
     }
 
 
-    private void OnChangedBgmSlider(float value)
+    private void OnChangedSoundSlider(float value)
     {
         int intValue = Mathf.RoundToInt(value);
 
@@ -69,6 +69,6 @@ public class BgmSettingUI : MonoBehaviour
 
     private void UpdateVolumeText(int value)
     {
-        bgmValueText.text = value.ToString();
+        soundValueText.text = value.ToString();
     }
 }

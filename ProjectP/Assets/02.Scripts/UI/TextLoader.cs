@@ -31,4 +31,9 @@ public class TextLoader : MonoBehaviour
         }
         _textGui.text = PostManager.Instance.Request<int, string>(PostMessageKey.UITextReqeust, textId);
     }
+
+    public void SetTextId(int textId)
+    {
+        this.textId = textId;
+    }
 }

@@ -112,11 +112,12 @@ public class MainMenuLoadingFlow : MonoBehaviour
 
     public void OnClickConfirm()
     {
+        // 씬 매니저로 게임뷰로 넘어가도록 수정하기
         if (!isCompleted)
         {
             return;
         }
 
-        screenView.ShowWeaponSelect();
+        
     }
 }
