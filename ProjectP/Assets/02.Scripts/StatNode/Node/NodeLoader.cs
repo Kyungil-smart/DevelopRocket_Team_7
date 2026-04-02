@@ -1,0 +1,51 @@
+using UnityEngine;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using UnityEditor;
+
+public class NodeLoader : MonoBehaviour
+{
+    [Header("불러올 시트 링크 전체 입력")]
+    [SerializeField] private string _url;
+    
+    [Header("사이트 URL 끝에 gid 번호 입력")]//기본 첫 시트는 0 인거 같음 그래도 확인 필수
+    [SerializeField] private int _gid;
+
+    [Header("스텟 노드 데이터를 저장할 타겟 SO 연결")] 
+    [SerializeField] private NodeDataSO _dataContainer;
+    
+    [Header("특수 노드 데이터를 저장할 타겟 SO 연결")] 
+    [SerializeField] private NodeDataSO _specialDataContainer;
+    
+    private SheetLoader<NodeInfo> _data;
+    private SheetLoader<SpecialNodeInfo> _specialData;
+
+    public async Task InitDataSO()
+    {
+        // 1. 로더 생성
+        _data = new SheetLoader<NodeInfo>(_url, _gid);
+        _specialData = new SheetLoader<SpecialNodeInfo>(_url, _gid);
+        
+        // 2. 데이터가 다 로드될 때까지 기다렸다가(await) 리스트를 받아옵니다.
+        // GetDataAsync()의 반환 타입이 Task<List<charData>>이므로 await가 필수입니다.
+        List<NodeInfo> loadedList = await _data.GetDataAsync();
+        List<SpecialNodeInfo> loadedSpecialList = await _specialData.GetDataAsync();
+        
+        // SO의 리스트를 비운 후 새로 받아온 데이터를 채움
+        if (_dataContainer != null)
+        {
+            _dataContainer.NodeInfos.Clear();
+            _dataContainer.NodeInfos.AddRange(loadedList);
+            AssetDatabase.SaveAssets();
+        }
+
+        if (_specialDataContainer != null)
+        {
+            _specialDataContainer.SpecialNodeInfos.Clear();
+            _specialDataContainer.SpecialNodeInfos.AddRange(loadedSpecialList);
+            AssetDatabase.SaveAssets();
+        }
+        
+        Debug.Log("데이터 로드 완료");
+    }
+}

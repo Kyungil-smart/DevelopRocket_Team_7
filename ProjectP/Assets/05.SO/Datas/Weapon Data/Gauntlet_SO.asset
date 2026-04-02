@@ -1,0 +1,46 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 989a21a957ecb994da667ff5811dd02e, type: 3}
+  m_Name: Gauntlet_SO
+  m_EditorClassIdentifier: Assembly-CSharp::WeaponDataSO
+  weaponName: 
+  weaponSprite: {fileID: 0}
+  weaponPrefab: {fileID: 7374078092371000320, guid: 9db6ced22b323c54299598294b2e8363, type: 3}
+  attackSpeed: 0.5
+  damage: 50
+  magazineSize: 30
+  currentAmmo: 0
+  reloadTime: 1.5
+  projectilePrefab: {fileID: 7611560951116735793, guid: a6f2ef457f8056e4484fe87f52d55b8b, type: 3}
+  projectileSpeed: 15
+  projectileCount: 1
+  moveSpeedBonus: 0
+  dodgeRate: 5
+  critRate: 0.05
+  critMultiplier: 1.5
+  weaponColor: {r: 0.044796366, g: 0.9496855, b: 0.8793649, a: 1}
+  fireStrategy: {fileID: 11400000, guid: fcb855641aa21b24fbe5be1d9f05f95f, type: 2}
+  pelletCount: 5
+  spreadAngle: 30
+  pierceCount: 3
+  meleeRadius: 2.5
+  meleeAngle: 90
+  knockbackForce: 5
+  hitStopTime: 0.05
+  laserRange: 10
+  laserDPS: 10
+  chargeTime: 2
+  maxChargeLevel: 3
+  bounceCount: 0
+  bounceDamageMultiplier: 1.2
+  explosionRadius: 2
+  explosionDelay: 3

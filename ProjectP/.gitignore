@@ -110,3 +110,5 @@ XNodeEditor.csproj
 
 # ingore imported assets
 00.ImportAssets
+*.idea*
+*_Recovery*
