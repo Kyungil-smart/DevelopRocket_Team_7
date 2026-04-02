@@ -45,8 +45,11 @@ public class UIDataManager : MonoBehaviour
     private void CreateTextDataAsset()
     {
         Debug.Log("SaveAssets");
+#if UNITY_EDITOR
+        EditorUtility.SetDirty(_textDataSO);
         AssetDatabase.SaveAssets();
         AssetDatabase.Refresh();
+#endif
     }
     
     private void ConvertData()
