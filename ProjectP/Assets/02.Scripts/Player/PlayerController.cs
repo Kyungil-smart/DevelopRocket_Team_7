@@ -35,8 +35,10 @@ public class PlayerController : MonoBehaviour , IDamage
    private GameObject _interactedGameObject;
    
    private Vector2 prePos;  // 플레이어 현재 위치 계산용 Cache 값
-   
-   private void Awake()
+    [Header("InteractionOBJ")]
+    [SerializeField] private GameObject _NodeCanvas;
+  
+    private void Awake()
    {  
       _rb = GetComponent<Rigidbody2D>();
       _sp = GetComponent<SpriteRenderer>();
@@ -66,7 +68,7 @@ public class PlayerController : MonoBehaviour , IDamage
 
    private void Update()
    {
-      RayCastingForInteraction();
+     // RayCastingForInteraction();
    }
    
    private void FixedUpdate()
@@ -161,8 +163,9 @@ public class PlayerController : MonoBehaviour , IDamage
    public void Interact(InputAction.CallbackContext context)   // 플레이어 상호작용
    {
       if (!context.started) return;
+        RayCastingForInteraction();
       // 추후 석상이나 신전에 따라 구별하여 상호작용 처리 코드 추가
-      Debug.Log($"인터렉트 중 {_interactedGameObject.name}");
+      
    }
 
    private void RayCastingForInteraction()
@@ -173,7 +176,9 @@ public class PlayerController : MonoBehaviour , IDamage
       if (hit) // 무언가 레이캐스트에 충돌되면
       {
          _interactedGameObject = hit.collider.gameObject;
+            Oninteract(_interactedGameObject);
       }
+        Debug.Log(hit);
    }
 
    private void UpdatePosition(Vector2 position)
@@ -203,7 +208,7 @@ public class PlayerController : MonoBehaviour , IDamage
    {
       PostManager.Instance.Post(PostMessageKey.PlayerLevelUp, ++_playerStat.playerLevel);
    }
-
+    
    private void OnDrawGizmos()
    {
       Gizmos.color = Color.blue;
@@ -215,4 +220,19 @@ public class PlayerController : MonoBehaviour , IDamage
    {
       Dead();
    }
+    private void Oninteract(GameObject obj)
+    {
+        var index=obj.GetComponentInChildren<IinteractiveObject>()?.Interact();
+        if(index ==1)
+        {
+            _playerStat.FullRecovery();
+        }
+        else if(index ==2)
+        {
+            if(_NodeCanvas !=null)
+            {
+                _NodeCanvas.SetActive(!_NodeCanvas.activeSelf);
+            }
+        }
+    }
 }
