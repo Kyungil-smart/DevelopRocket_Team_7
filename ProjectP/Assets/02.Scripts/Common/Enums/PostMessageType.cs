@@ -12,7 +12,14 @@
     InitPlayerPosition,  // 처음 플레이어 등장시 시작 위치 보내기
     ProjectileSpawned,  // 플레이어 탄환체 꺼내기
     ProjectileDespawned,  // 플레이어 탄환체 반납하기
+    PlayerStat, // 노드에서 플레이어에게 스탯을 전달하는 이벤트
+    NodeUIIconUpdate, // 노드 UI 갱신 이벤트
+    NodeLevelUp, // 노드 Level 증가 이벤트
     EnemyRangeBulletSpawned,  // 몬스터 탄환체 꺼내기
     EnemyRangeBulletDespawned,  // 몬스터 탄환체 반납하기
+    EnemyDeadAlarm,  // 몬스터가 죽어서 신호를 보냄.
     UpgradeWeapon,  // 무기 업그레이드 하기
+    SelectWeapon,  // 무기 선택
+    PlayerLevelUp,  // 플레이어 Level Up 정보 전달
+    ProjectileSelection,  // 무기 선택 시 동시에 탄환 선택
 }

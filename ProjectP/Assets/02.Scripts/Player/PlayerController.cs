@@ -20,33 +20,53 @@ public class PlayerController : MonoBehaviour , IDamage
    [SerializeField] private float dashCooldown = 5f; // 대쉬 쿨타임 
    [SerializeField] private float countDownInterval = 0.5f;
    [SerializeField] private Vector2 input;
+   
+   [Header("Dash")]
    [SerializeField] private bool isDashing = false;  // 플레이어 대쉬 중인지 체크
-
-   private Coroutine _dashCountDownCoroutine;
    [SerializeField] private int _dashStack = 2;
+   private Coroutine _dashCountDownCoroutine;
    private int _maxDashStack = 2;
-
-   private Vector2 prePos;
-
+   
+   [Header("Interaction")]
+   [SerializeField] private float raycastDistance = 3f;  // 레이캐스트 감지 거리
+   [SerializeField] private LayerMask interactLayer; // 레이캐스트가 감지할 레이어
+   private RaycastHit2D hit;
+   private Ray2D ray;
+   private GameObject _interactedGameObject;
+   
+   private Vector2 prePos;  // 플레이어 현재 위치 계산용 Cache 값
+   
    private void Awake()
-   {
-      _inputActionAsset.Enable();
-      _inputActionAsset["Move"].performed += Move;
-      _inputActionAsset["Move"].canceled += MoveStop;
-      _inputActionAsset["Dash"].started += OnDash;
-      
+   {  
       _rb = GetComponent<Rigidbody2D>();
       _sp = GetComponent<SpriteRenderer>();
    }
 
    private void OnEnable()
    {
+      _inputActionAsset.Enable();
+      _inputActionAsset["Move"].performed += Move;
+      _inputActionAsset["Move"].canceled += MoveStop;
+      _inputActionAsset["Dash"].started += OnDash;
+      _inputActionAsset["Interact"].started += Interact;
       PostManager.Instance.Subscribe<Vector2>(PostMessageKey.InitPlayerPosition, UpdatePosition);
+      PostManager.Instance.Subscribe<int>(PostMessageKey.PostExp, GetExp);
    }
 
    private void OnDisable()
    {
+      _inputActionAsset["Move"].performed -= Move;
+      _inputActionAsset["Move"].canceled -= MoveStop;
+      _inputActionAsset["Dash"].started -= OnDash;
+      _inputActionAsset["Interact"].started -= Interact;
+      _inputActionAsset.Disable();
       PostManager.Instance.Unsubscribe<Vector2>(PostMessageKey.InitPlayerPosition, UpdatePosition);
+      PostManager.Instance.Unsubscribe<int>(PostMessageKey.PostExp, GetExp);
+   }
+
+   private void Update()
+   {
+      RayCastingForInteraction();
    }
    
    private void FixedUpdate()
@@ -138,8 +158,27 @@ public class PlayerController : MonoBehaviour , IDamage
       }
    }
 
+   public void Interact(InputAction.CallbackContext context)   // 플레이어 상호작용
+   {
+      if (!context.started) return;
+      // 추후 석상이나 신전에 따라 구별하여 상호작용 처리 코드 추가
+      Debug.Log($"인터렉트 중 {_interactedGameObject.name}");
+   }
+
+   private void RayCastingForInteraction()
+   {
+      //레이캐스트가 시작하는 지점, 레이캐스트 방향, 레이캐스트 감지 거리, 레이캐스트가 감지할 레이어 순으로 인자가 들어감
+      ray = new Ray2D(transform.position, input);
+      hit = Physics2D.Raycast(ray.origin, ray.direction, raycastDistance, interactLayer);
+      if (hit) // 무언가 레이캐스트에 충돌되면
+      {
+         _interactedGameObject = hit.collider.gameObject;
+      }
+   }
+
    private void UpdatePosition(Vector2 position)
    {
+      // 플레이어 현재 위치
       transform.position = position;
    }
    
@@ -148,6 +187,29 @@ public class PlayerController : MonoBehaviour , IDamage
       _animator.SetTrigger("Dead");
    }
 
+   public void GetExp(int exp) // 플레이어가 경험치 획득 시 (포스트매니저 통해서 몬스터 구독하여 경험치 습득 코드 추가할 예정)
+   {
+      _playerStat.playerExp += exp;
+      if (_playerStat.playerLevel >= _playerStat.playerMaxLevel) return; // 현재 플레이어 레벨이 최대레벨 이상일 경우 리턴
+      if (_playerStat.playerExp >= _playerStat.NeedLevelUpExp) // 현재 경험치가 레벨업 시 필요한 경험치 이상일 경우    
+      {
+         _playerStat.playerExp -= _playerStat.NeedLevelUpExp; // 현재 경험치에서 레벨업 시 필요한 경험치 만큼 감소
+         LevelUp();
+      }
+   }
+
+   [ContextMenu("LevelUp")]
+   public void LevelUp()
+   {
+      PostManager.Instance.Post(PostMessageKey.PlayerLevelUp, ++_playerStat.playerLevel);
+   }
+
+   private void OnDrawGizmos()
+   {
+      Gizmos.color = Color.blue;
+      Gizmos.DrawLine(ray.origin, ray.origin + ray.direction * raycastDistance);
+   }
+   
    [ContextMenu("Test/Dead")]
    public void OnTestDead()
    {

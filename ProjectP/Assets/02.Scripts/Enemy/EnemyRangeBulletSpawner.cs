@@ -53,9 +53,9 @@ public class EnemyRangeBulletSpawner : MonoBehaviour
         EnemyRangeBulletAttack ak = obj.GetComponent<EnemyRangeBulletAttack>();
         ak.SetDamage(msg.damage);
         EnemyRangeBulletMovement mv = obj.GetComponent<EnemyRangeBulletMovement>();
+        obj.SetActive(true);
         mv.SetDirection(msg.direction);
         mv.FireBullet();
-        obj.SetActive(true);
     }
 
     private void Despawn(GameObject obj)

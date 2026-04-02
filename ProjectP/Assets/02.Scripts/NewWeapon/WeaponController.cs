@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -7,18 +8,21 @@ namespace NewWeaponSystem
     public class WeaponController : MonoBehaviour
     {
         [SerializeField] private CommonWeaponData _weaponData;
-        [SerializeField] private GameObject _scopePrefab;
         [SerializeField] private Transform _portTf;
+        private FireAbstractClass _fireType;
+        private GameObject _scopePrefab;
         private InputSystem_Actions _input;
         private SpriteRenderer _sp;
         private Animator _animator;
         private WeaponBlackboard _blackboard;
+        public WeaponBlackboard Blackboard { get => _blackboard; }
         private Camera _cam;
         private Vector2 _mousePos;
-        private int _sortingOffset;
-        private bool _isRightFacing;
         private Vector2 _prePos;
-        private bool _isReloading;
+        private int _sortingOffset;
+        
+        // 각종 Flags; state 로 하기도 참 애매하고...
+        private bool _isRightFacing;
 
         private void Awake()
         {
@@ -26,33 +30,50 @@ namespace NewWeaponSystem
             _input = new InputSystem_Actions();
             _sp = GetComponent<SpriteRenderer>();
             _animator = GetComponent<Animator>();
+            if (_weaponData.WeaponType == WeaponType.Rifle || _weaponData.WeaponType == WeaponType.Sniper) 
+                _fireType = GetComponent<RifleSniperFire>();
+            else if (_weaponData.WeaponType == WeaponType.Shotgun) _fireType = GetComponent<ShotgunFire>();
         }
 
         private void Start()
         {
             _blackboard = new WeaponBlackboard(_weaponData);
+            _fireType.SetUp(_blackboard, _portTf);
         }
 
         private void Update()
         {
-            _scopePrefab.transform.position = _mousePos;
+            if (_scopePrefab != null) _scopePrefab.transform.position = _mousePos;
             transform.rotation = GetRotation();
+            _fireType.UpdateMousePos(_mousePos);
         }
         
         private void OnEnable()
         {
             _input.Enable();
-            _input.Player.Attack.started += Fire;
+            _input.Player.Attack.started += _fireType.Fire;
+            _input.Player.Attack.canceled += _fireType.FireStop;
             _input.Player.Move.performed += GetMovePos;
             _input.Player.MousePosition.performed += GetMousePosition;
         }
 
         private void OnDisable()
         {
-            _input.Player.Attack.started -= Fire;
+            _input.Player.Attack.started -= _fireType.Fire;
+            _input.Player.Attack.canceled -= _fireType.FireStop;
             _input.Player.Move.performed -= GetMovePos;
             _input.Player.MousePosition.performed -= GetMousePosition;
             _input.Disable();
+        }
+
+        public void SetScopePrefab(GameObject prefab)
+        {
+            _scopePrefab = prefab;
+        }
+
+        public GameObject GetProjectilePrefab()
+        {
+            return _weaponData.projectilePrefab;
         }
 
         private void GetMousePosition(InputAction.CallbackContext context)
@@ -87,32 +108,6 @@ namespace NewWeaponSystem
             else _sortingOffset = -2;
             
             _prePos = transform.position;
-        }
-        
-        private void Fire(InputAction.CallbackContext context)
-        {
-            if (_blackboard.currentAmmo <= 0)
-            {
-                if (!_isReloading) StartCoroutine(Reload());
-                _isReloading = true;
-                return;
-            }
-            Vector2 direction = _mousePos - (Vector2)transform.position;
-            PostManager.Instance.Post(PostMessageKey.ProjectileSpawned, new ProjectileSpwanMsg()
-            {
-                startPos = _portTf.position,
-                direction = direction,
-                blackboard = _blackboard
-            });
-            _blackboard.currentAmmo--;
-        }
-
-        private IEnumerator Reload()
-        {
-            Debug.Log("Reload");
-            yield return new WaitForSecondsRealtime(_blackboard.reloadTime);
-            _blackboard.currentAmmo = _blackboard.origin.magazineSize;
-            _isReloading = false;
         }
     }
 }
