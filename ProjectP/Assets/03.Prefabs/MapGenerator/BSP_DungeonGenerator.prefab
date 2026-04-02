@@ -1,0 +1,58 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &9148634870465600785
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 272044527468990782}
+  - component: {fileID: 2561439749358955668}
+  m_Layer: 0
+  m_Name: BSP_DungeonGenerator
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &272044527468990782
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9148634870465600785}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2561439749358955668
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9148634870465600785}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5e63eb13c29499040a8fea50afb2448e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BSPDungeonGenerator
+  tilemap: {fileID: 0}
+  floorTile: {fileID: 11400000, guid: 00a3367b00227174f979650136ff435a, type: 2}
+  wallTile: {fileID: 11400000, guid: 3d698568a89d75248a86b9f65c0607f4, type: 2}
+  mapWidth: 100
+  mapHeight: 100
+  minRoomSize: 15
+  maxRooms: 10
+  monsterPrefab:
+  - {fileID: 1423331314761006867, guid: f23f33bff8e1b944ca3e82ebc83f9569, type: 3}
+  - {fileID: 1423331314761006867, guid: 4c1200407cd8d624ab4c723f219ed59a, type: 3}
+  - {fileID: 1423331314761006867, guid: 8c1ef54d70f3a304e9bfdf74263f0128, type: 3}
+  _bossMonsterPrefab: {fileID: 4846614634818495135, guid: e1e4b7466415a534eb1305301fc2c5dd, type: 3}

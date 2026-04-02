@@ -25,4 +25,5 @@
     UITextReqeust,  // UI Text Data Request
     ChangeLanguage,  // 언어 설정 변경
     RequestChangeText,  // 언어 설정 변경 후 Text 일괄 변화 관련
+    NodeReset,  // 노드 초기화
 }

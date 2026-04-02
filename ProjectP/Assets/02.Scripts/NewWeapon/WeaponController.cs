@@ -37,8 +37,7 @@ namespace NewWeaponSystem
 
         private void Start()
         {
-            _blackboard = new WeaponBlackboard(_weaponData);
-            _fireType.SetUp(_blackboard, _portTf);
+            ResetBlackboard();
         }
 
         private void Update()
@@ -66,6 +65,13 @@ namespace NewWeaponSystem
             _input.Disable();
         }
 
+        public void ResetBlackboard()
+        {
+            _blackboard = new WeaponBlackboard(_weaponData);
+            Debug.Log("Reset Weapon Blackboard");
+            _fireType.SetUp(_blackboard, _portTf);
+        }
+        
         public void SetScopePrefab(GameObject prefab)
         {
             _scopePrefab = prefab;
