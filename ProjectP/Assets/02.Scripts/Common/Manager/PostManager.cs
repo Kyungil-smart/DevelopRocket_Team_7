@@ -98,11 +98,14 @@ public class PostManager : Singleton<PostManager>
             postMessages = new RequestMessage<TReq, TRes>();
             _subscribes[key] = postMessages;
         }
-
+        
         if (postMessages is RequestMessage<TReq, TRes> pm)
         {
-            return pm.function.Invoke(data);    
-        } 
+            if (pm.function != null)
+            {
+                return pm.function.Invoke(data);
+            }
+        }
         return default;
     }
 }
