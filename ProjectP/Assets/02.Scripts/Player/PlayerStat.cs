@@ -19,7 +19,7 @@ public class PlayerStat : MonoBehaviour
     [SerializeField] public int playerExp = 0; // 플레이어 현재 경험치
     [SerializeField] public int NeedLevelUpExp = 100; // 플레이어 레벨업 시 필요한 경험치량
 
-    public int Sum_hp => MAX_Hp + _AddStat.PlayerHp;
+    public int Sum_hp => MAX_Hp + _AddStat.PlayerHp; // 플레이어 기본 HP + 노드 증가 HP
     public float Sum_moveSpeed => moveSpeed+ _AddStat.moveSpeed;
     [SerializeField] public PlayerStatMSG _AddStat=new();
 
