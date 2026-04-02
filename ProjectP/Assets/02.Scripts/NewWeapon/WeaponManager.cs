@@ -36,12 +36,14 @@ namespace NewWeaponSystem
         {
             PostManager.Instance.Subscribe<WeaponUpgradeMsg>(PostMessageKey.UpgradeWeapon, UpdateData);
             PostManager.Instance.Subscribe<WeaponType>(PostMessageKey.SelectWeapon, SelectWeapon);
+            PostManager.Instance.Subscribe<int>(PostMessageKey.NodeReset, ResetUpgrade);
         }
 
         private void OnDisable()
         {
             PostManager.Instance.Unsubscribe<WeaponUpgradeMsg>(PostMessageKey.UpgradeWeapon, UpdateData);
             PostManager.Instance.Unsubscribe<WeaponType>(PostMessageKey.SelectWeapon, SelectWeapon);
+            PostManager.Instance.Unsubscribe<int>(PostMessageKey.NodeReset, ResetUpgrade);
         }
 
         public void SelectWeapon(WeaponType wType)
@@ -58,6 +60,12 @@ namespace NewWeaponSystem
             wc.SetScopePrefab(_scopePrefab);
             GameObject projectile = wc.GetProjectilePrefab();
             PostManager.Instance.Post(PostMessageKey.ProjectileSelection, projectile);
+        }
+
+        private void ResetUpgrade(int dummy)
+        {
+            Debug.Log("Receive Request Reset Weapon.");
+            _selectedWeapon.GetComponent<WeaponController>().ResetBlackboard();
         }
 
         private GameObject GetWeaponPrefab(WeaponType wType)

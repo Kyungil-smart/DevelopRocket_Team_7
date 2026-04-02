@@ -84,7 +84,7 @@ public class PlayerController : MonoBehaviour , IDamage
    {
       if(isDashing) return; // 대쉬 때 무적 판정
       _playerStat.playerHp -= damage;
-      if (_playerStat.playerHp <= 0) Dead();
+      if (_playerStat.Sum_hp <= 0) Dead();
    }
 
    public void Move(InputAction.CallbackContext context)
@@ -92,7 +92,7 @@ public class PlayerController : MonoBehaviour , IDamage
       if(isDashing) return;
 
       input = context.ReadValue<Vector2>();
-      _rb.linearVelocity = input * _playerStat.moveSpeed;
+      _rb.linearVelocity = input * _playerStat.Sum_moveSpeed;
       _animator.SetFloat("Horizontal", input.x);
       _animator.SetFloat("Vertical", input.y);
    }

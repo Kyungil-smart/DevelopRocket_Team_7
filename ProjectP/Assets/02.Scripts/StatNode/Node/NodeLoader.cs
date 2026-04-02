@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using UnityEditor;
 
 public class NodeLoader : MonoBehaviour
 {
@@ -35,12 +36,14 @@ public class NodeLoader : MonoBehaviour
         {
             _dataContainer.NodeInfos.Clear();
             _dataContainer.NodeInfos.AddRange(loadedList);
+            AssetDatabase.SaveAssets();
         }
 
         if (_specialDataContainer != null)
         {
             _specialDataContainer.SpecialNodeInfos.Clear();
             _specialDataContainer.SpecialNodeInfos.AddRange(loadedSpecialList);
+            AssetDatabase.SaveAssets();
         }
         
         Debug.Log("데이터 로드 완료");

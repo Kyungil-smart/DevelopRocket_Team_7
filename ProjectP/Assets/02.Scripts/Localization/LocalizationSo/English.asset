@@ -1,0 +1,103 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f1636da1cb0daee42b476e095a94e616, type: 3}
+  m_Name: English
+  m_EditorClassIdentifier: Assembly-CSharp::EnglishSO
+  url: https://docs.google.com/spreadsheets/d/1o2P6EKXmBV6wKbjUzZrxumVDRd1gsXunDdQPB40DHkI/edit?gid=1114923687#gid=1114923687
+  gid: 1114923687
+  Ldata:
+  - Description: START GAME
+    <Name>k__BackingField: 101
+  - Description: SETTINGS
+    <Name>k__BackingField: 102
+  - Description: EXIT
+    <Name>k__BackingField: 103
+  - Description: OK
+    <Name>k__BackingField: 201
+  - Description: LOADING...
+    <Name>k__BackingField: 202
+  - Description: Choose Your Weapon!
+    <Name>k__BackingField: 301
+  - Description: Rifle
+    <Name>k__BackingField: 302
+  - Description: Shotgun
+    <Name>k__BackingField: 303
+  - Description: Sniper
+    <Name>k__BackingField: 304
+  - Description: Confirm
+    <Name>k__BackingField: 305
+  - Description: Status
+    <Name>k__BackingField: 402
+  - Description: Weapon Name
+    <Name>k__BackingField: 403
+  - Description: Attack Power
+    <Name>k__BackingField: 404
+  - Description: Attack Speed
+    <Name>k__BackingField: 405
+  - Description: Crit Rate
+    <Name>k__BackingField: 406
+  - Description: Crit Damage
+    <Name>k__BackingField: 407
+  - Description: Reload Speed
+    <Name>k__BackingField: 408
+  - Description: Max Mag Size
+    <Name>k__BackingField: 410
+  - Description: Projectile Count
+    <Name>k__BackingField: 411
+  - Description: Trait Node
+    <Name>k__BackingField: 413
+  - Description: Increases Attack Power.
+    <Name>k__BackingField: 414
+  - Description: Increases Crit Rate.
+    <Name>k__BackingField: 415
+  - Description: Increases Crit Damage.
+    <Name>k__BackingField: 416
+  - Description: Increases Move Speed.
+    <Name>k__BackingField: 417
+  - Description: Increases Attack Speed.
+    <Name>k__BackingField: 418
+  - Description: Increases Projectile Count.
+    <Name>k__BackingField: 419
+  - Description: Increases Max HP.
+    <Name>k__BackingField: 420
+  - Description: Available Points
+    <Name>k__BackingField: 421
+  - Description: Attack Power +10%
+    <Name>k__BackingField: 422
+  - Description: Attack Speed +10%
+    <Name>k__BackingField: 423
+  - Description: Crit Rate +1%
+    <Name>k__BackingField: 424
+  - Description: Crit Damage +1%
+    <Name>k__BackingField: 425
+  - Description: Reload Time -5%
+    <Name>k__BackingField: 426
+  - Description: Projectile +1
+    <Name>k__BackingField: 427
+  - Description: VICTORY!
+    <Name>k__BackingField: 501
+  - Description: DEFEAT
+    <Name>k__BackingField: 502
+  - Description: Boss Defeated!
+    <Name>k__BackingField: 503
+  - Description: OK
+    <Name>k__BackingField: 504
+  - Description: BGM
+    <Name>k__BackingField: 601
+  - Description: SFX
+    <Name>k__BackingField: 602
+  - Description: Language
+    <Name>k__BackingField: 603
+  - Description: Korean
+    <Name>k__BackingField: 604
+  - Description: English
+    <Name>k__BackingField: 605

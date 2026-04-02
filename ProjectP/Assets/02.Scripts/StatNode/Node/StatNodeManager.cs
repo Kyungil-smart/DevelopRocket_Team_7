@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System;
+using System.Threading.Tasks;
 using UnityEngine;
 
 public class StatNodeManager : Singleton<StatNodeManager>
@@ -20,7 +21,7 @@ public class StatNodeManager : Singleton<StatNodeManager>
     [SerializeField] private List<int> _goldHunterNodeId;
     
     // 보유 노드 포인트
-    private int _nodePoint;
+    [SerializeField]private int _nodePoint;
     // Getter
     public int NodePoint => _nodePoint;
     // Setter
@@ -29,17 +30,11 @@ public class StatNodeManager : Singleton<StatNodeManager>
         _nodePoint +=  nodePoint;
     }
     // 최대 노드 포인트
-    private int _maxNodePoint;
+    [SerializeField] private int _maxNodePoint;
     
-    [SerializeField] UnityEngine.UI.Text _nodePointText;
-    [SerializeField] UnityEngine.UI.Text _curnodePointText;
+   
     
-    private void Update()
-    {
-        _nodePointText.text = _maxNodePoint.ToString();
-        _curnodePointText.text = _nodePoint.ToString();
-        Debug.Log(_nodePoint);
-    }
+     
     
     // 현재 위치한 특수 노드
     private SpecialStatNode _currentSpecialNode;
@@ -68,26 +63,21 @@ public class StatNodeManager : Singleton<StatNodeManager>
         _nodeScanner = gameObject.AddComponent<NodeScanner>();
     }
     
-    private async Awaitable Start()
+    
+    private void Start()
     {
-        // 각 노드 로더에서 데이터 불러오기
-        foreach (var nodeLoader in _nodeLoaderList)
-        {
-            await nodeLoader.InitDataSO();
-        }
-        
         // 그래프 내 모든 특수 노드들 dict에 저장
         _specialNodeDict.Clear();
         foreach (var node in _statNodeGraph.nodes)
         {
             if (node == null) continue;
-            
+
             if (node is SpecialStatNode specialTmp)
             {
                 _specialNodeDict.Add(specialTmp.SpecialNodeId, specialTmp);
             }
         }
-        
+
         ResetNodes();
     }
     
@@ -118,6 +108,12 @@ public class StatNodeManager : Singleton<StatNodeManager>
             }
         }
         RequestUiUpdate();
+    }
+
+    public void ClickResetButton()
+    {
+        ResetNodes();
+        PostManager.Instance.Post(PostMessageKey.NodeReset, 1);
     }
 
     public void ResetNodes()
@@ -260,6 +256,16 @@ public class StatNodeManager : Singleton<StatNodeManager>
         {
             PostManager.Instance.Unsubscribe<int>(PostMessageKey.NodeLevelUp, NodesLevelUp);
             PostManager.Instance.Unsubscribe<int>(PostMessageKey.PlayerLevelUp, PlayerLevelUp);
+        }
+    }
+
+    [ContextMenu("LoadGSheet")]
+    public async Task LoadGSheet()
+    {
+        // 각 노드 로더에서 데이터 불러오기
+        foreach (var nodeLoader in _nodeLoaderList)
+        {
+            await nodeLoader.InitDataSO();
         }
     }
 }
