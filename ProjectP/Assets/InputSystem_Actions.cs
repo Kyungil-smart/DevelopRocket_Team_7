@@ -121,12 +121,12 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": ""Interact"",
-                    ""type"": ""Button"",
+                    ""type"": ""Value"",
                     ""id"": ""852140f2-7766-474d-8707-702459ba45f3"",
-                    ""expectedControlType"": """",
+                    ""expectedControlType"": ""Vector2"",
                     ""processors"": """",
                     ""interactions"": ""Hold"",
-                    ""initialStateCheck"": false
+                    ""initialStateCheck"": true
                 },
                 {
                     ""name"": ""Crouch"",
@@ -181,6 +181,42 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""TempRifle"",
+                    ""type"": ""Button"",
+                    ""id"": ""d163c008-efdc-4809-a5e7-f4b026b4be0c"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""TempShotgun"",
+                    ""type"": ""Button"",
+                    ""id"": ""f9d7c6ec-5edb-4110-99b2-d71657cf0823"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""TempSniper"",
+                    ""type"": ""Button"",
+                    ""id"": ""3a5ddd38-c1a1-4519-8aef-551ccc2c86f9"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""TempNodeUI"",
+                    ""type"": ""Button"",
+                    ""id"": ""1591f125-2fe3-4da0-b127-b79f3117302b"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -528,7 +564,7 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""1c04ea5f-b012-41d1-a6f7-02e963b52893"",
-                    ""path"": ""<Keyboard>/e"",
+                    ""path"": ""<Keyboard>/f"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard&Mouse"",
@@ -577,6 +613,50 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""MousePosition"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""a0c0d74c-bea3-4cce-a72b-7fb7984b7644"",
+                    ""path"": ""<Keyboard>/1"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""TempRifle"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""edf3b651-6f5e-44e7-afd2-f744fee41c30"",
+                    ""path"": ""<Keyboard>/2"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""TempShotgun"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""23d259b4-d3c1-484a-9eb4-1639e81a4a9c"",
+                    ""path"": ""<Keyboard>/3"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""TempSniper"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""a00ce795-6801-442d-84a2-8a32aa7b7205"",
+                    ""path"": ""<Keyboard>/n"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""TempNodeUI"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -1174,6 +1254,10 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         m_Player_Next = m_Player.FindAction("Next", throwIfNotFound: true);
         m_Player_Sprint = m_Player.FindAction("Sprint", throwIfNotFound: true);
         m_Player_MousePosition = m_Player.FindAction("MousePosition", throwIfNotFound: true);
+        m_Player_TempRifle = m_Player.FindAction("TempRifle", throwIfNotFound: true);
+        m_Player_TempShotgun = m_Player.FindAction("TempShotgun", throwIfNotFound: true);
+        m_Player_TempSniper = m_Player.FindAction("TempSniper", throwIfNotFound: true);
+        m_Player_TempNodeUI = m_Player.FindAction("TempNodeUI", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -1277,6 +1361,10 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Next;
     private readonly InputAction m_Player_Sprint;
     private readonly InputAction m_Player_MousePosition;
+    private readonly InputAction m_Player_TempRifle;
+    private readonly InputAction m_Player_TempShotgun;
+    private readonly InputAction m_Player_TempSniper;
+    private readonly InputAction m_Player_TempNodeUI;
     /// <summary>
     /// Provides access to input actions defined in input action map "Player".
     /// </summary>
@@ -1328,6 +1416,22 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "Player/MousePosition".
         /// </summary>
         public InputAction @MousePosition => m_Wrapper.m_Player_MousePosition;
+        /// <summary>
+        /// Provides access to the underlying input action "Player/TempRifle".
+        /// </summary>
+        public InputAction @TempRifle => m_Wrapper.m_Player_TempRifle;
+        /// <summary>
+        /// Provides access to the underlying input action "Player/TempShotgun".
+        /// </summary>
+        public InputAction @TempShotgun => m_Wrapper.m_Player_TempShotgun;
+        /// <summary>
+        /// Provides access to the underlying input action "Player/TempSniper".
+        /// </summary>
+        public InputAction @TempSniper => m_Wrapper.m_Player_TempSniper;
+        /// <summary>
+        /// Provides access to the underlying input action "Player/TempNodeUI".
+        /// </summary>
+        public InputAction @TempNodeUI => m_Wrapper.m_Player_TempNodeUI;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -1384,6 +1488,18 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
             @MousePosition.started += instance.OnMousePosition;
             @MousePosition.performed += instance.OnMousePosition;
             @MousePosition.canceled += instance.OnMousePosition;
+            @TempRifle.started += instance.OnTempRifle;
+            @TempRifle.performed += instance.OnTempRifle;
+            @TempRifle.canceled += instance.OnTempRifle;
+            @TempShotgun.started += instance.OnTempShotgun;
+            @TempShotgun.performed += instance.OnTempShotgun;
+            @TempShotgun.canceled += instance.OnTempShotgun;
+            @TempSniper.started += instance.OnTempSniper;
+            @TempSniper.performed += instance.OnTempSniper;
+            @TempSniper.canceled += instance.OnTempSniper;
+            @TempNodeUI.started += instance.OnTempNodeUI;
+            @TempNodeUI.performed += instance.OnTempNodeUI;
+            @TempNodeUI.canceled += instance.OnTempNodeUI;
         }
 
         /// <summary>
@@ -1425,6 +1541,18 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
             @MousePosition.started -= instance.OnMousePosition;
             @MousePosition.performed -= instance.OnMousePosition;
             @MousePosition.canceled -= instance.OnMousePosition;
+            @TempRifle.started -= instance.OnTempRifle;
+            @TempRifle.performed -= instance.OnTempRifle;
+            @TempRifle.canceled -= instance.OnTempRifle;
+            @TempShotgun.started -= instance.OnTempShotgun;
+            @TempShotgun.performed -= instance.OnTempShotgun;
+            @TempShotgun.canceled -= instance.OnTempShotgun;
+            @TempSniper.started -= instance.OnTempSniper;
+            @TempSniper.performed -= instance.OnTempSniper;
+            @TempSniper.canceled -= instance.OnTempSniper;
+            @TempNodeUI.started -= instance.OnTempNodeUI;
+            @TempNodeUI.performed -= instance.OnTempNodeUI;
+            @TempNodeUI.canceled -= instance.OnTempNodeUI;
         }
 
         /// <summary>
@@ -1795,6 +1923,34 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnMousePosition(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "TempRifle" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnTempRifle(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "TempShotgun" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnTempShotgun(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "TempSniper" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnTempSniper(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "TempNodeUI" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnTempNodeUI(InputAction.CallbackContext context);
     }
     /// <summary>
     /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "UI" which allows adding and removing callbacks.

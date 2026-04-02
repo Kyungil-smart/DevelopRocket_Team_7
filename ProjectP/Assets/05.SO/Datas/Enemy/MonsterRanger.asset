@@ -19,4 +19,4 @@ MonoBehaviour:
   detectRadius: 4
   attackDelay: 1
   batteryProbability: 0.2
-  exp: 0
+  exp: 100

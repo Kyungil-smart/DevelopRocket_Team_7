@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 216810063075715376}
   - component: {fileID: 8845169920052516932}
   - component: {fileID: 2827349738506615909}
+  - component: {fileID: -6557058277276609358}
   - component: {fileID: 800470939858292811}
   m_Layer: 8
   m_Name: Rifle
@@ -89,7 +90,7 @@ SpriteRenderer:
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 0.22, y: 0.12}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -108,6 +109,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::NewWeaponSystem.WeaponController
   _weaponData: {fileID: 11400000, guid: 535eaed59cbf7cc408d5bc4513ef7d22, type: 2}
   _portTf: {fileID: 1699006571113171784}
+--- !u!114 &-6557058277276609358
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6374110514529936258}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2601b8220b464d0ea4470a255fec12a3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::NewWeaponSystem.RifleFire
 --- !u!95 &800470939858292811
 Animator:
   serializedVersion: 7

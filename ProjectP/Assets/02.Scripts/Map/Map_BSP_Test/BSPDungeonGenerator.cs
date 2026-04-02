@@ -21,8 +21,8 @@ public class BSPDungeonGenerator : MonoBehaviour
     private int currentRoomCount = 1;
     [Header("오브젝트 프리팹")]
     public List<GameObject> monsterPrefab;
-    public GameObject m_obj;
-
+    [Header("보스 오브젝트 프리팹")]
+    public  GameObject  _bossMonsterPrefab;
     // 생성된 최종 방(Leaf Node)들을 모아둘 리스트
     private List<BSPNode> leafRooms = new List<BSPNode>();
     private void Start()
@@ -184,7 +184,7 @@ public class BSPDungeonGenerator : MonoBehaviour
     //}
     private void SetFloorTile(int x, int y)
     {
-        int corridorSize = 2; //  통로 굵기 (이 값을 3으로 바꾸면 3칸 굵기가 됩니다!)
+        int corridorSize = 2; // 🌟 통로 굵기 (이 값을 3으로 바꾸면 3칸 굵기가 됩니다!)
 
         // 1. 통로 바닥을 지정한 굵기(2x2)만큼 넓게 깝니다.
         for (int ox = 0; ox < corridorSize; ox++)
@@ -305,6 +305,7 @@ public class BSPDungeonGenerator : MonoBehaviour
                 data.size = room.roomRect.size;
 
                 var manager= obj.AddComponent<RoomManager>();
+                manager.m_CurrentRoomType = room.roomType;
                 manager.tilemap=tilemap;
                 manager.wallTile = wallTile;
                 manager.floorTile = floorTile;
@@ -323,12 +324,28 @@ public class BSPDungeonGenerator : MonoBehaviour
             }
             else if(room.roomType == RoomType.RestNode)
             {
-                Instantiate(m_obj, room.roomRect.center,Quaternion.identity);
+
             }
             else if(room.roomType == RoomType.BossNode)
             {
                 
+                var obj = new GameObject("BossRoom");
+                var data = obj.AddComponent<BoxCollider2D>();
+                data.isTrigger = true;
+                data.transform.position = room.roomRect.center;
+                data.size = room.roomRect.size;
 
+                var manager = obj.AddComponent<RoomManager>();
+                manager.m_CurrentRoomType = room.roomType;
+                manager.tilemap = tilemap;
+                manager.wallTile = wallTile;
+                manager.floorTile = floorTile;
+                manager.roomRect = room.roomRect;
+                manager.MonsterSpawnCount = 1;
+
+                var spawnManager=obj.AddComponent<BossMonsterSpawn>();
+                spawnManager.bossMonsterPrefab = _bossMonsterPrefab;
+                spawnManager.spawnPosition= room.roomRect.center;
             }
             else if(room.roomType == RoomType.NULL)
             {

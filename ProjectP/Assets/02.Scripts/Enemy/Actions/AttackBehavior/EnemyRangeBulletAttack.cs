@@ -10,11 +10,11 @@ public class EnemyRangeBulletAttack : MonoBehaviour
         _damage = damage;
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
+    private void OnTriggerEnter2D(Collider2D other)
     {
-        if (Utils.CompareLayer(collision.gameObject.layer, _layerMask))
+        if (Utils.CompareLayer(other.gameObject.layer, _layerMask))
         {
-            collision.gameObject.GetComponent<IDamage>().TakeDamage(_damage);
+            other.gameObject.GetComponent<IDamage>().TakeDamage(_damage);
             DespawnBullet();
         }
     }
