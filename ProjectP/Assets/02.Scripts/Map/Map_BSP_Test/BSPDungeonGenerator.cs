@@ -17,6 +17,7 @@ public class BSPDungeonGenerator : MonoBehaviour
   [SerializeField]private Tilemap tilemap;
   [SerializeField]private TileBase floorTile;
   [SerializeField]private TileBase wallTile;
+    [SerializeField] private List<TileBase> _Tiles;
     [Header("맵 크기 및 방설정")]
     public int mapWidth;
     public int mapHeight;
@@ -158,12 +159,14 @@ public class BSPDungeonGenerator : MonoBehaviour
             {
                 if (x == rect.x - 1 || x == rect.xMax || y == rect.y - 1 || y == rect.yMax)
                 {
-                    if (tilemap.GetTile(new Vector3Int(x, y, 0)) != floorTile)
+                    bool isfloor= _Tiles.Contains(tilemap.GetTile(new Vector3Int(x, y, 0)));
+                    //tilemap.GetTile(new Vector3Int(x, y, 0)) != floorTile
+                    if (!isfloor)
                         tilemap.SetTile(new Vector3Int(x, y, 0), wallTile);
                 }
                 else
                 {
-                    tilemap.SetTile(new Vector3Int(x, y, 0), floorTile);
+                    tilemap.SetTile(new Vector3Int(x, y, 0), _Tiles[Random.Range(0, _Tiles.Count - 1)]);
                 }
             }
         }
@@ -206,7 +209,7 @@ public class BSPDungeonGenerator : MonoBehaviour
         {
             for (int oy = 0; oy < corridorSize; oy++)
             {
-                tilemap.SetTile(new Vector3Int(x + ox, y + oy, 0), floorTile);
+                tilemap.SetTile(new Vector3Int(x + ox, y + oy, 0), _Tiles[Random.Range(0,_Tiles.Count-1)]);
             }
         }
 
@@ -321,7 +324,7 @@ public class BSPDungeonGenerator : MonoBehaviour
                 var data = obj.AddComponent<BoxCollider2D>();
                 data.isTrigger = true;
                 data.transform.position = room.roomRect.center;
-                data.size = room.roomRect.size;
+                data.size = room.roomRect.size - new Vector2(1, 1); ;
 
                 var manager= obj.AddComponent<RoomManager>();
                 manager.m_CurrentRoomType = room.roomType;
@@ -329,6 +332,7 @@ public class BSPDungeonGenerator : MonoBehaviour
                 manager.wallTile = wallTile;
                 manager.floorTile = floorTile;
                 manager.roomRect = room.roomRect;
+                manager.Tiles=_Tiles;
 
                 manager.m_spawnMSG = spawnMSG;
                 manager.MonsterSpawnCount = spawnCount;
@@ -357,7 +361,7 @@ public class BSPDungeonGenerator : MonoBehaviour
                 var data = obj.AddComponent<BoxCollider2D>();
                 data.isTrigger = true;
                 data.transform.position = room.roomRect.center;
-                data.size = room.roomRect.size;
+                data.size = room.roomRect.size-new Vector2(1,1);
 
                 var manager = obj.AddComponent<RoomManager>();
                 manager.m_CurrentRoomType = room.roomType;
@@ -366,7 +370,7 @@ public class BSPDungeonGenerator : MonoBehaviour
                 manager.floorTile = floorTile;
                 manager.roomRect = room.roomRect;
                 manager.MonsterSpawnCount = 1;
-
+                manager.Tiles = _Tiles;
                 var spawnManager=obj.AddComponent<BossMonsterSpawn>();
                 spawnManager.bossMonsterPrefab = _bossMonsterPrefab;
                 spawnManager.spawnPosition= room.roomRect.center;
