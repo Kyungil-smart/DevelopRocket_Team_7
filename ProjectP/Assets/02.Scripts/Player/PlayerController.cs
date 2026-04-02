@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using Unity.VisualScripting;
+using UnityEditorInternal;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -18,13 +19,15 @@ public class PlayerController : MonoBehaviour , IDamage
    [SerializeField] private float dashSpeed = 30f;  // 플레이어 대쉬 속도
    [SerializeField] private float dashTime = 0.5f;  // 플레이어 대쉬 시간
    [SerializeField] private float dashCooldown = 5f; // 대쉬 쿨타임 
-   [SerializeField] private float countDownInterval = 0.5f;
+   [SerializeField] private float coolDownInterval = 0.5f;
    [SerializeField] private Vector2 input;
    
    [Header("Dash")]
+   [SerializeField] private bool isMoving = false;  // 플레이어 이동 중인지 체크
    [SerializeField] private bool isDashing = false;  // 플레이어 대쉬 중인지 체크
    [SerializeField] private int _dashStack = 2;
-   private Coroutine _dashCountDownCoroutine;
+   private Coroutine _dashCountDownCoroutine; // 대쉬 지속시간 코루틴
+   private Coroutine _dashCoolDownCoroutine; // 대쉬 쿨다운 코루틴
    private int _maxDashStack = 2;
    
    [Header("Interaction")]
@@ -35,8 +38,10 @@ public class PlayerController : MonoBehaviour , IDamage
    private GameObject _interactedGameObject;
    
    private Vector2 prePos;  // 플레이어 현재 위치 계산용 Cache 값
-   
-   private void Awake()
+    [Header("InteractionOBJ")]
+    [SerializeField] private GameObject _NodeCanvas;
+  
+    private void Awake()
    {  
       _rb = GetComponent<Rigidbody2D>();
       _sp = GetComponent<SpriteRenderer>();
@@ -66,7 +71,7 @@ public class PlayerController : MonoBehaviour , IDamage
 
    private void Update()
    {
-      RayCastingForInteraction();
+     // RayCastingForInteraction();
    }
    
    private void FixedUpdate()
@@ -90,6 +95,7 @@ public class PlayerController : MonoBehaviour , IDamage
    public void Move(InputAction.CallbackContext context)
    {
       if(isDashing) return;
+      isMoving = true;
 
       input = context.ReadValue<Vector2>();
       _rb.linearVelocity = input * _playerStat.Sum_moveSpeed;
@@ -99,53 +105,59 @@ public class PlayerController : MonoBehaviour , IDamage
 
    public void MoveStop(InputAction.CallbackContext context)
    {
+      isMoving = false;
       if(isDashing) return;
-
+      
       _rb.linearVelocity = Vector2.zero;
    }
    
    public void OnDash(InputAction.CallbackContext context)
    {
-      
       if ((isDashing == false) && _dashStack > 0)
       {
-         
          Dash(input);
-
-         if(_dashCountDownCoroutine == null)
+         
+         if(_dashCoolDownCoroutine == null)
          {
-            _dashCountDownCoroutine = StartCoroutine(DashCountDownRoutine(input));
+            _dashCoolDownCoroutine = StartCoroutine(DashCoolDownRoutine(input));
          }
       }
    }
 
    private void Dash(Vector2 direction)
    {
-      
       isDashing = true;
       GetComponent<Rigidbody2D>().linearVelocity = direction * dashSpeed;
+      _dashCountDownCoroutine = StartCoroutine(DashCountDownRoutine(input));
       _dashStack--;
-      DashStop();
    }
 
    private void DashStop()
    {
+      if(isMoving) _rb.linearVelocity = input * _playerStat.Sum_moveSpeed;
+      else _rb.linearVelocity = Vector2.zero;
+      
       isDashing = false;
    }
 
    private IEnumerator DashCountDownRoutine(Vector2 direction)
    {
+      yield return new WaitForSeconds(dashTime);
+      DashStop();
+   }
+
+   private IEnumerator DashCoolDownRoutine(Vector2 direction)
+   {
       float currentTimeCount = dashCooldown;
-      float dashOffCount = dashTime;
 
-      while (_dashStack < _maxDashStack || isDashing) // 대시 스택이 덜 찼거나, 대시중일때만 반복
+      while (_dashStack < _maxDashStack) // 대시 스택이 덜 찼거나, 대시중이 아닐때만 반복
       {
-         yield return new WaitForSeconds(countDownInterval);
-
+         yield return new WaitForSeconds(coolDownInterval);
+         
          // 대시 스택이 덜 찼다면
          if (_dashStack < _maxDashStack)
          {
-            currentTimeCount -= countDownInterval;
+            currentTimeCount -= coolDownInterval;
 
             // 시간 카운팅 다 됐으면
             if (currentTimeCount < 0)
@@ -156,13 +168,16 @@ public class PlayerController : MonoBehaviour , IDamage
             }
          }
       }
+
+      _dashCoolDownCoroutine = null;
    }
 
    public void Interact(InputAction.CallbackContext context)   // 플레이어 상호작용
    {
       if (!context.started) return;
+        RayCastingForInteraction();
       // 추후 석상이나 신전에 따라 구별하여 상호작용 처리 코드 추가
-      Debug.Log($"인터렉트 중 {_interactedGameObject.name}");
+      
    }
 
    private void RayCastingForInteraction()
@@ -173,7 +188,9 @@ public class PlayerController : MonoBehaviour , IDamage
       if (hit) // 무언가 레이캐스트에 충돌되면
       {
          _interactedGameObject = hit.collider.gameObject;
+            Oninteract(_interactedGameObject);
       }
+        Debug.Log(hit);
    }
 
    private void UpdatePosition(Vector2 position)
@@ -203,7 +220,7 @@ public class PlayerController : MonoBehaviour , IDamage
    {
       PostManager.Instance.Post(PostMessageKey.PlayerLevelUp, ++_playerStat.playerLevel);
    }
-
+    
    private void OnDrawGizmos()
    {
       Gizmos.color = Color.blue;
@@ -215,4 +232,19 @@ public class PlayerController : MonoBehaviour , IDamage
    {
       Dead();
    }
+    private void Oninteract(GameObject obj)
+    {
+        var index=obj.GetComponentInChildren<IinteractiveObject>()?.Interact();
+        if(index ==1)
+        {
+            _playerStat.FullRecovery();
+        }
+        else if(index ==2)
+        {
+            if(_NodeCanvas !=null)
+            {
+                _NodeCanvas.SetActive(!_NodeCanvas.activeSelf);
+            }
+        }
+    }
 }

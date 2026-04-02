@@ -1,4 +1,5 @@
-﻿using UnityEngine.Networking;
+﻿using System;
+using UnityEngine.Networking;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -15,6 +16,11 @@ public class UIDataManager : MonoBehaviour
     [SerializeField] private LanguageType _languageType;
     [SerializeField] private TextData _textDataSO;
     private Dictionary<int, Dictionary<LanguageType, string>> _textData = new();
+
+    private void Awake()
+    {
+        DontDestroyOnLoad(gameObject);
+    }
 
     private void OnEnable()
     {
@@ -38,7 +44,11 @@ public class UIDataManager : MonoBehaviour
     {
         if (_textData == null) return "NotFound";
         if (_textData.TryGetValue(textId, out var value))
-            return value[_languageType];
+        {
+            if (value.TryGetValue(_languageType, out var text))
+                return text;    
+            Debug.LogError($"{textId} has not {_languageType} text.");
+        }
         return "NotFound";
     }
 
@@ -73,6 +83,7 @@ public class UIDataManager : MonoBehaviour
 
     private async Task LoadDataFromSheet()
     {
+        _textDataSO.texts.Clear();
         Debug.Log("Gsheet 에서 데이터 가져오기");
         for (int i = 0; i < _gids.Count; i++)
         {
