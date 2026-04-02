@@ -1,16 +1,16 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum WeaponType
-{
-    None,
-    Rifle,
-    Shotgun,
-    Sniper,
-    Bouncy,
-    gauntlet,
-    Laser,
-}
+// public enum WeaponType
+// {
+//     None,
+//     Rifle,
+//     Shotgun,
+//     Sniper,
+//     Bouncy,
+//     gauntlet,
+//     Laser,
+// }
 
 [System.Serializable]
 public class WeaponCatalogEntry
