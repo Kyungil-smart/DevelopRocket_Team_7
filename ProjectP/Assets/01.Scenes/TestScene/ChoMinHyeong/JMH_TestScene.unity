@@ -1545,6 +1545,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: NodeUI
       objectReference: {fileID: 0}
+    - target: {fileID: 6751088024628823839, guid: edb31814bd1973847a88bc78b0d6ad0b, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7634054585207634688, guid: edb31814bd1973847a88bc78b0d6ad0b, type: 3}
       propertyPath: m_Pivot.x
       value: 0

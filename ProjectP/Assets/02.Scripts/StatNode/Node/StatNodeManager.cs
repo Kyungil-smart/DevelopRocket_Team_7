@@ -233,7 +233,7 @@ public class StatNodeManager : Singleton<StatNodeManager>
                 _levelUpCount = 3;
             }
         }
-        // UI 갱신
+        // 노드 UI 갱신
         RequestUiUpdate();
     }
 
@@ -241,13 +241,24 @@ public class StatNodeManager : Singleton<StatNodeManager>
     {
         StatNodeManager.Instance.SetNodePoint(3);
         StatNodeManager.Instance._maxNodePoint += 3;
+        
+        // 노드 포인트 UI 갱신
+        // RequestUiUpdate()는 노드 아이콘 갱신요청까지 하게 됨
+        // 노드 포인트 UI만 갱신하게끔 관련 로직만 따로 실행되게 함
+        var nodePointText = StatNodeManager.Instance.NodePoint.ToString();
+        PostManager.Instance.Post(PostMessageKey.NodePointTextUIUpdate, nodePointText);
     }
 
     // 노드 UI를 갱신해야 할 경우 요청
     private void RequestUiUpdate()
     {
+        // 노드 활성화 상태 아이콘 갱신
         Action tmp = null;
         PostManager.Instance.Post(PostMessageKey.NodeUIIconUpdate,tmp);
+        
+        // 노드 포인트 UI 갱신
+        var nodePointText = StatNodeManager.Instance.NodePoint.ToString();
+        PostManager.Instance.Post(PostMessageKey.NodePointTextUIUpdate, nodePointText);
     }
 
     private void OnDisable()
