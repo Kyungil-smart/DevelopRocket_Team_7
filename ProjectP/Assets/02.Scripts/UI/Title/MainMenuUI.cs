@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class MainMenuUI : MonoBehaviour
@@ -10,11 +11,31 @@ public class MainMenuUI : MonoBehaviour
     
     [Header("Title BGM")]
     [SerializeField] private AudioClip audioClip;
+    private Coroutine audioCoroutine;
 
 
     private void OnEnable()
     {
-        AudioManager.Instance.OnBgmPlay(audioClip);    
+        if (audioCoroutine == null)
+        {
+            StartCoroutine(AudioStartCoroutine());
+            audioCoroutine = null;
+        }
+    }
+
+    private void OnDisable()
+    {
+        if (audioCoroutine != null) StopCoroutine(audioCoroutine);
+    }
+
+    private IEnumerator AudioStartCoroutine()
+    {
+        yield return new WaitForEndOfFrame();
+        while (true)
+        {
+            AudioManager.Instance.OnBgmPlay(audioClip);
+            yield return new WaitForSeconds(audioClip.length + 1f);
+        }
     }
 
     public void OnClickStart()

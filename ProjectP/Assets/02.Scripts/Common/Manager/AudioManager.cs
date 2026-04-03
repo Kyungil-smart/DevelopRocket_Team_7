@@ -2,8 +2,6 @@ using UnityEngine;
 
 public class AudioManager : Singleton<AudioManager>
 {
-    public static AudioManager Instance;
-    
     [SerializeField] private AudioSource bgmAudioSource;
     [SerializeField] private AudioSource sfxAudioSource;
 
@@ -56,10 +54,15 @@ public class AudioManager : Singleton<AudioManager>
         bgmAudioSource.clip = clip;
         bgmAudioSource.Play();
     }
-    public void OnSfxPlayOnShot(AudioClip clip) => sfxAudioSource.PlayOneShot(clip);
+
+    public void OnSfxPlayOnShot(AudioClip clip)
+    {
+        if (clip != null) sfxAudioSource.PlayOneShot(clip);   
+    }
 
     public void OnSfxPlay(AudioClip clip)
     {
+        if (clip == null) return;
         sfxAudioSource.clip = clip;
         sfxAudioSource.Play();
     }

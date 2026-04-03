@@ -8,6 +8,7 @@ namespace NewWeaponSystem
     public class ShotgunFire : FireAbstractClass
     {
         [SerializeField] private ShotgonData _shotgonData;
+        [SerializeField] private AudioClip _shotSoundClip;
         
         public override void SetUp(WeaponBlackboard blackboard, Transform portTf)
         {
@@ -37,6 +38,7 @@ namespace NewWeaponSystem
                 else
                 {
                     List<Vector2> directions = GetDirections();
+                    AudioManager.Instance.OnSfxPlayOnShot(_shotSoundClip);
                     PostManager.Instance.Post(PostMessageKey.ProjectileSpawned, new ProjectileSpwanMsg()
                     {
                         startPos = _portTf.position,
