@@ -3,16 +3,19 @@ using UnityEngine;
 public class MainMenuUI : MonoBehaviour
 {
     [Header("설정 패널")]
-
-    [Tooltip("환경 설정 창 오브젝트")]
-    [SerializeField] private GameObject settingPanel;
-
+    [Tooltip("환경 설정 창 오브젝트")] [SerializeField] private GameObject settingPanel;
 
     [Header("로딩")]
+    [Tooltip("메인 메뉴에서 사용할 로딩 스크립트")] [SerializeField] private MainMenuLoadingFlow loadingFlow;
+    
+    [Header("Title BGM")]
+    [SerializeField] private AudioClip audioClip;
 
-    [Tooltip("메인 메뉴에서 사용할 로딩 스크립트")]
-    [SerializeField] private MainMenuLoadingFlow loadingFlow;
 
+    private void OnEnable()
+    {
+        AudioManager.Instance.OnBgmPlay(audioClip);    
+    }
 
     public void OnClickStart()
     {

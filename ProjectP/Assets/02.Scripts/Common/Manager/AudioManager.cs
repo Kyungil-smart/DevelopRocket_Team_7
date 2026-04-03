@@ -1,8 +1,8 @@
 using UnityEngine;
 
-public class AudioSettingsManager : Singleton<AudioSettingsManager>
+public class AudioManager : Singleton<AudioManager>
 {
-    public static AudioSettingsManager Instance;
+    public static AudioManager Instance;
     
     [SerializeField] private AudioSource bgmAudioSource;
     [SerializeField] private AudioSource sfxAudioSource;
@@ -17,10 +17,8 @@ public class AudioSettingsManager : Singleton<AudioSettingsManager>
         ApplySfxVolume();
     }
 
-    public int GetBgmVolume()
-    {
-        return bgmVolume;
-    }
+    public int GetBgmVolume() => bgmVolume;
+    public int GetSfxVolume() => sfxVolume;
 
     public void SetBgmVolume(int value)
     {
@@ -53,7 +51,11 @@ public class AudioSettingsManager : Singleton<AudioSettingsManager>
         }
         sfxAudioSource.volume = sfxVolume / 100f;
     }
-    
+    public void OnBgmPlay(AudioClip clip)
+    {
+        bgmAudioSource.clip = clip;
+        bgmAudioSource.Play();
+    }
     public void OnSfxPlayOnShot(AudioClip clip) => sfxAudioSource.PlayOneShot(clip);
 
     public void OnSfxPlay(AudioClip clip)
