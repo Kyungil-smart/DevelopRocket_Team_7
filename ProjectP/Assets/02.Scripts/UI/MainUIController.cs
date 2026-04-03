@@ -64,12 +64,14 @@ public class MainUIController : MonoBehaviour
 
     private void OnPopupGameResult(bool result)
     {
+        Time.timeScale = 0f;
         if (result) _victoryWindow.SetActive(true);
         else _loseWindow.SetActive(true);
     }
 
     public void OnGoToTitle()
     {
+        Time.timeScale = 1;
         SceneChanger.Instance.ChangeScene("TitleScene");
     }
     
