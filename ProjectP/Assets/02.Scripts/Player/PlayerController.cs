@@ -1,7 +1,7 @@
 using System;
 using System.Collections;
 using Unity.VisualScripting;
-using UnityEditorInternal;
+ 
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -40,7 +40,9 @@ public class PlayerController : MonoBehaviour , IDamage
    private Vector2 prePos;  // 플레이어 현재 위치 계산용 Cache 값
     [Header("InteractionOBJ")]
     [SerializeField] private GameObject _NodeCanvas;
-  
+    [SerializeField] private bool isDead=false;  
+
+    
     private void Awake()
    {  
       _rb = GetComponent<Rigidbody2D>();
@@ -82,9 +84,14 @@ public class PlayerController : MonoBehaviour , IDamage
    
    public void TakeDamage(int damage)
    {
-      if(isDashing) return; // 대쉬 때 무적 판정
-      _playerStat.PlayerHp -= damage;
-      if (_playerStat.Sum_hp <= 0) Dead();
+        if (isDead) return;
+        if(isDashing) return; // 대쉬 때 무적 판정
+        _playerStat.PlayerHp -= damage;
+        if (_playerStat.PlayerHp <= 0)
+        {
+            Dead();
+            isDead = true;
+        }
    }
 
    public void Move(InputAction.CallbackContext context)

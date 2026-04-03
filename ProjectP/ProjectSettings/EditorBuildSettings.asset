@@ -14,9 +14,12 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/01.Scenes/TestScene/GyeMin/Test_Game_scene.unity
     guid: fc9ee7a5fe5a30c44b9bc5028c27b1ca
-  - enabled: 1
+  - enabled: 0
     path: Assets/01.Scenes/TestScene/Chaebh/InGameSceneTest.unity
     guid: 354535e2f307dfa4c99377f324251f6c
+  - enabled: 1
+    path: Assets/01.Scenes/MainScene/InGameScene.unity
+    guid: 02e3d32219ff3824a9f85fee5f94a957
   m_configObjects:
     com.unity.input.settings: {fileID: 11400000, guid: 7c3b95d5549c394449fd439f606667f3, type: 2}
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
