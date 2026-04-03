@@ -4,6 +4,7 @@ using UnityEngine;
 public class EnemyRangeBulletAttack : MonoBehaviour
 {
     [SerializeField] private LayerMask _layerMask;
+    
     private int _damage;
     public void SetDamage(int damage)
     {
