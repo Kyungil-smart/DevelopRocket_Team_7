@@ -3,19 +3,21 @@ using UnityEngine;
  
 public class Singleton<T> : MonoBehaviour where T : MonoBehaviour
 {
+    // 외부에서 접근할 때 사용하는 Property
     private static T m_Instance;
     [Header("씬 이동시 유지 할것인지")]
     [SerializeField]private bool m_DontDestroyOnLoad = false;
-    // 외부에서 접근할 때 사용하는 Property
-    private static bool _applicationIsQuitting = false;
+
+    // private static bool _applicationIsQuitting = false;
+
     public static T Instance
     {
         get
         {
-            if (_applicationIsQuitting)
-            {
-                return null;
-            }
+            // if (_applicationIsQuitting)
+            // {
+            //     return null;
+            // }
             if (m_Instance == null)
             {
                 // 씬에서 해당 타입의 객체를 찾습니다.
@@ -47,9 +49,9 @@ public class Singleton<T> : MonoBehaviour where T : MonoBehaviour
           DontDestroyOnLoad(this.gameObject);
         }
     }
-    protected virtual void OnDestroy()
-    {
-        // 앱이 종료되어 이 오브젝트가 파괴될 때 플래그를 true로 설정
-        _applicationIsQuitting = true;
-    }
+    // protected virtual void OnDestroy()
+    // {
+    //     // 앱이 종료되어 이 오브젝트가 파괴될 때 플래그를 true로 설정
+    //     _applicationIsQuitting = true;
+    // }
 }
