@@ -60,7 +60,6 @@ public class SheetLoader<T> where T :  ISheetParsable, IIdentifiable,new()
             string[] values = lines[i].Split(',');
             temp.ApplyRowData(values);
             Datas.Add(i, temp);
-           
         }
     }
     public string ConvertToDownloadUrl(string url, string gid = "0")

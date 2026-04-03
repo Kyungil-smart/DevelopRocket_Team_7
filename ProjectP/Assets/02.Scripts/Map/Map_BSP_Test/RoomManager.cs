@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -8,6 +9,8 @@ namespace sadsmile
     {
         [Header("타일 정보")]
         public Tilemap tilemap;
+        public List<TileBase> Tiles;
+
         public TileBase wallTile;  // 문을 닫을 때 쓸 타일
         public TileBase floorTile; // 문을 열 때 쓸 타일
 
@@ -69,7 +72,8 @@ namespace sadsmile
 
                         // 테두리인데 바닥 타일(floorTile)이 깔려있다면 입구여서 이부분 막아야 함
                         var tilename = tilemap.GetTile(pos);
-                        if (tilename == floorTile)
+                        //tilename == floorTile
+                        if (Tiles.Contains(tilename))
                         {
                             // 1. 나중에 문을 열기 위해 위치를 기억
                             doorPositions.Add(pos);
@@ -90,7 +94,7 @@ namespace sadsmile
             //벽에서 다시 길로 변경
             foreach (Vector3Int pos in doorPositions)
             {
-                tilemap.SetTile(pos, floorTile);
+                tilemap.SetTile(pos, Tiles[Random.Range(0, Tiles.Count-1)]);
             }
             isCleared = true;
         }

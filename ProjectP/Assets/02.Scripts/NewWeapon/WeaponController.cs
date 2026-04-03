@@ -24,21 +24,7 @@ namespace NewWeaponSystem
         // 각종 Flags; state 로 하기도 참 애매하고...
         private bool _isRightFacing;
 
-        private void Awake()
-        {
-            _cam = Camera.main;
-            _input = new InputSystem_Actions();
-            _sp = GetComponent<SpriteRenderer>();
-            _animator = GetComponent<Animator>();
-            if (_weaponData.WeaponType == WeaponType.Rifle || _weaponData.WeaponType == WeaponType.Sniper) 
-                _fireType = GetComponent<RifleSniperFire>();
-            else if (_weaponData.WeaponType == WeaponType.Shotgun) _fireType = GetComponent<ShotgunFire>();
-        }
-
-        private void Start()
-        {
-            ResetBlackboard();
-        }
+        private void Awake() => Init();
 
         private void Update()
         {
@@ -65,6 +51,18 @@ namespace NewWeaponSystem
             _input.Disable();
         }
 
+        private void Init()
+        {
+            _cam = Camera.main;
+            _input = new InputSystem_Actions();
+            _sp = GetComponent<SpriteRenderer>();
+            _animator = GetComponent<Animator>();
+            if (_weaponData.WeaponType == WeaponType.Rifle || _weaponData.WeaponType == WeaponType.Sniper) 
+                _fireType = GetComponent<RifleSniperFire>();
+            else if (_weaponData.WeaponType == WeaponType.Shotgun) _fireType = GetComponent<ShotgunFire>();
+            ResetBlackboard();
+        }
+
         public void ResetBlackboard()
         {
             _blackboard = new WeaponBlackboard(_weaponData);
@@ -75,6 +73,11 @@ namespace NewWeaponSystem
         public void SetScopePrefab(GameObject prefab)
         {
             _scopePrefab = prefab;
+        }
+
+        public (int curAmmo, int maxAmmo) GetAmmo()
+        {
+            return (_blackboard.CurrentAmmo, _blackboard.magazineSize);
         }
 
         public GameObject GetProjectilePrefab()

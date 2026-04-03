@@ -60,6 +60,8 @@ namespace NewWeaponSystem
             wc.SetScopePrefab(_scopePrefab);
             GameObject projectile = wc.GetProjectilePrefab();
             PostManager.Instance.Post(PostMessageKey.ProjectileSelection, projectile);
+            (int curAmmo, int maxAmmo) = wc.GetAmmo();
+            PostManager.Instance.Post(PostMessageKey.MainUICurAmmo, $"{curAmmo} / {maxAmmo}");
         }
 
         private void ResetUpgrade(int dummy)

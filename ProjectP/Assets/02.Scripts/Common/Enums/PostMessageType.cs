@@ -22,5 +22,17 @@
     SelectWeapon,  // 무기 선택
     PlayerLevelUp,  // 플레이어 Level Up 정보 전달
     ProjectileSelection,  // 무기 선택 시 동시에 탄환 선택
+    UITextReqeust,  // UI Text Data Request
+    ChangeLanguage,  // 언어 설정 변경
+    RequestChangeText,  // 언어 설정 변경 후 Text 일괄 변화 관련
     NodeReset,  // 노드 초기화
+    // 아래는 모두 Main UI 에 뿌려질 Data Channel
+    MainUIPlayerHp,
+    MainUIPlayerLv,
+    MainUIDashCount,
+    MainUICurAmmo,
+    MainUIGameResult,
+    // ------------------------------------------
+    NodePointTextUIUpdate, // 노드 포인트 UI text 갱신
+
 }

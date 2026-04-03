@@ -12,7 +12,9 @@ namespace NewWeaponSystem
         public float reloadTime;
         public float critRate;
         public float critMultiplier;
-        public int currentAmmo;
+        private int _currentAmmo;
+
+        public int CurrentAmmo { get => _currentAmmo; }
 
         public WeaponBlackboard(CommonWeaponData origin)
         {
@@ -23,7 +25,19 @@ namespace NewWeaponSystem
             reloadTime = origin.reloadTime;
             critRate = origin.critRate;
             critMultiplier = origin.critMultiplier;
-            currentAmmo = origin.magazineSize;
+            _currentAmmo = origin.magazineSize;
+        }
+        
+        public void WasteAmmo(int count)
+        {
+            _currentAmmo -= count;
+            PostManager.Instance.Post(PostMessageKey.MainUICurAmmo, $"{_currentAmmo} / {origin.magazineSize}");
+        }
+
+        public void RefillAmmo()
+        {
+            _currentAmmo = origin.magazineSize;
+            PostManager.Instance.Post(PostMessageKey.MainUICurAmmo, $"{_currentAmmo} / {origin.magazineSize}");
         }
     }
 }
