@@ -26,7 +26,7 @@ public class TextLoader : MonoBehaviour
     {
         if (textId == 0)
         {
-            _textGui.text = "textId 에 올바른 ID 를 넣으세요";
+            _textGui.text = "";
             return;
         }
         _textGui.text = PostManager.Instance.Request<int, string>(PostMessageKey.UITextReqeust, textId);
@@ -35,5 +35,6 @@ public class TextLoader : MonoBehaviour
     public void SetTextId(int textId)
     {
         this.textId = textId;
+        ChangeText(true);
     }
 }

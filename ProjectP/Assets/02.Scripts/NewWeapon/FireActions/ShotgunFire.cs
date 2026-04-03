@@ -30,7 +30,7 @@ namespace NewWeaponSystem
         {
             while (true)
             {
-                if (_blackboard.currentAmmo <= 0)
+                if (_blackboard.CurrentAmmo <= 0)
                 {
                     if (!_isReloading) StartCoroutine(Reload());
                 }
@@ -43,7 +43,7 @@ namespace NewWeaponSystem
                         direction = directions,
                         blackboard = _blackboard
                     });
-                    _blackboard.currentAmmo -= directions.Count;
+                    _blackboard.WasteAmmo(directions.Count);
                 }
                 float rate = (1 / _blackboard.attackSpeed);
                 yield return new WaitForSecondsRealtime(rate);    
@@ -84,7 +84,7 @@ namespace NewWeaponSystem
             Debug.Log("Reload");
             _isReloading = true;
             yield return new WaitForSecondsRealtime(_blackboard.reloadTime);
-            _blackboard.currentAmmo = _blackboard.origin.magazineSize;
+            _blackboard.RefillAmmo();
             _isReloading = false;
         }
     }

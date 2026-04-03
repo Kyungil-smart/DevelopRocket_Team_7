@@ -33,10 +33,13 @@ public class BossBulletMovement : MonoBehaviour
         aliveRoutine = null;
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
+    private void OnTriggerEnter2D(Collider2D collision)
     {
         if (Utils.CompareLayer(collision.gameObject.layer, _layerMask))
+        {
             PostManager.Instance.Post(PostMessageKey.BossBulletDespawned, gameObject);
+            collision.gameObject.GetComponent<IDamage>()?.TakeDamage(2);
+        }
     }
     
     private void Movement()

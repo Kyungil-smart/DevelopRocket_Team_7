@@ -42,6 +42,7 @@ public class WeaponSelectPanelUI : MonoBehaviour
         if (wSo.weaponType == _selectdWeapon)
         {
             previewUIImg.sprite = wSo.weaponIcon;
+            previewUIImg.enabled = true;
             previewUIText.SetTextId(wSo.locTxtNum);
         }
     }

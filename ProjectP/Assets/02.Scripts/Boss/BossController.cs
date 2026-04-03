@@ -28,6 +28,9 @@ public class BossController : MonoBehaviour, IDamageable
     [SerializeField] [Range(0f, 1f)] private float _rangeAttackHpRateStep;
     [SerializeField] [Range(0f, 1f)] private float _burningPhaseHpRate;
     
+    [Header("Remnant")]
+    [SerializeField] private GameObject _remnant;
+    
     private BossBlackBoard _blackBoard;
     private Coroutine _coroutine;
     private WaitForSecondsRealtime _globalCooldown = new WaitForSecondsRealtime(0.1f);
@@ -96,8 +99,9 @@ public class BossController : MonoBehaviour, IDamageable
     public void OnDeath()
     {
         _blackBoard.IsDead = true;
-        PostManager.Instance.Post<int>(PostMessageKey.PostExp, _blackBoard.origin.experience);
-        PostManager.Instance.Post<Vector2>(PostMessageKey.BatterySpawned, transform.position);
+        PostManager.Instance.Post(PostMessageKey.PostExp, _blackBoard.origin.experience);
+        // PostManager.Instance.Post<Vector2>(PostMessageKey.BatterySpawned, transform.position);
+        Instantiate(_remnant, transform.position, transform.rotation);
         Destroy(gameObject);
     }
 
