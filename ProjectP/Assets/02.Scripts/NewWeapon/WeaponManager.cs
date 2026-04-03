@@ -27,11 +27,6 @@ namespace NewWeaponSystem
         [SerializeField] private GameObject _scopePrefab;
         private GameObject _selectedWeapon;
 
-        private void Awake()
-        {
-            DontDestroyOnLoad(gameObject);
-        }
-
         private void OnEnable()
         {
             PostManager.Instance.Subscribe<WeaponUpgradeMsg>(PostMessageKey.UpgradeWeapon, UpdateData);
