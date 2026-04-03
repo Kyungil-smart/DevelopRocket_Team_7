@@ -13,6 +13,7 @@ public class UpdateNodePointUI : MonoBehaviour
     private void OnEnable()
     {
         PostManager.Instance.Subscribe<string>(PostMessageKey.NodePointTextUIUpdate,UpdateText);
+        _label.text = StatNodeManager.Instance.NodePoint.ToString();
     }
 
     private void UpdateText(string pointText)
