@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Monster
   - Wall
+  - MiniMapCamera
   layers:
   - Default
   - TransparentFX
@@ -23,6 +24,8 @@ TagManager:
   - 
   - 
   - InteractionObject
+  - Map
+  - Chrosshair
   - 
   - 
   - 
@@ -31,9 +34,7 @@ TagManager:
   - 
   - 
   - 
-  - 
-  - 
-  - 
+  - MinimapIcon
   - 
   - BossBullet
   - Boss
