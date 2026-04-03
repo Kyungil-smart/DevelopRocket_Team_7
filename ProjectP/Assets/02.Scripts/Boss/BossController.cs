@@ -30,9 +30,11 @@ public class BossController : MonoBehaviour, IDamageable
     
     [Header("Remnant")]
     [SerializeField] private GameObject _remnant;
-    
+
+    private SpriteRenderer _spriteRenderer;
     private BossBlackBoard _blackBoard;
     private Coroutine _coroutine;
+    private Coroutine _effectInDamagedCoroutine;
     private WaitForSecondsRealtime _globalCooldown = new WaitForSecondsRealtime(0.1f);
     private float nxHpForRangeAttack;
     private int nxHpRateStep;
@@ -40,6 +42,7 @@ public class BossController : MonoBehaviour, IDamageable
     private void Awake()
     {
         _animator = GetComponent<Animator>();
+        _spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
     private void OnEnable()
@@ -67,6 +70,7 @@ public class BossController : MonoBehaviour, IDamageable
 
     public void TakeDamage(DamageType type, int damage)
     {
+        if (_effectInDamagedCoroutine == null) StartCoroutine(EffectInDamagedCoroutine());
         if (!_blackBoard.IsInvincible) _blackBoard.currentHp -= damage;
         if (!_movementScript.IsChaseForce) _movementScript.OnChaseForce();
         if (_blackBoard.currentHp <= 0) OnDead();
@@ -144,6 +148,14 @@ public class BossController : MonoBehaviour, IDamageable
         //         boss 풀 체력                다음 구간          기준 %      
         float hp = _blackBoard.origin.maxHp * nxHpRateStep++ * _rangeAttackHpRateStep;
         nxHpForRangeAttack = _blackBoard.origin.maxHp - hp;
+    }
+    
+    private IEnumerator EffectInDamagedCoroutine()
+    {
+        _spriteRenderer.color = new Color(1, 0, 0);
+        yield return new WaitForSeconds(0.2f);
+        _spriteRenderer.color = new Color(1, 1, 1);
+        _effectInDamagedCoroutine = null;
     }
 
     [ContextMenu("Test/BasicAttack")]

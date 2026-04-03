@@ -62,7 +62,7 @@ public class EnemySpawner : MonoBehaviour
         
         // 몬스터 팝업시 이팩트 미리 생성
         _objectDict[_spawnEffectPrefab.name] = new Queue<GameObject>();
-        for (int i = 0; i < 15; i++)
+        for (int i = 0; i < 30; i++)
         {
             GameObject obj = Instantiate(_spawnEffectPrefab, gameObject.transform, true);
             obj.name = _spawnEffectPrefab.name;
