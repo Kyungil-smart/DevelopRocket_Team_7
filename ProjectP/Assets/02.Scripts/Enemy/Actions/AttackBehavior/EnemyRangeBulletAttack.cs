@@ -4,12 +4,10 @@ using UnityEngine;
 public class EnemyRangeBulletAttack : MonoBehaviour
 {
     [SerializeField] private LayerMask _layerMask;
-    private bool isDamaged;
     
     private int _damage;
     public void SetDamage(int damage)
     {
-        isDamaged = false;
         _damage = damage;
     }
 
@@ -17,11 +15,7 @@ public class EnemyRangeBulletAttack : MonoBehaviour
     {
         if (Utils.CompareLayer(other.gameObject.layer, _layerMask))
         {
-            if (!isDamaged)
-            {
-                other.gameObject.GetComponent<IDamage>().TakeDamage(_damage);
-                isDamaged = true;
-            }
+            other.gameObject.GetComponent<IDamage>().TakeDamage(_damage);
             DespawnBullet();
         }
     }

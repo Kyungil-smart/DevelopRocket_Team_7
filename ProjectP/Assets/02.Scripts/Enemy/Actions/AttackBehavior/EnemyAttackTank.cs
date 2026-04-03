@@ -32,6 +32,8 @@ public class EnemyAttackTank : MonoBehaviour, IEnemyAttackBehavior
 
     private IEnumerator TankAttackCoroutine()
     {
+        // ToDo. (기술부채) 이슈; 케릭터가 두번 데미지 입음. 실제로 행동은 한번인데 두번 실행됨.
+        // 해당 내용은 state 가 갑자기 변동 한 것으로 보이지만 테스트가 어려워 일단 아래와 같이 수정함  
         EnemyAttackTankHit th = _hitAreaPrefab.GetComponent<EnemyAttackTankHit>();
         th.SetReady();
         yield return new WaitForEndOfFrame();
