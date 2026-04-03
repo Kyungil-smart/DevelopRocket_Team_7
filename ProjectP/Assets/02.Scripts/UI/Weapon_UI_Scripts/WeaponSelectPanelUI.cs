@@ -27,6 +27,11 @@ public class WeaponSelectPanelUI : MonoBehaviour
         BindButtons();
     }
 
+    private void OnEnable()
+    {
+        Time.timeScale = 0;
+    }
+
     private void BindButtons()
     {
         if (confirmButton != null)
@@ -50,6 +55,7 @@ public class WeaponSelectPanelUI : MonoBehaviour
     // 버튼 연결
     public void OnSelectWeapon(int index)
     {
+        Time.timeScale = 1;
         _selectdWeapon = (WeaponType)index;
         ShowPreview(index);
     }
