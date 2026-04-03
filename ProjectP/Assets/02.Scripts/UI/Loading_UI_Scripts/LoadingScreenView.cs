@@ -39,7 +39,6 @@ public class LoadingScreenView : MonoBehaviour
 
     public void ShowLoading()
     {
-        if (titlePanel != null) titlePanel.SetActive(false);
         if (loadingPanel != null) loadingPanel.SetActive(true);
         if (languageType == LanguageType.English)
         {
