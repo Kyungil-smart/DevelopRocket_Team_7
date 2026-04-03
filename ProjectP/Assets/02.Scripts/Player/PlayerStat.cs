@@ -78,6 +78,6 @@ public class PlayerStat : MonoBehaviour
     }
     public void FullRecovery()
     {
-        _playerHp = Sum_hp;
+        PlayerHp = Sum_hp;
     }
 }
