@@ -12,3 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 115ab1c23587dce4db8c78b3c19a2125, type: 3}
   m_Name: EvasionRateNodeDataSO
   m_EditorClassIdentifier: Assembly-CSharp::NodeDataSO
+  NodeInfos:
+  - <Name>k__BackingField: Node_Stat_Type
+  - <Name>k__BackingField: 'Evasion_Rate '
+  - <Name>k__BackingField: 'Evasion_Rate '
+  - <Name>k__BackingField: 'Evasion_Rate '
+  SpecialNodeInfos: []
