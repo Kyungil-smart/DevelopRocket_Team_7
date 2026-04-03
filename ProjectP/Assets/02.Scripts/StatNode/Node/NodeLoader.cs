@@ -1,8 +1,9 @@
 using UnityEngine;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+#if UNITY_EDITOR
 using UnityEditor;
-
+#endif
 public class NodeLoader : MonoBehaviour
 {
     [Header("불러올 시트 링크 전체 입력")]
@@ -36,16 +37,22 @@ public class NodeLoader : MonoBehaviour
         {
             _dataContainer.NodeInfos.Clear();
             _dataContainer.NodeInfos.AddRange(loadedList);
+#if UNITY_EDITOR
+            EditorUtility.SetDirty(_dataContainer);
             AssetDatabase.SaveAssets();
+#endif
         }
 
         if (_specialDataContainer != null)
         {
             _specialDataContainer.SpecialNodeInfos.Clear();
             _specialDataContainer.SpecialNodeInfos.AddRange(loadedSpecialList);
+#if UNITY_EDITOR
+            EditorUtility.SetDirty(_specialDataContainer);
             AssetDatabase.SaveAssets();
+#endif
         }
-        
+
         Debug.Log("데이터 로드 완료");
     }
 }
