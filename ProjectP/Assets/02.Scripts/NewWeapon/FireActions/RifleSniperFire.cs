@@ -7,6 +7,8 @@ namespace NewWeaponSystem
 {
     public class RifleSniperFire : FireAbstractClass
     {
+        [SerializeField] private AudioClip _shotSoundClip;
+        
         public override void SetUp(WeaponBlackboard blackboard, Transform portTf)
         {
             _blackboard = blackboard;
@@ -35,6 +37,7 @@ namespace NewWeaponSystem
                 else
                 {
                     Vector2 direction = _mousePos - (Vector2)transform.position;
+                    AudioManager.Instance.OnSfxPlayOnShot(_shotSoundClip);
                     PostManager.Instance.Post(PostMessageKey.ProjectileSpawned, new ProjectileSpwanMsg()
                     {
                         startPos = _portTf.position,

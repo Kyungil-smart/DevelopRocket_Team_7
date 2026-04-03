@@ -11,31 +11,22 @@ public class SoundUIController : MonoBehaviour
 
     [Tooltip("사운드 관련 볼륨 숫자 표시 텍스트")]
     [SerializeField] private TMP_Text soundValueText;
+    
+    [SerializeField] private SoundType soundType;
 
 
     private void Start()
     {
-        if (soundSlider == null)
-        {
-            Debug.LogError("BgmSettingUI : bgmSlider가 연결되지 않았습니다.");
-            return;
-        }
-
-        if (soundValueText == null)
-        {
-            Debug.LogError("BgmSettingUI : bgmValueText가 연결되지 않았습니다.");
-            return;
-        }
-
         soundSlider.minValue = 0;
         soundSlider.maxValue = 100;
         soundSlider.wholeNumbers = true;
 
         int savedVolume = 50;
 
-        if (AudioSettingsManager.Instance != null)
+        if (AudioManager.Instance != null)
         {
-            savedVolume = AudioSettingsManager.Instance.GetBgmVolume();
+            if (soundType == SoundType.BGM) savedVolume = AudioManager.Instance.GetBgmVolume();
+            else savedVolume = AudioManager.Instance.GetSfxVolume();
         }
 
         soundSlider.SetValueWithoutNotify(savedVolume);
@@ -57,12 +48,11 @@ public class SoundUIController : MonoBehaviour
     private void OnChangedSoundSlider(float value)
     {
         int intValue = Mathf.RoundToInt(value);
-
         UpdateVolumeText(intValue);
-
-        if (AudioSettingsManager.Instance != null)
+        if (AudioManager.Instance != null)
         {
-            AudioSettingsManager.Instance.SetBgmVolume(intValue);
+            if (soundType == SoundType.BGM) AudioManager.Instance.SetBgmVolume(intValue);
+            else AudioManager.Instance.SetSfxVolume(intValue);
         }
     }
 
