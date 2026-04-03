@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6657735012018884148}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: Map
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -41,9 +41,17 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 6657735012018884148}
     m_Modifications:
+    - target: {fileID: 1149061843079212512, guid: dba81275237746b48b6b8bfa8e6a7983, type: 3}
+      propertyPath: m_Layer
+      value: 16
+      objectReference: {fileID: 0}
     - target: {fileID: 1749562922512059936, guid: dba81275237746b48b6b8bfa8e6a7983, type: 3}
       propertyPath: m_Name
       value: Grid
+      objectReference: {fileID: 0}
+    - target: {fileID: 1749562922512059936, guid: dba81275237746b48b6b8bfa8e6a7983, type: 3}
+      propertyPath: m_Layer
+      value: 16
       objectReference: {fileID: 0}
     - target: {fileID: 7068435986571422858, guid: dba81275237746b48b6b8bfa8e6a7983, type: 3}
       propertyPath: m_LocalPosition.x
@@ -146,6 +154,10 @@ PrefabInstance:
     - target: {fileID: 9148634870465600785, guid: 7b243fc50e0ccc34fabffea155ab7ede, type: 3}
       propertyPath: m_Name
       value: BSP_DungeonGenerator
+      objectReference: {fileID: 0}
+    - target: {fileID: 9148634870465600785, guid: 7b243fc50e0ccc34fabffea155ab7ede, type: 3}
+      propertyPath: m_Layer
+      value: 16
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
