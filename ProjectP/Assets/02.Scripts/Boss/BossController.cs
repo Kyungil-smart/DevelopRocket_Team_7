@@ -106,6 +106,12 @@ public class BossController : MonoBehaviour, IDamageable
         PostManager.Instance.Post(PostMessageKey.PostExp, _blackBoard.origin.experience);
         // PostManager.Instance.Post<Vector2>(PostMessageKey.BatterySpawned, transform.position);
         Instantiate(_remnant, transform.position, transform.rotation);
+        StartCoroutine(DestroyCoroutine());
+    }
+
+    private IEnumerator DestroyCoroutine()
+    {
+        yield return new WaitForSeconds(0.1f);
         Destroy(gameObject);
     }
 
