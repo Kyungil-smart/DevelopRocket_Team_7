@@ -38,6 +38,7 @@ public class BossController : MonoBehaviour, IDamageable
     private WaitForSecondsRealtime _globalCooldown = new WaitForSecondsRealtime(0.1f);
     private float nxHpForRangeAttack;
     private int nxHpRateStep;
+    private bool isDead;
 
     private void Awake()
     {
@@ -70,6 +71,7 @@ public class BossController : MonoBehaviour, IDamageable
 
     public void TakeDamage(DamageType type, int damage)
     {
+        if (isDead) return;
         if (_effectInDamagedCoroutine == null) StartCoroutine(EffectInDamagedCoroutine());
         if (!_blackBoard.IsInvincible) _blackBoard.currentHp -= damage;
         if (!_movementScript.IsChaseForce) _movementScript.OnChaseForce();
@@ -98,6 +100,7 @@ public class BossController : MonoBehaviour, IDamageable
     {
         _animator.SetBool("IsMoving", false);
         _animator.SetTrigger("OnDead");
+        isDead = true;
     }
 
     public void OnDeath()

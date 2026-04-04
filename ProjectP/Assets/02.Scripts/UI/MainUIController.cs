@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -21,6 +22,10 @@ public class MainUIController : MonoBehaviour
     [SerializeField] private List<WeaponImageMap> wMap;
     [SerializeField] private GameObject _victoryWindow;
     [SerializeField] private GameObject _loseWindow;
+    
+    [Header("BGM Sound")]
+    [SerializeField] private AudioClip audioClip;
+    private Coroutine audioCoroutine;
 
     private void OnEnable()
     {
@@ -30,8 +35,10 @@ public class MainUIController : MonoBehaviour
         PostManager.Instance.Subscribe<int>(PostMessageKey.MainUIDashCount, OnDashCountChange);
         PostManager.Instance.Subscribe<string>(PostMessageKey.MainUICurAmmo, OnCurMaxAmmoChange);
         PostManager.Instance.Subscribe<bool>(PostMessageKey.MainUIGameResult, OnPopupGameResult);
-    }
 
+        if (audioCoroutine == null) StartCoroutine(AudioStartCoroutine());
+    }
+    
     private void OnDisable()
     {
         PostManager.Instance.Unsubscribe<WeaponType>(PostMessageKey.SelectWeapon, SetCurrentWeapon);
@@ -40,7 +47,24 @@ public class MainUIController : MonoBehaviour
         PostManager.Instance.Unsubscribe<int>(PostMessageKey.MainUIDashCount, OnDashCountChange);
         PostManager.Instance.Unsubscribe<string>(PostMessageKey.MainUICurAmmo, OnCurMaxAmmoChange);
         PostManager.Instance.Unsubscribe<bool>(PostMessageKey.MainUIGameResult, OnPopupGameResult);
+
+        if (audioCoroutine != null)
+        {
+            StopCoroutine(audioCoroutine);
+            audioCoroutine = null;
+        }
     }
+    
+    private IEnumerator AudioStartCoroutine()
+    {
+        yield return new WaitForEndOfFrame();
+        while (true)
+        {
+            AudioManager.Instance.OnBgmPlay(audioClip);
+            yield return new WaitForSeconds(audioClip.length + 1f);
+        }
+    }
+
     
     private void SetCurrentWeapon(WeaponType weaponType)
     {

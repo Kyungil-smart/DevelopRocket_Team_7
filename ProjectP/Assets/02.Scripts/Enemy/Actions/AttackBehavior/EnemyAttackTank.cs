@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using UnityEngine;
 
 public class EnemyAttackTank : MonoBehaviour, IEnemyAttackBehavior
@@ -6,6 +7,7 @@ public class EnemyAttackTank : MonoBehaviour, IEnemyAttackBehavior
     [SerializeField] private Animator _animator;
     [SerializeField] private GameObject _hitAreaPrefab;
     private EnemyBlackboard _blackboard;
+    private Coroutine _coroutine;
 
     private void Awake()
     {
@@ -25,9 +27,21 @@ public class EnemyAttackTank : MonoBehaviour, IEnemyAttackBehavior
     // 애니메이션 Event 로 등록 할 함수
     public void OnTankAttack()
     {
-        _hitAreaPrefab.GetComponent<EnemyAttackTankHit>().OnPlayerHit(_blackboard.origin.damage);
+        if (_coroutine == null) _coroutine = StartCoroutine(TankAttackCoroutine());
+    }
+
+    private IEnumerator TankAttackCoroutine()
+    {
+        // ToDo. (기술부채) 이슈; 케릭터가 두번 데미지 입음. 실제로 행동은 한번인데 두번 실행됨.
+        // 해당 내용은 state 가 갑자기 변동 한 것으로 보이지만 테스트가 어려워 일단 아래와 같이 수정함  
+        EnemyAttackTankHit th = _hitAreaPrefab.GetComponent<EnemyAttackTankHit>();
+        th.SetReady();
+        yield return new WaitForEndOfFrame();
+        th.OnPlayerHit(_blackboard.origin.damage);
+        yield return new WaitForEndOfFrame();
         _animator.SetBool("Attack", false);
         if (_blackboard.IsAttacking) _blackboard.IsAttacking = false;
+        _coroutine = null;
     }
 
     private void OnDrawGizmos()
