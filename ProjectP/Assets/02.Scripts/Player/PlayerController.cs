@@ -12,6 +12,7 @@ public class PlayerController : MonoBehaviour , IDamage
    [SerializeField] private InputActionAsset _inputActionAsset;
    [SerializeField] private Rigidbody2D _rb;
    [SerializeField] private Animator _animator;
+   [SerializeField] private PlayerLvUpAnimController _LvUp;
    [SerializeField] private SpriteRenderer _sp;
    
    [Header("Stat")]
@@ -41,7 +42,6 @@ public class PlayerController : MonoBehaviour , IDamage
     [Header("InteractionOBJ")]
     [SerializeField] private GameObject _NodeCanvas;
     [SerializeField] private bool isDead=false;  
-
     
     private void Awake()
    {  
@@ -226,6 +226,7 @@ public class PlayerController : MonoBehaviour , IDamage
    [ContextMenu("LevelUp")]
    public void LevelUp()
    {
+      _LvUp.OnPlayAnimation();
       PostManager.Instance.Post(PostMessageKey.PlayerLevelUp, ++_playerStat.PlayerLevel);
    }
     
