@@ -1,6 +1,16 @@
 ﻿
 namespace NewWeaponSystem
 {
+    public struct StatusUIMsg
+    {
+        public int textId;
+        public float attackSpeed;
+        public int damage;
+        public float reloadTime;
+        public float critRate;
+        public float critMultiplier;
+    }
+    
     public class WeaponBlackboard
     {
         // SO Origin Data
@@ -38,6 +48,19 @@ namespace NewWeaponSystem
         {
             _currentAmmo = origin.magazineSize;
             PostManager.Instance.Post(PostMessageKey.MainUICurAmmo, $"{_currentAmmo} / {origin.magazineSize}");
+        }
+        
+        public StatusUIMsg GetStatusUIMsgStruct()
+        {
+            return new StatusUIMsg()
+            {
+                textId = origin.textId,
+                damage = damage,
+                attackSpeed = attackSpeed,
+                critRate = critRate,
+                critMultiplier = critMultiplier,
+                reloadTime = reloadTime
+            };
         }
     }
 }

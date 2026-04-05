@@ -40,6 +40,8 @@ namespace NewWeaponSystem
             _input.Player.Attack.canceled += _fireType.FireStop;
             _input.Player.Move.performed += GetMovePos;
             _input.Player.MousePosition.performed += GetMousePosition;
+            
+            PostManager.Instance.Subscribe<bool, StatusUIMsg>(PostMessageKey.PlayerStatusUIWeapon, PostStatus);
         }
 
         private void OnDisable()
@@ -49,6 +51,8 @@ namespace NewWeaponSystem
             _input.Player.Move.performed -= GetMovePos;
             _input.Player.MousePosition.performed -= GetMousePosition;
             _input.Disable();
+            
+            PostManager.Instance.Unsubscribe<bool, StatusUIMsg>(PostMessageKey.PlayerStatusUIWeapon, PostStatus);
         }
 
         private void Init()
@@ -117,6 +121,11 @@ namespace NewWeaponSystem
             else _sortingOffset = -2;
             
             _prePos = transform.position;
+        }
+        
+        private StatusUIMsg PostStatus(bool arg)
+        {
+            return _blackboard.GetStatusUIMsgStruct();
         }
     }
 }
