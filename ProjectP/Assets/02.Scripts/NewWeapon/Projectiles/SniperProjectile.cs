@@ -7,8 +7,18 @@ namespace NewWeaponSystem
     {
         [SerializeField] private SniperData _sniperData;
         [SerializeField] private LayerMask _layerMask;
+        [SerializeField] private AudioClip _hitSound;
+        private BulletAnimController _animCtrl;
         private WeaponBlackboard _blackboard;
         private int _hitCount;
+        private Rigidbody2D _rb;
+
+        private void Awake()
+        {
+            _animCtrl = GetComponent<BulletAnimController>();
+            _rb = GetComponent<Rigidbody2D>();
+            _rb.gravityScale = 0;
+        }
         
         private void OnTriggerEnter2D(Collider2D collision)
         {
@@ -23,7 +33,13 @@ namespace NewWeaponSystem
                 collision.gameObject.GetComponent<IDamageable>()?.TakeDamage(DamageType.Projectile, damage);
                 // 관통 계산
                 _hitCount++;
-                if (_sniperData.pierceCount <= _hitCount) PostManager.Instance.Post(PostMessageKey.ProjectileDespawned, gameObject);
+                if (_sniperData.pierceCount > _hitCount) AudioManager.Instance.OnSfxPlayOnShot(_hitSound);
+                    
+                if (_sniperData.pierceCount <= _hitCount)
+                {
+                    _rb.linearVelocity = Vector2.zero;
+                    _animCtrl.OnHit();
+                }
             }
         }
         

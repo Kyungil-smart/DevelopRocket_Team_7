@@ -179,7 +179,7 @@ MonoBehaviour:
   _layerMask:
     serializedVersion: 2
     m_Bits: 64
-  _getSound: {fileID: 8300000, guid: 1e862ae0543ce2e4b9cdc87d0a1420e3, type: 3}
+  _getSound: {fileID: 8300000, guid: b7e13b174938bb247874a02c3ae70c47, type: 3}
   _animControl: {fileID: 7343997359317224459}
 --- !u!1 &6281033557851250452
 GameObject:
