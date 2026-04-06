@@ -23,7 +23,7 @@ public class BSPDungeonGenerator : MonoBehaviour
     public int mapHeight;
     public int minRoomSize;
     public int maxRoomSize;
-    public int MiddleNodeCount;
+
     [Header("최대 생성할 방의 개수")]
     public int maxRooms;
     //분할 추적하기 위한 카운터
@@ -276,17 +276,7 @@ public class BSPDungeonGenerator : MonoBehaviour
             }
             else
             {
-                int count = 0;
-                if(count<MiddleNodeCount)
-                {
-                    count++;
-                    leafRooms[i].roomType= RoomType.MiddleNode;
-                }
-                else
-                {
-                    leafRooms[i].roomType = RoomType.NULL;
-                }
-                //leafRooms[i].roomType = Random.value > 0.4f ? RoomType.MiddleNode : RoomType.NULL;
+                leafRooms[i].roomType = Random.value > 0.4f ? RoomType.MiddleNode : RoomType.NULL;
             }
         }
     }
