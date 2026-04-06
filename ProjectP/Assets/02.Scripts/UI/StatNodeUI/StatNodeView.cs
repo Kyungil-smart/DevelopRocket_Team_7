@@ -11,10 +11,13 @@ public class StatNodeView : MonoBehaviour
     
     [Header("버튼이 잠겨있을 경우 나타낼 아이콘")]
     [SerializeField] private GameObject _lockedIcon;
+    
+    private NodeUISoundManager _uiSoundManager;
 
     private void Start()
     {
         InitView();
+        _uiSoundManager = GetComponentInParent<NodeUISoundManager>();
     }
 
     private void OnEnable()
@@ -47,6 +50,7 @@ public class StatNodeView : MonoBehaviour
     {
         if (_statNodeData == null) return;
         
+        AudioManager.Instance.OnSfxPlayOnShot(_uiSoundManager.ShareClickClip);
         _statNodeData.OnClick();
     }
 
