@@ -134,7 +134,7 @@ public class BSPDungeonGenerator : MonoBehaviour
         {
             //  방 상하좌우에 둘 여백(Padding)을 설정합니다.
             // 이 값을 늘릴수록 방 사이의 간격이 넓어집니다. (추천: 2 ~ 3)
-            int padding = 3;
+            int padding = 4;
 
             // 1. 최대 크기 계산 시, 노드 크기에서 양옆/위아래 패딩(padding * 2)만큼 뺍니다.
             int maxW = Mathf.Min(maxRoomSize, node.rect.width - (padding * 2));
