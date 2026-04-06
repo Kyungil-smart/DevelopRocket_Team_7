@@ -1,7 +1,9 @@
 ﻿<Solution>
   <Project Path="XNodeEditor.csproj" />
   <Project Path="Assembly-CSharp.csproj" />
+  <Project Path="Assembly-CSharp-Editor.csproj" />
+  <Project Path="FangAutoTile.csproj" />
   <Project Path="XNode.csproj" />
   <Project Path="OccaSoftware.Crosshairs.Editor.csproj" />
-  <Project Path="Assembly-CSharp-Editor.csproj" />
+  <Project Path="FangAutoTile.Editor.csproj" />
 </Solution>
