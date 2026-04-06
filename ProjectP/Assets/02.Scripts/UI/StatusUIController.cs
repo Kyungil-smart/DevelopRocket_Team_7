@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using TMPro;
 using NewWeaponSystem;
+using UnityEngine.SceneManagement;
 
 public class StatusUIController : MonoBehaviour
 {
@@ -18,35 +19,43 @@ public class StatusUIController : MonoBehaviour
     // 무기 선택 창이 떠 있을 때 Status 창 제어를 하지 못하게 하기 위함.
     [SerializeField] private GameObject _weaponSelectorUI;
     [SerializeField] private GameObject _statusUI;
+    [SerializeField] private GameObject _settingUI;
     
     [SerializeField] private InputActionAsset _inputAsset;
-    private InputAction _input;
-    private bool _isViewing;
+    private InputAction _inputStatus;
+    private InputAction _inputSetting;
+    private bool _isStatusViewing;
+    private bool _isSettingViewing;
 
     private void Awake()
     {
-        _input = _inputAsset.FindActionMap("UI").FindAction("Status");
-        Debug.Log(_input);
+        _inputStatus = _inputAsset.FindActionMap("UI").FindAction("Status");
+        _inputSetting = _inputAsset.FindActionMap("UI").FindAction("Setting");
+        Debug.Log(_inputStatus);
     }
     
     private void OnEnable()
     {
-        _input.Enable();
-        _input.started += OnControlStatusUI;
+        _inputStatus.Enable();
+        _inputStatus.started += OnControlStatusUI;
+        _inputSetting.Enable();
+        _inputSetting.started += OnControlSettingUI;
     }
 
     private void OnDisable()
     {
-        _input.started -= OnControlStatusUI;
-        _input.Disable();
+        _inputStatus.started -= OnControlStatusUI;
+        _inputStatus.Disable();
+        _inputSetting.started -= OnControlSettingUI;
+        _inputSetting.Disable();
     }
 
     private void OnControlStatusUI(InputAction.CallbackContext context)
     {
         if (_weaponSelectorUI.activeSelf) return;
         
-        _isViewing = !_isViewing;
-        _statusUI.SetActive(_isViewing);
+        _isStatusViewing = !_isStatusViewing;
+        _statusUI.SetActive(_isStatusViewing);
         float moveSpeed = PostManager.Instance.Request<bool, float>(PostMessageKey.PlayerStatusUIPlayer, true);
         StatusUIMsg statusData = PostManager.Instance.Request<bool, StatusUIMsg>(PostMessageKey.PlayerStatusUIWeapon, true);
         _moveSpeedValue.text = moveSpeed.ToString("0.00");
@@ -57,7 +66,15 @@ public class StatusUIController : MonoBehaviour
         _criticalDmgValue.text = (statusData.damage * statusData.critMultiplier).ToString("0.00");
         _reloadValue.text = statusData.reloadTime.ToString("0.00");
         _moveSpeedValue.text = moveSpeed.ToString();
-        if (_isViewing) Time.timeScale = 0;
+        if (_isStatusViewing) Time.timeScale = 0;
+        else Time.timeScale = 1;
+    }
+    
+    private void OnControlSettingUI(InputAction.CallbackContext context)
+    {
+        _isSettingViewing = !_isSettingViewing;
+        _settingUI.SetActive(_isSettingViewing);
+        if (_isSettingViewing) Time.timeScale = 0;
         else Time.timeScale = 1;
     }
 }
