@@ -79,6 +79,9 @@ MonoBehaviour:
   - textId: 411
     languageType: 0
     text: "\uD22C\uC0AC\uCCB4 \uC99D\uAC00"
+  - textId: 440
+    languageType: 0
+    text: "\uC774\uB3D9 \uC18D\uB3C4"
   - textId: 412
     languageType: 0
     text: "\uD2B9\uC131 \uB178\uB4DC"
@@ -256,6 +259,9 @@ MonoBehaviour:
   - textId: 411
     languageType: 1
     text: Projectile Count
+  - textId: 440
+    languageType: 1
+    text: Move Speed
   - textId: 412
     languageType: 1
     text: Trait Node

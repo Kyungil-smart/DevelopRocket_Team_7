@@ -51,6 +51,7 @@ public class AudioManager : Singleton<AudioManager>
     }
     public void OnBgmPlay(AudioClip clip)
     {
+        if (clip == null) return;
         bgmAudioSource.clip = clip;
         bgmAudioSource.Play();
     }
