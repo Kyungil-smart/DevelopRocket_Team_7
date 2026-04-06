@@ -2076,6 +2076,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: -49.5
       objectReference: {fileID: 0}
+    - target: {fileID: 6313380900047319072, guid: 39a7164ce3e3d6d4b94443df94a94ce9, type: 3}
+      propertyPath: buttonSound
+      value: 
+      objectReference: {fileID: 8300000, guid: 1d0a72811956d86488a52ce8a553dd47, type: 3}
     - target: {fileID: 6528030848297332240, guid: 39a7164ce3e3d6d4b94443df94a94ce9, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0.5
@@ -2174,6 +2178,7 @@ MonoBehaviour:
   settingPanel: {fileID: 6604355903301736433}
   loadingFlow: {fileID: 5245305142005850208}
   audioClip: {fileID: 8300000, guid: 9323256c5d730444b8e9c4897c438103, type: 3}
+  buttonSound: {fileID: 8300000, guid: 1d0a72811956d86488a52ce8a553dd47, type: 3}
 --- !u!114 &5072454771475232267
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2264,6 +2269,7 @@ MonoBehaviour:
   screenView: {fileID: 2638560535802255629}
   progressView: {fileID: 5905435691407466314}
   confirmButtonView: {fileID: 4916873243965091939}
+  buttonSound: {fileID: 8300000, guid: 1d0a72811956d86488a52ce8a553dd47, type: 3}
 --- !u!1 &5340112329515510238
 GameObject:
   m_ObjectHideFlags: 0

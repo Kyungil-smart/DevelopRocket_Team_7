@@ -8677,6 +8677,7 @@ MonoBehaviour:
   previewUIText: {fileID: 1535133896}
   confirmButton: {fileID: 123494005}
   weaponButtons: []
+  buttonSound: {fileID: 8300000, guid: 1d0a72811956d86488a52ce8a553dd47, type: 3}
 --- !u!114 &1466808001
 MonoBehaviour:
   m_ObjectHideFlags: 0
