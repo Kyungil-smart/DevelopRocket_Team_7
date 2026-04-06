@@ -5,6 +5,7 @@ using UnityEngine.SceneManagement;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using Random = UnityEngine.Random;
+using UnityEditor.Experimental.GraphView;
 [System.Serializable]
 public struct EnemySpawnOpction
 {
@@ -41,6 +42,21 @@ public class BSPDungeonGenerator : MonoBehaviour
     [Tooltip("추적")] public EnemySpawnOpction m_chase;
     [Tooltip("원거리")] public EnemySpawnOpction m_Range;
     [Tooltip("탱커")] public EnemySpawnOpction m_Tank;
+
+    [Header("모서리 타일")]
+    public TileBase topLeftTile;     // 탑 왼쪽 (좌측 상단)
+    public TileBase topRightTile;    // 탑 우측 (우측 상단)
+    public TileBase bottomLeftTile;  // 바텀 왼쪽 (좌측 하단)
+    public TileBase bottomRightTile; // 바텀 우측 (우측 하단)
+
+    [Header("벽(테두리) 타일")]
+    public TileBase topWallTile;     // 탑 수평 (위쪽 벽)
+    public TileBase bottomWallTile;  // 바텀 수평 (아래쪽 벽)
+    public TileBase leftWallTile;    // 왼쪽 수직 (왼쪽 벽)
+    public TileBase rightWallTile;   // 우측 수직 (오른쪽 벽)
+    /// <summary>
+
+    /// </summary>
     private void Start()
     {
         GenerateDungeon();
@@ -167,20 +183,54 @@ public class BSPDungeonGenerator : MonoBehaviour
     }
     private void DrawRoomWithWalls(RectInt rect)
     {
-        for (int x = rect.x - 1; x <= rect.xMax; x++)
+        int minX = rect.x - 1;
+        int maxX = rect.xMax;
+        int minY = rect.y - 1;
+        int maxY = rect.yMax;
+
+        for (int x = minX; x <= maxX; x++)
         {
-            for (int y = rect.y - 1; y <= rect.yMax; y++)
+            for (int y = minY; y <= maxY; y++)
             {
-                if (x == rect.x - 1 || x == rect.xMax || y == rect.y - 1 || y == rect.yMax)
+                if (x == minX || x == maxX || y == minY || y == maxY)
                 {
-                    bool isfloor= _Tiles.Contains(tilemap.GetTile(new Vector3Int(x, y, 0)));
-                    //tilemap.GetTile(new Vector3Int(x, y, 0)) != floorTile
+                    bool isfloor = _Tiles.Contains(tilemap.GetTile(new Vector3Int(x, y, 0)));
+
                     if (!isfloor)
-                        tilemap.SetTile(new Vector3Int(x, y, 0), wallTile);
+                    {
+                        TileBase tileToSet = null;
+
+                        // 1. 모서리 4방향 먼저 확인 (가장 우선)
+                        if (x == minX && y == maxY)//x시작점 y 맨위(시작점)
+                            tileToSet = topLeftTile;// 탑 왼쪽
+                       
+                        else if (x == maxX && y == maxY)
+                            tileToSet = topRightTile;// 탑 우측
+                        
+                        else if (x == minX && y == minY)
+                            tileToSet = bottomLeftTile;// 바텀 왼쪽
+                        
+                        else if (x == maxX && y == minY)
+                            tileToSet = bottomRightTile;// 바텀 우측
+
+                        // 2. 모서리가 아니라면 상/하/좌/우 벽 확인
+                        else if (y == maxY)
+                            tileToSet = topWallTile;// 탑 수평
+                        else if (y == minY)
+                            tileToSet = bottomWallTile;// 바텀 수평
+                        else if (x == minX)
+                            tileToSet = leftWallTile;// 왼쪽 수직
+                        else if (x == maxX)
+                            tileToSet = rightWallTile;// 우측 수직
+
+                        // 3. 타일 배치
+                        if (tileToSet != null)
+                            tilemap.SetTile(new Vector3Int(x, y, 0), tileToSet);
+                    }
                 }
                 else
                 {
-                    tilemap.SetTile(new Vector3Int(x, y, 0), _Tiles[Random.Range(0, _Tiles.Count - 1)]);
+                    tilemap.SetTile(new Vector3Int(x, y, 0), _Tiles[Random.Range(0, _Tiles.Count)]);
                 }
             }
         }
@@ -188,14 +238,15 @@ public class BSPDungeonGenerator : MonoBehaviour
     private void DrawCorridor(BSPNode left, BSPNode right)
     {
         Vector2Int start = new Vector2Int((int)left.rect.center.x, (int)left.rect.center.y);
-        Vector2Int end = new Vector2Int((int)right.rect.center.x, (int)right.rect.center.y);
+        Vector2Int end =   new Vector2Int((int)right.rect.center.x,(int)right.rect.center.y);
+
         for (int x = Mathf.Min(start.x, end.x); x <= Mathf.Max(start.x, end.x); x++)
         {
-            SetFloorTile(x, start.y);
+            SetFloorTile(x, start.y,true);
         }
         for (int y = Mathf.Min(start.y, end.y); y <= Mathf.Max(start.y, end.y); y++)
         {
-            SetFloorTile(end.x, y);
+            SetFloorTile(end.x, y,false);
         }
     }
     //private void SetFloorTile(int x, int y)
@@ -214,7 +265,7 @@ public class BSPDungeonGenerator : MonoBehaviour
     //        }
     //    }
     //}
-    private void SetFloorTile(int x, int y)
+    private void SetFloorTile(int x, int y,bool flag=true)
     {
         int corridorSize = 2; // 🌟 통로 굵기 (이 값을 3으로 바꾸면 3칸 굵기가 됩니다!)
 
@@ -237,7 +288,15 @@ public class BSPDungeonGenerator : MonoBehaviour
                 // 주변에 아무것도 없는 허공(null)일 때만 벽을 세웁니다.
                 if (tilemap.GetTile(pos) == null)
                 {
-                    tilemap.SetTile(pos, wallTile);
+                    if(flag)//수평
+                    {
+                        tilemap.SetTile(pos, topWallTile);
+                    }
+                    else//수직
+                    {
+                        tilemap.SetTile(pos, leftWallTile);
+                    }
+                   // tilemap.SetTile(pos, wallTile);
                 }
             }
         }
