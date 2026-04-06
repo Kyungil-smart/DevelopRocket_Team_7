@@ -20,6 +20,9 @@ public class MainMenuLoadingFlow : MonoBehaviour
 
     [Tooltip("확인 버튼 표시를 담당하는 뷰")]
     [SerializeField] private LoadingConfirmButtonView confirmButtonView;
+    
+    [Header("버튼 클릭 시 사운드")]
+    [SerializeField] private AudioClip buttonSound;
 
 
     private bool isLoading;
@@ -58,6 +61,8 @@ public class MainMenuLoadingFlow : MonoBehaviour
 
     public void BeginLoading()
     {
+        ButtonSounds();
+        
         if (isLoading)
         {
             return;
@@ -112,11 +117,19 @@ public class MainMenuLoadingFlow : MonoBehaviour
 
     public void OnClickConfirm()
     {
+        ButtonSounds();
+        
         // 씬 매니저로 게임뷰로 넘어가도록 수정하기
         if (!isCompleted)
         {
             return;
         }
         SceneChanger.Instance.ChangeScene("InGameScene");
+    }
+    
+    // 버튼 클릭시 사운드 출력
+    private void ButtonSounds()
+    {
+        AudioManager.Instance.OnSfxPlayOnShot(buttonSound);
     }
 }

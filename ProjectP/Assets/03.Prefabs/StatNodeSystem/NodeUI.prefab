@@ -19084,6 +19084,7 @@ GameObject:
   - component: {fileID: 3929470415316751212}
   - component: {fileID: 6960956253076498918}
   - component: {fileID: 1277825544906917792}
+  - component: {fileID: 1362084298484008272}
   m_Layer: 5
   m_Name: NodeUI
   m_TagString: Untagged
@@ -19203,6 +19204,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d111389f3ec6ce47956d59f13fd97f5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CloseNodeUI
+--- !u!114 &1362084298484008272
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5404638649300522116}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 39ca2f654e56a4c4fa0908b3070543a4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::NodeUISoundBox
+  ShareClickClip: {fileID: 8300000, guid: 1d0a72811956d86488a52ce8a553dd47, type: 3}
+  ShareNodeLevelUpClip: {fileID: 8300000, guid: ebfd114208d0fc7489712f1553c8c8f8, type: 3}
 --- !u!1 &5435307549593787992
 GameObject:
   m_ObjectHideFlags: 0
