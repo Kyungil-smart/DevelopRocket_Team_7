@@ -12,11 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 15e420e59a2ccca47ac3d19463ef3cf9, type: 3}
   m_Name: MonsterTanker
   m_EditorClassIdentifier: Assembly-CSharp::EnemyData
-  maxHp: 1000
+  maxHp: 500
   damage: 1
-  speed: 0.5
-  attackRange: 0.6
-  detectRadius: 2
+  speed: 1.5
+  attackRange: 1
+  detectRadius: 5
   attackDelay: 2
   batteryProbability: 0.1
   exp: 200
