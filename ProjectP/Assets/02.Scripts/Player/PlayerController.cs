@@ -38,6 +38,12 @@ public class PlayerController : MonoBehaviour , IDamage
    private Ray2D ray;
    private GameObject _interactedGameObject;
    
+   [Header("SoundEffects")]
+   // 피격 사운드 클립
+   [SerializeField] private AudioClip _takeDamagedSound;
+   // 대쉬 사운드 클립
+   [SerializeField] private AudioClip _dashSound;
+   
    private Vector2 prePos;  // 플레이어 현재 위치 계산용 Cache 값
     [Header("InteractionOBJ")]
     [SerializeField] private GameObject _NodeCanvas;
@@ -87,6 +93,8 @@ public class PlayerController : MonoBehaviour , IDamage
         if (isDead) return;
         if(isDashing) return; // 대쉬 때 무적 판정
         _playerStat.PlayerHp -= damage;
+        // 피격 시 사운드 출력
+        AudioManager.Instance.OnSfxPlayOnShot(_takeDamagedSound);
         if (_playerStat.PlayerHp <= 0)
         {
             Dead();
@@ -117,6 +125,8 @@ public class PlayerController : MonoBehaviour , IDamage
    {
       if ((isDashing == false) && _dashStack > 0)
       {
+         // 대쉬 시전 시 사운드 출력
+         AudioManager.Instance.OnSfxPlayOnShot(_dashSound);
          Dash(input);
          
          if(_dashCoolDownCoroutine == null)

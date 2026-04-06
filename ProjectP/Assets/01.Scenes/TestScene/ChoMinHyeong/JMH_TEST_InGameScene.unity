@@ -503,7 +503,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 11
+  orthographic size: 5
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
@@ -8164,7 +8164,7 @@ Camera:
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 2953023457
+    m_Bits: 2953022945
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
@@ -9925,8 +9925,8 @@ MonoBehaviour:
   _LvUp: {fileID: 0}
   _sp: {fileID: 0}
   _playerStat: {fileID: 1686085963}
-  dashSpeed: 10
-  dashTime: 0.15
+  dashSpeed: 30
+  dashTime: 0.5
   dashCooldown: 5
   coolDownInterval: 0.5
   input: {x: 0, y: 0}
@@ -9937,8 +9937,6 @@ MonoBehaviour:
   interactLayer:
     serializedVersion: 2
     m_Bits: 32768
-  _takeDamagedSound: {fileID: 8300000, guid: f3c649666ffab754487ee5655c79d6bf, type: 3}
-  _dashSound: {fileID: 8300000, guid: 7169524c595bd9644b9de0b77eaff533, type: 3}
   _NodeCanvas: {fileID: 5410834239993585605}
   isDead: 0
 --- !u!114 &1686085963
@@ -9955,7 +9953,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerStat
   _playerHp: 5
   MAX_Hp: 5
-  moveSpeed: 5
+  moveSpeed: 10
   _playerLevel: 0
   playerMaxLevel: 3
   playerExp: 0
