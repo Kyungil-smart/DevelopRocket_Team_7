@@ -22,7 +22,7 @@ public class BSPDungeonGenerator : MonoBehaviour
     public int mapWidth;
     public int mapHeight;
     public int minRoomSize;
-
+    public int maxRoomSize;
     [Header("최대 생성할 방의 개수")]
     public int maxRooms;
     //분할 추적하기 위한 카운터
@@ -130,11 +130,25 @@ public class BSPDungeonGenerator : MonoBehaviour
     private  void GenerateContents(BSPNode node)
     {
         if(node.IsLeaf())
-        {
-            int roomWidth  = Random.Range(minRoomSize - 2, node.rect.width - 2);
-            int roomHeight = Random.Range(minRoomSize - 2, node.rect.height - 2);
+        { 
+             //  방 상하좌우에 둘 여백(Padding)을 설정 .
+            // 이 값을 늘릴수록 방 사이의 간격이 넓어짐 
+            int padding = 3;
 
-            int x = node.rect.x + (node.rect.width - roomWidth)   / 2;
+            // 1. 최대 크기 계산 시, 노드 크기에서 양옆/위아래 패딩(padding * 2)만큼 뺍니다.
+            int maxW = Mathf.Min(maxRoomSize, node.rect.width - (padding * 2));
+            int maxH = Mathf.Min(maxRoomSize, node.rect.height - (padding * 2));
+
+            // 2. 최소 크기(minRoomSize)가 최대 크기(max)를 초과하지 않도록 안전장치를 둡니다.
+            int minW = Mathf.Min(minRoomSize, maxW);
+            int minH = Mathf.Min(minRoomSize, maxH);
+
+            // 3. 제한된 최소/최대값 안에서 방의 크기를 랜덤으로 결정합니다.
+            int roomWidth = Random.Range(minW, maxW);
+            int roomHeight = Random.Range(minH, maxH);
+
+            // 방을 노드의 중앙에 배치   
+            int x = node.rect.x + (node.rect.width - roomWidth) / 2;
             int y = node.rect.y + (node.rect.height - roomHeight) / 2;
 
             node.roomRect = new RectInt(x, y, roomWidth, roomHeight);
