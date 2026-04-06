@@ -132,7 +132,7 @@ public class BSPDungeonGenerator : MonoBehaviour
     {
         if (node.IsLeaf())
         {
-            // 🌟 방 상하좌우에 둘 여백(Padding)을 설정합니다.
+            //  방 상하좌우에 둘 여백(Padding)을 설정합니다.
             // 이 값을 늘릴수록 방 사이의 간격이 넓어집니다. (추천: 2 ~ 3)
             int padding = 3;
 
