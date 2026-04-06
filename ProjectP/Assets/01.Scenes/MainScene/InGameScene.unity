@@ -9922,7 +9922,7 @@ MonoBehaviour:
   _inputActionAsset: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
   _rb: {fileID: 1686085959}
   _animator: {fileID: 1686085961}
-  _LvUp: {fileID: 0}
+  _LvUp: {fileID: 1962720966}
   _sp: {fileID: 0}
   _playerStat: {fileID: 1686085963}
   dashSpeed: 30
@@ -11259,7 +11259,7 @@ GameObject:
   - component: {fileID: 1962720962}
   - component: {fileID: 1962720965}
   - component: {fileID: 1962720964}
-  - component: {fileID: 1962720963}
+  - component: {fileID: 1962720966}
   m_Layer: 6
   m_Name: LvUpAnimator
   m_TagString: Untagged
@@ -11287,18 +11287,6 @@ RectTransform:
   m_AnchoredPosition: {x: -0.03000021, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1962720963
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1962720961}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fa57126ec6d24b499996cfab93b80e48, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PlayerLvUpAnimController
 --- !u!212 &1962720964
 SpriteRenderer:
   serializedVersion: 2
@@ -11380,6 +11368,18 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &1962720966
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1962720961}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fa57126ec6d24b499996cfab93b80e48, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerLvUpAnimController
 --- !u!1 &1969849453
 GameObject:
   m_ObjectHideFlags: 0
