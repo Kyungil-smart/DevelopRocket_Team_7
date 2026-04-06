@@ -154,6 +154,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::NewWeaponSystem.ShotgunFire
   _shotgonData: {fileID: 11400000, guid: e26a6d875c2cfc744905b2b3087bab09, type: 2}
   _shotSoundClip: {fileID: 8300000, guid: a7a124d4dd025a444aa0c23262743d16, type: 3}
+  _reloadSoundClip: {fileID: 8300000, guid: 0338d9ab3a46f6947b7060b8ebb66161, type: 3}
 --- !u!95 &1389268560257312950
 Animator:
   serializedVersion: 7

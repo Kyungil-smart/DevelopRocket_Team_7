@@ -9,6 +9,8 @@ namespace NewWeaponSystem
     {
         [SerializeField] private AudioClip _shotSoundClip;
         
+        [SerializeField] private AudioClip _reloadSoundClip;
+        
         public override void SetUp(WeaponBlackboard blackboard, Transform portTf)
         {
             _blackboard = blackboard;
@@ -53,6 +55,7 @@ namespace NewWeaponSystem
 
         protected override IEnumerator Reload()
         {
+            AudioManager.Instance.OnSfxPlayOnShot(_reloadSoundClip);
             Debug.Log("Reload");
             _isReloading = true;
             yield return new WaitForSecondsRealtime(_blackboard.reloadTime);
