@@ -9,8 +9,9 @@ namespace NewWeaponSystem
     {
         [SerializeField] private ShotgonData _shotgonData;
         [SerializeField] private AudioClip _shotSoundClip;
-        
         [SerializeField] private AudioClip _reloadSoundClip;
+        private bool _isFire;
+        private Coroutine _isFireCoroutine;
         
         public override void SetUp(WeaponBlackboard blackboard, Transform portTf)
         {
@@ -39,19 +40,31 @@ namespace NewWeaponSystem
                 }
                 else
                 {
-                    List<Vector2> directions = GetDirections();
-                    AudioManager.Instance.OnSfxPlayOnShot(_shotSoundClip);
-                    PostManager.Instance.Post(PostMessageKey.ProjectileSpawned, new ProjectileSpwanMsg()
+                    if (!_isFire)
                     {
-                        startPos = _portTf.position,
-                        direction = directions,
-                        blackboard = _blackboard
-                    });
-                    _blackboard.WasteAmmo(directions.Count);
+                        float fireRate = (1 / _blackboard.attackSpeed);
+                        if (_isFireCoroutine == null) _isFireCoroutine = StartCoroutine(FireRateRoutine(fireRate));
+                        List<Vector2> directions = GetDirections();
+                        AudioManager.Instance.OnSfxPlayOnShot(_shotSoundClip);
+                        PostManager.Instance.Post(PostMessageKey.ProjectileSpawned, new ProjectileSpwanMsg()
+                        {
+                            startPos = _portTf.position,
+                            direction = directions,
+                            blackboard = _blackboard
+                        });
+                        _blackboard.WasteAmmo(directions.Count);    
+                    }
                 }
-                float rate = (1 / _blackboard.attackSpeed);
-                yield return new WaitForSecondsRealtime(rate);    
+                yield return new WaitForEndOfFrame();
             }
+        }
+        
+        private IEnumerator FireRateRoutine(float fireRate)
+        {
+            _isFire = true;
+            yield return new WaitForSecondsRealtime(fireRate);
+            _isFire = false;
+            _isFireCoroutine = null;
         }
 
         private List<Vector2> GetDirections()
@@ -86,7 +99,6 @@ namespace NewWeaponSystem
         protected override IEnumerator Reload()
         {
             AudioManager.Instance.OnSfxPlayOnShot(_reloadSoundClip);
-            Debug.Log("Reload");
             _isReloading = true;
             yield return new WaitForSecondsRealtime(_blackboard.reloadTime);
             _blackboard.RefillAmmo();
