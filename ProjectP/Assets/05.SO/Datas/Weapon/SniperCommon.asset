@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::CommonWeaponData
   weaponName: Sniper
   WeaponType: 2
+  textId: 304
   attackSpeed: 4
   damage: 10
   critRate: 0.05

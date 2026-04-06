@@ -34,5 +34,6 @@
     MainUIGameResult,
     // ------------------------------------------
     NodePointTextUIUpdate, // 노드 포인트 UI text 갱신
-
+    PlayerStatusUIPlayer,  // Player 에게 Status Data 받기 (이동속도)
+    PlayerStatusUIWeapon,  // Weapon 에게 Status Data 받기
 }

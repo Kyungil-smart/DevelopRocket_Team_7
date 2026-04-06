@@ -19,7 +19,7 @@ public class WeaponSelectPanelUI : MonoBehaviour
     [Tooltip("최종 확정 버튼")]
     [SerializeField] private Button confirmButton;
     [SerializeField] private List<Button> weaponButtons;
-
+    
     private WeaponType _selectdWeapon = WeaponType.None;
 
     private void Awake()

@@ -152,6 +152,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2601b8220b464d0ea4470a255fec12a3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::NewWeaponSystem.RifleSniperFire
+  _shotSoundClip: {fileID: 8300000, guid: 146659113947ef444baa2821f11c6257, type: 3}
 --- !u!95 &4649178116782216701
 Animator:
   serializedVersion: 7

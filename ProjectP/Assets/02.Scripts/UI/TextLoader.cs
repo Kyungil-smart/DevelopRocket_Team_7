@@ -8,7 +8,7 @@ public class TextLoader : MonoBehaviour
 
     private void Awake()
     {
-        _textGui = GetComponentInChildren<TextMeshProUGUI>();
+        _textGui = GetComponent<TextMeshProUGUI>();
     }
     
     private void OnEnable()
@@ -29,7 +29,18 @@ public class TextLoader : MonoBehaviour
             _textGui.text = "";
             return;
         }
-        _textGui.text = PostManager.Instance.Request<int, string>(PostMessageKey.UITextReqeust, textId);
+        if (_textGui == null) _textGui = GetComponent<TextMeshProUGUI>();
+
+        try
+        {
+            _textGui.text = PostManager.Instance.Request<int, string>(PostMessageKey.UITextReqeust, textId);
+        }
+        catch
+        {
+            Debug.Log($"{textId} has not {PostMessageKey.UITextReqeust} text.");
+            _textGui.text = "NotFound";
+        }
+        
     }
 
     public void SetTextId(int textId)

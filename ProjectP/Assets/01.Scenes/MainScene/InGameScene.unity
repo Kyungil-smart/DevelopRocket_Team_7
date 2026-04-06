@@ -3515,6 +3515,7 @@ MonoBehaviour:
     sprite: {fileID: -7040960777665541239, guid: 26b04ade93886be44b40459b7790b99d, type: 3}
   _victoryWindow: {fileID: 1267400655}
   _loseWindow: {fileID: 228183878}
+  audioClip: {fileID: 8300000, guid: 4a12129d9226f2540b8593bf8d019cba, type: 3}
 --- !u!114 &896186433
 MonoBehaviour:
   m_ObjectHideFlags: 0
