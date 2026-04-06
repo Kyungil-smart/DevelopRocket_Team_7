@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using NewWeaponSystem;
 using Random = UnityEngine.Random;
@@ -8,6 +7,8 @@ public class Battery : MonoBehaviour
 {
     [SerializeField] private List<BatteryStatus> batteryStatuses;
     [SerializeField] private LayerMask _layerMask;
+    [SerializeField] private AudioClip _getSound;
+    [SerializeField] private BatteryAnimControl _animControl;
     private BatteryStatus _batteryStatus;
 
     private void OnEnable()
@@ -20,7 +21,7 @@ public class Battery : MonoBehaviour
         _batteryStatus = null;
     }
 
-    private void OnCollisionEnter2D(Collision2D other)
+    private void OnTriggerEnter2D(Collider2D other)
     {
         if (Utils.CompareLayer(other.gameObject.layer, _layerMask))
         {
@@ -32,8 +33,9 @@ public class Battery : MonoBehaviour
                 critRate = _batteryStatus.critRate,
                 critMultiplier = _batteryStatus.critMultiplier
             };
+            AudioManager.Instance.OnSfxPlayOnShot(_getSound);
             PostManager.Instance.Post(PostMessageKey.UpgradeWeapon, data);
-            PostManager.Instance.Post(PostMessageKey.BatteryDespawned, gameObject);
+            _animControl.PlayAnimation();
         }
     }
 
@@ -42,5 +44,6 @@ public class Battery : MonoBehaviour
         int length = batteryStatuses.Count;
         int selectedIndex = Random.Range(0, length);
         _batteryStatus = batteryStatuses[selectedIndex];
+        _animControl.SetBatteryStatus(_batteryStatus);
     }
 }
