@@ -631,6 +631,7 @@ GameObject:
   - component: {fileID: 1289507465602922587}
   - component: {fileID: 6671029842703705308}
   - component: {fileID: 2827534395978540049}
+  - component: {fileID: 1279989194806952751}
   m_Layer: 29
   m_Name: Boss
   m_TagString: Untagged
@@ -902,6 +903,20 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 2, y: 2.4}
   m_EdgeRadius: 0
+--- !u!114 &1279989194806952751
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4846614634818495135}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ecc386b1ee7228b4c9aea79810a4afba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BossSoundEffects
+  _bossPhaseChangeSound: {fileID: 8300000, guid: 865e3bb8ecdb4934f94df4a30773b64b, type: 3}
+  _bossBaseAttackSound: {fileID: 8300000, guid: ad8cec84efa1e134da0f1b478fdbccc2, type: 3}
 --- !u!1 &7705582962923385201
 GameObject:
   m_ObjectHideFlags: 0
