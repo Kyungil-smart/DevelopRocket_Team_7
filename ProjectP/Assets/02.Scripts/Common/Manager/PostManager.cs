@@ -99,6 +99,8 @@ public class PostManager : Singleton<PostManager>
             _subscribes[key] = postMessages;
         }
         
+        Debug.Log($"{key} {data}");
+        
         if (postMessages is RequestMessage<TReq, TRes> pm)
         {
             if (pm.function != null)

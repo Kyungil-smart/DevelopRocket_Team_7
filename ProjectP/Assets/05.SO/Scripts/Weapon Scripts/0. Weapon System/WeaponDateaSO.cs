@@ -7,6 +7,7 @@ public class WeaponDataSO : ScriptableObject
 
     [Tooltip("무기 이름")]
     public string weaponName;
+    public int textId;
 
     [Tooltip("무기 외형")]
     public Sprite weaponSprite;

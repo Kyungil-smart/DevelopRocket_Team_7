@@ -12,6 +12,7 @@ public class PlayerController : MonoBehaviour , IDamage
    [SerializeField] private InputActionAsset _inputActionAsset;
    [SerializeField] private Rigidbody2D _rb;
    [SerializeField] private Animator _animator;
+   [SerializeField] private PlayerLvUpAnimController _LvUp;
    [SerializeField] private SpriteRenderer _sp;
    
    [Header("Stat")]
@@ -37,11 +38,16 @@ public class PlayerController : MonoBehaviour , IDamage
    private Ray2D ray;
    private GameObject _interactedGameObject;
    
+   [Header("SoundEffects")]
+   // 피격 사운드 클립
+   [SerializeField] private AudioClip _takeDamagedSound;
+   // 대쉬 사운드 클립
+   [SerializeField] private AudioClip _dashSound;
+   
    private Vector2 prePos;  // 플레이어 현재 위치 계산용 Cache 값
     [Header("InteractionOBJ")]
     [SerializeField] private GameObject _NodeCanvas;
     [SerializeField] private bool isDead=false;  
-
     
     private void Awake()
    {  
@@ -87,6 +93,8 @@ public class PlayerController : MonoBehaviour , IDamage
         if (isDead) return;
         if(isDashing) return; // 대쉬 때 무적 판정
         _playerStat.PlayerHp -= damage;
+        // 피격 시 사운드 출력
+        AudioManager.Instance.OnSfxPlayOnShot(_takeDamagedSound);
         if (_playerStat.PlayerHp <= 0)
         {
             Dead();
@@ -101,6 +109,7 @@ public class PlayerController : MonoBehaviour , IDamage
 
       input = context.ReadValue<Vector2>();
       _rb.linearVelocity = input * _playerStat.Sum_moveSpeed;
+      _animator.SetBool("Walk", true);
       _animator.SetFloat("Horizontal", input.x);
       _animator.SetFloat("Vertical", input.y);
    }
@@ -109,7 +118,7 @@ public class PlayerController : MonoBehaviour , IDamage
    {
       isMoving = false;
       if(isDashing) return;
-      
+      _animator.SetBool("Walk", false);
       _rb.linearVelocity = Vector2.zero;
    }
    
@@ -117,6 +126,8 @@ public class PlayerController : MonoBehaviour , IDamage
    {
       if ((isDashing == false) && _dashStack > 0)
       {
+         // 대쉬 시전 시 사운드 출력
+         AudioManager.Instance.OnSfxPlayOnShot(_dashSound);
          Dash(input);
          
          if(_dashCoolDownCoroutine == null)
@@ -226,6 +237,7 @@ public class PlayerController : MonoBehaviour , IDamage
    [ContextMenu("LevelUp")]
    public void LevelUp()
    {
+      _LvUp.OnPlayAnimation();
       PostManager.Instance.Post(PostMessageKey.PlayerLevelUp, ++_playerStat.PlayerLevel);
    }
     

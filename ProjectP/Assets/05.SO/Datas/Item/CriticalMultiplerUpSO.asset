@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4ddb7872d7ff4710b92171f39045f3a1, type: 3}
   m_Name: CriticalMultiplerUpSO
   m_EditorClassIdentifier: Assembly-CSharp::BatteryStatus
+  textid: 437
   attackSpeed: 0
   damage: 0
   critRate: 0
-  critMultiplier: 0.1
+  critMultiplier: 0.01

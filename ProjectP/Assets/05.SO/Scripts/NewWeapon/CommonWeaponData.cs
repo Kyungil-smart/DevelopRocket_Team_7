@@ -5,6 +5,7 @@ public class CommonWeaponData : ScriptableObject
 {
     public string weaponName;
     public WeaponType WeaponType;
+    public int textId;
     
     [Header("기본 무기 스탯")]
     public float attackSpeed = 4f;

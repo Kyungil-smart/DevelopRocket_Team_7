@@ -19,7 +19,10 @@ public class WeaponSelectPanelUI : MonoBehaviour
     [Tooltip("최종 확정 버튼")]
     [SerializeField] private Button confirmButton;
     [SerializeField] private List<Button> weaponButtons;
-
+    
+    [Header("버튼 클릭 시 사운드")]
+    [SerializeField] private AudioClip buttonSound;
+    
     private WeaponType _selectdWeapon = WeaponType.None;
 
     private void Awake()
@@ -55,6 +58,7 @@ public class WeaponSelectPanelUI : MonoBehaviour
     // 버튼 연결
     public void OnSelectWeapon(int index)
     {
+        AudioManager.Instance.OnSfxPlayOnShot(buttonSound);
         Time.timeScale = 1;
         _selectdWeapon = (WeaponType)index;
         ShowPreview(index);
@@ -62,6 +66,7 @@ public class WeaponSelectPanelUI : MonoBehaviour
     
     private void HandleClickConfirm()
     {
+        AudioManager.Instance.OnSfxPlayOnShot(buttonSound);
         if (_selectdWeapon == WeaponType.None)
         {
             Debug.LogWarning("WeaponSelectPanelUI : 선택된 무기가 없습니다.");
