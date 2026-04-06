@@ -11,6 +11,10 @@ public class MainMenuUI : MonoBehaviour
     
     [Header("Title BGM")]
     [SerializeField] private AudioClip audioClip;
+    
+    [Header("Button Sound")]
+    [SerializeField] private AudioClip buttonSound;
+    
     private Coroutine audioCoroutine;
 
 
@@ -40,6 +44,8 @@ public class MainMenuUI : MonoBehaviour
 
     public void OnClickStart()
     {
+        ButtonSounds();
+        
         if (loadingFlow == null)
         {
             Debug.LogWarning("MainMenuLoadingFlow가 연결되지 않았습니다.");
@@ -52,6 +58,8 @@ public class MainMenuUI : MonoBehaviour
 
     public void OnClickOpenSetting()
     {
+        ButtonSounds();
+        
         if (settingPanel != null)
         {
             settingPanel.SetActive(true);
@@ -65,6 +73,8 @@ public class MainMenuUI : MonoBehaviour
 
     public void OnClickCloseSetting()
     {
+        ButtonSounds();
+        
         if (settingPanel != null)
         {
             settingPanel.SetActive(false);
@@ -78,10 +88,18 @@ public class MainMenuUI : MonoBehaviour
 
     public void OnClickQuit()
     {
+        ButtonSounds();
+        
         Application.Quit();
 
 #if UNITY_EDITOR
         UnityEditor.EditorApplication.isPlaying = false;
 #endif
+    }
+
+    // 버튼 클릭시 사운드 출력
+    private void ButtonSounds()
+    {
+        AudioManager.Instance.OnSfxPlayOnShot(buttonSound);
     }
 }

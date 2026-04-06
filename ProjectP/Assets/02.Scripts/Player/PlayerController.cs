@@ -109,6 +109,7 @@ public class PlayerController : MonoBehaviour , IDamage
 
       input = context.ReadValue<Vector2>();
       _rb.linearVelocity = input * _playerStat.Sum_moveSpeed;
+      _animator.SetBool("Walk", true);
       _animator.SetFloat("Horizontal", input.x);
       _animator.SetFloat("Vertical", input.y);
    }
@@ -117,7 +118,7 @@ public class PlayerController : MonoBehaviour , IDamage
    {
       isMoving = false;
       if(isDashing) return;
-      
+      _animator.SetBool("Walk", false);
       _rb.linearVelocity = Vector2.zero;
    }
    

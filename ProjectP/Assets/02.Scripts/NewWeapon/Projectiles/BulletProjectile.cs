@@ -7,6 +7,15 @@ namespace NewWeaponSystem
     {
         [SerializeField] private LayerMask _layerMask;
         private WeaponBlackboard _blackboard;
+        private BulletAnimController _animCtrl;
+        private Rigidbody2D _rb;
+
+        private void Awake()
+        {
+            _animCtrl = GetComponent<BulletAnimController>();
+            _rb = GetComponent<Rigidbody2D>();
+            _rb.gravityScale = 0;
+        }
         
         private void OnTriggerEnter2D(Collider2D collision)
         {
@@ -19,7 +28,8 @@ namespace NewWeaponSystem
                     damage = Mathf.RoundToInt(damage * _blackboard.critMultiplier); 
                 }
                 collision.gameObject.GetComponent<IDamageable>()?.TakeDamage(DamageType.Projectile, damage);
-                PostManager.Instance.Post(PostMessageKey.ProjectileDespawned, gameObject);
+                _rb.linearVelocity = Vector2.zero;
+                _animCtrl.OnHit();
             }
         }
 
