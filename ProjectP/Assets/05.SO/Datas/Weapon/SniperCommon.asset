@@ -15,12 +15,12 @@ MonoBehaviour:
   weaponName: Sniper
   WeaponType: 2
   textId: 304
-  attackSpeed: 4
-  damage: 10
+  attackSpeed: 0.5
+  damage: 80
   critRate: 0.05
   critMultiplier: 1.5
-  magazineSize: 30
-  reloadTime: 1.5
+  magazineSize: 10
+  reloadTime: 2.5
   projectilePrefab: {fileID: 4835018492568507452, guid: ce3135a4b41e66145938e5a10b4e7de7, type: 3}
   projectileSpeed: 15
   projectileCount: 1

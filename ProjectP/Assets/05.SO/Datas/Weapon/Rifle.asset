@@ -16,11 +16,11 @@ MonoBehaviour:
   WeaponType: 0
   textId: 302
   attackSpeed: 4
-  damage: 10
+  damage: 20
   critRate: 0.05
   critMultiplier: 1.5
   magazineSize: 30
-  reloadTime: 1.5
+  reloadTime: 2
   projectilePrefab: {fileID: 4835018492568507452, guid: 964a98f06039b7646a2dfb91c945c5b4, type: 3}
   projectileSpeed: 15
   projectileCount: 1

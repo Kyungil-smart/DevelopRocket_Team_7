@@ -253,6 +253,34 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: 9caa3d8a-6b2f-4e8e-8bad-6ede561bd9be
     m_ActionName: UI/TrackedDeviceOrientation
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 4ba269ce-42c0-4bf8-a903-45a6b15da53f
+    m_ActionName: 'Player/MousePosition[/Mouse/position]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: d163c008-efdc-4809-a5e7-f4b026b4be0c
+    m_ActionName: 'Player/TempRifle[/Keyboard/1]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: f9d7c6ec-5edb-4110-99b2-d71657cf0823
+    m_ActionName: 'Player/TempShotgun[/Keyboard/2]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 3a5ddd38-c1a1-4519-8aef-551ccc2c86f9
+    m_ActionName: 'Player/TempSniper[/Keyboard/3]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 1591f125-2fe3-4da0-b127-b79f3117302b
+    m_ActionName: 'Player/TempNodeUI[/Keyboard/n]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 660733b7-3109-4a11-8ecf-f71102c219a1
+    m_ActionName: 'UI/Status[/Keyboard/tab,/Keyboard/l]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: a74a18b1-1a3c-45fa-b157-7384fabdc971
+    m_ActionName: 'UI/Setting[/Keyboard/escape]'
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player
@@ -272,15 +300,25 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerController
   _inputActionReference: {fileID: 0}
   _inputActionAsset: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
-  playerHp: 5
-  input: {x: 0, y: 0}
-  moveSpeed: 10
-  dashSpeed: 30
-  dashTime: 0.5
+  _rb: {fileID: 0}
+  _animator: {fileID: 0}
+  _LvUp: {fileID: 0}
+  _sp: {fileID: 0}
+  _playerStat: {fileID: 0}
+  dashSpeed: 10
+  dashTime: 0.15
   dashCooldown: 5
-  countDownInterval: 0.5
+  coolDownInterval: 0.5
+  input: {x: 0, y: 0}
+  isMoving: 0
   isDashing: 0
   _dashStack: 2
+  raycastDistance: 3
+  interactLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  _NodeCanvas: {fileID: 0}
+  isDead: 0
 --- !u!70 &-7448827152724393121
 CapsuleCollider2D:
   m_ObjectHideFlags: 0

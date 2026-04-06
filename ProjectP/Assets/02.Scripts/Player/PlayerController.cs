@@ -17,8 +17,8 @@ public class PlayerController : MonoBehaviour , IDamage
    
    [Header("Stat")]
    [SerializeField] private PlayerStat _playerStat;
-   [SerializeField] private float dashSpeed = 30f;  // 플레이어 대쉬 속도
-   [SerializeField] private float dashTime = 0.5f;  // 플레이어 대쉬 시간
+   [SerializeField] private float dashSpeed = 10f;  // 플레이어 대쉬 속도
+   [SerializeField] private float dashTime = 0.15f;  // 플레이어 대쉬 시간
    [SerializeField] private float dashCooldown = 5f; // 대쉬 쿨타임 
    [SerializeField] private float coolDownInterval = 0.5f;
    [SerializeField] private Vector2 input;

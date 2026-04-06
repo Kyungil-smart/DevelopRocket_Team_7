@@ -9925,8 +9925,8 @@ MonoBehaviour:
   _LvUp: {fileID: 0}
   _sp: {fileID: 0}
   _playerStat: {fileID: 1686085963}
-  dashSpeed: 30
-  dashTime: 0.5
+  dashSpeed: 10
+  dashTime: 0.15
   dashCooldown: 5
   coolDownInterval: 0.5
   input: {x: 0, y: 0}
@@ -9953,7 +9953,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerStat
   _playerHp: 5
   MAX_Hp: 5
-  moveSpeed: 10
+  moveSpeed: 5
   _playerLevel: 0
   playerMaxLevel: 3
   playerExp: 0

@@ -22,7 +22,7 @@ public class PlayerStat : MonoBehaviour
     }
     [SerializeField] private int MAX_Hp = 5; // 플레이어 최대 HP (MAX수치값 변동 있음)
 
-    [SerializeField] public float moveSpeed = 10f;  // 플레이어 기본 속도
+    [SerializeField] public float moveSpeed = 5f;  // 플레이어 기본 속도
     
     [SerializeField] private int _playerLevel = 0; // 플레이어 현재 레벨
     public int PlayerLevel
