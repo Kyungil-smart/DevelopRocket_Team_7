@@ -8677,6 +8677,7 @@ MonoBehaviour:
   previewUIText: {fileID: 1535133896}
   confirmButton: {fileID: 123494005}
   weaponButtons: []
+  buttonSound: {fileID: 8300000, guid: 1d0a72811956d86488a52ce8a553dd47, type: 3}
 --- !u!114 &1466808001
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12188,6 +12189,10 @@ PrefabInstance:
     - target: {fileID: 7703912571587282241, guid: 0c9ee58a652d01f4bae9387192623517, type: 3}
       propertyPath: m_chase.Min
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7703912571587282241, guid: 0c9ee58a652d01f4bae9387192623517, type: 3}
+      propertyPath: maxRoomSize
+      value: 25
       objectReference: {fileID: 0}
     - target: {fileID: 7703912571587282241, guid: 0c9ee58a652d01f4bae9387192623517, type: 3}
       propertyPath: _Tiles.Array.size
