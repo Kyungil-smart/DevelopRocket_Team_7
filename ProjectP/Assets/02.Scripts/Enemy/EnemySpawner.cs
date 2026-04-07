@@ -146,6 +146,7 @@ public class EnemySpawner : MonoBehaviour
         GameObject obj = _objectDict[name].Dequeue();
         obj.transform.position = position;
         obj.SetActive(true);
+        obj.GetComponent<EnemyStateMachine>().InitObject();
         yield return new WaitForSeconds(1f);
         
         // 소환 이팩트 사라짐

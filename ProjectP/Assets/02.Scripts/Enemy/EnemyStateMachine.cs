@@ -22,7 +22,7 @@ public class EnemyStateMachine : MonoBehaviour
         _agent = GetComponent<EnemyAgent>();
     }
 
-    private void OnEnable()
+    public void InitObject()
     {
         Init();
         SetIdleNode();
