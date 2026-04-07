@@ -114,7 +114,7 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                     ""name"": ""Attack"",
                     ""type"": ""Button"",
                     ""id"": ""6c2ab1b8-8984-453a-af3d-a3c78ae1679a"",
-                    ""expectedControlType"": ""Button"",
+                    ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
@@ -132,7 +132,7 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                     ""name"": ""Crouch"",
                     ""type"": ""Button"",
                     ""id"": ""27c5f898-bc57-4ee1-8800-db469aca5fe3"",
-                    ""expectedControlType"": ""Button"",
+                    ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
@@ -150,7 +150,7 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                     ""name"": ""Previous"",
                     ""type"": ""Button"",
                     ""id"": ""2776c80d-3c14-4091-8c56-d04ced07a2b0"",
-                    ""expectedControlType"": ""Button"",
+                    ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
@@ -159,7 +159,7 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                     ""name"": ""Next"",
                     ""type"": ""Button"",
                     ""id"": ""b7230bb6-fc9b-4f52-8b25-f5e19cb2c2ba"",
-                    ""expectedControlType"": ""Button"",
+                    ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
@@ -168,7 +168,7 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                     ""name"": ""Sprint"",
                     ""type"": ""Button"",
                     ""id"": ""641cd816-40e6-41b4-8c3d-04687c349290"",
-                    ""expectedControlType"": ""Button"",
+                    ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
@@ -679,7 +679,7 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                     ""name"": ""Submit"",
                     ""type"": ""Button"",
                     ""id"": ""7607c7b6-cd76-4816-beef-bd0341cfe950"",
-                    ""expectedControlType"": ""Button"",
+                    ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
@@ -688,7 +688,7 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                     ""name"": ""Cancel"",
                     ""type"": ""Button"",
                     ""id"": ""15cef263-9014-4fd5-94d9-4e4a6234a6ef"",
-                    ""expectedControlType"": ""Button"",
+                    ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
@@ -769,6 +769,15 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                     ""name"": ""Setting"",
                     ""type"": ""Button"",
                     ""id"": ""a74a18b1-1a3c-45fa-b157-7384fabdc971"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""NodeUIOnOff"",
+                    ""type"": ""Button"",
+                    ""id"": ""6233bf63-f57b-4b41-ad46-83a1c686ad50"",
                     ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """",
@@ -1226,6 +1235,17 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                     ""action"": ""Setting"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""db4b58db-3595-4dce-b4cd-67b70fe8e157"",
+                    ""path"": ""<Keyboard>/n"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""NodeUIOnOff"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -1323,6 +1343,7 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         m_UI_TrackedDeviceOrientation = m_UI.FindAction("TrackedDeviceOrientation", throwIfNotFound: true);
         m_UI_Status = m_UI.FindAction("Status", throwIfNotFound: true);
         m_UI_Setting = m_UI.FindAction("Setting", throwIfNotFound: true);
+        m_UI_NodeUIOnOff = m_UI.FindAction("NodeUIOnOff", throwIfNotFound: true);
     }
 
     ~@InputSystem_Actions()
@@ -1655,6 +1676,7 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
     private readonly InputAction m_UI_TrackedDeviceOrientation;
     private readonly InputAction m_UI_Status;
     private readonly InputAction m_UI_Setting;
+    private readonly InputAction m_UI_NodeUIOnOff;
     /// <summary>
     /// Provides access to input actions defined in input action map "UI".
     /// </summary>
@@ -1714,6 +1736,10 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "UI/Setting".
         /// </summary>
         public InputAction @Setting => m_Wrapper.m_UI_Setting;
+        /// <summary>
+        /// Provides access to the underlying input action "UI/NodeUIOnOff".
+        /// </summary>
+        public InputAction @NodeUIOnOff => m_Wrapper.m_UI_NodeUIOnOff;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -1776,6 +1802,9 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
             @Setting.started += instance.OnSetting;
             @Setting.performed += instance.OnSetting;
             @Setting.canceled += instance.OnSetting;
+            @NodeUIOnOff.started += instance.OnNodeUIOnOff;
+            @NodeUIOnOff.performed += instance.OnNodeUIOnOff;
+            @NodeUIOnOff.canceled += instance.OnNodeUIOnOff;
         }
 
         /// <summary>
@@ -1823,6 +1852,9 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
             @Setting.started -= instance.OnSetting;
             @Setting.performed -= instance.OnSetting;
             @Setting.canceled -= instance.OnSetting;
+            @NodeUIOnOff.started -= instance.OnNodeUIOnOff;
+            @NodeUIOnOff.performed -= instance.OnNodeUIOnOff;
+            @NodeUIOnOff.canceled -= instance.OnNodeUIOnOff;
         }
 
         /// <summary>
@@ -2118,5 +2150,12 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnSetting(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "NodeUIOnOff" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnNodeUIOnOff(InputAction.CallbackContext context);
     }
 }
