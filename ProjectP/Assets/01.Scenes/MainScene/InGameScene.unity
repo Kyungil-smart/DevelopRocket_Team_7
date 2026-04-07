@@ -10197,8 +10197,8 @@ MonoBehaviour:
   _LvUp: {fileID: 1962720966}
   _sp: {fileID: 0}
   _playerStat: {fileID: 1686085963}
-  dashSpeed: 10
-  dashTime: 0.15
+  dashSpeed: 8
+  dashTime: 0.5
   dashCooldown: 5
   coolDownInterval: 0.5
   input: {x: 0, y: 0}
@@ -10231,7 +10231,7 @@ MonoBehaviour:
   _playerLevel: 0
   playerMaxLevel: 3
   playerExp: 0
-  NeedLevelUpExp: 100
+  NeedLevelUpExp: 150
   _AddStat:
     PlayerHp: 0
     moveSpeed: 0
