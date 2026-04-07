@@ -17,6 +17,7 @@ namespace NewWeaponSystem
         private WeaponBlackboard _blackboard;
         public WeaponBlackboard Blackboard { get => _blackboard; }
         private Camera _cam;
+        private Vector2 _screenPos;
         private Vector2 _mousePos;
         private Vector2 _prePos;
         private int _sortingOffset;
@@ -28,6 +29,7 @@ namespace NewWeaponSystem
 
         private void Update()
         {
+            _mousePos = _cam.ScreenToWorldPoint(new Vector3(_screenPos.x, _screenPos.y, 10f));
             if (_scopePrefab != null) _scopePrefab.transform.position = _mousePos;
             transform.rotation = GetRotation();
             _fireType.UpdateMousePos(_mousePos);
@@ -91,8 +93,7 @@ namespace NewWeaponSystem
 
         private void GetMousePosition(InputAction.CallbackContext context)
         {
-            Vector2 screenPos = context.ReadValue<Vector2>();
-            _mousePos = _cam.ScreenToWorldPoint(new Vector3(screenPos.x, screenPos.y, 10f));
+            _screenPos = context.ReadValue<Vector2>();
         }
 
         private Quaternion GetRotation()
