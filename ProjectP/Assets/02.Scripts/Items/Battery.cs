@@ -10,6 +10,7 @@ public class Battery : MonoBehaviour
     [SerializeField] private AudioClip _getSound;
     [SerializeField] private BatteryAnimControl _animControl;
     private BatteryStatus _batteryStatus;
+    private bool _isGotten;
 
     private void OnEnable()
     {
@@ -25,6 +26,7 @@ public class Battery : MonoBehaviour
     {
         if (Utils.CompareLayer(other.gameObject.layer, _layerMask))
         {
+            if (_isGotten) return;
             if (_batteryStatus == null) return;
             WeaponUpgradeMsg data = new()
             {
@@ -36,6 +38,7 @@ public class Battery : MonoBehaviour
             AudioManager.Instance.OnSfxPlayOnShot(_getSound);
             PostManager.Instance.Post(PostMessageKey.UpgradeWeapon, data);
             _animControl.PlayAnimation();
+            _isGotten = true;
         }
     }
 
