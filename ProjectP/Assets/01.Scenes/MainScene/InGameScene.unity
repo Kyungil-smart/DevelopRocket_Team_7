@@ -10221,6 +10221,7 @@ MonoBehaviour:
   interactLayer:
     serializedVersion: 2
     m_Bits: 32768
+  _healSound: {fileID: 8300000, guid: e665038a094cf4547892fc64344b1cc1, type: 3}
   _takeDamagedSound: {fileID: 8300000, guid: f3c649666ffab754487ee5655c79d6bf, type: 3}
   _dashSound: {fileID: 8300000, guid: 7169524c595bd9644b9de0b77eaff533, type: 3}
   _NodeCanvas: {fileID: 5410834239993585605}
