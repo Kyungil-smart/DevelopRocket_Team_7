@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -119,8 +120,14 @@ namespace sadsmile
             MonsterSpawnCount -= count;
             if (MonsterSpawnCount <= 0)
             {
-                OpenDoors();
+                StartCoroutine(OpenDoorCoroutine());
             }
+        }
+        
+        private IEnumerator OpenDoorCoroutine()
+        {
+            yield return new WaitForSeconds(1f);
+            OpenDoors();
         }
     }
        
