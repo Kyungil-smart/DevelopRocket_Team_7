@@ -42,6 +42,10 @@ public class BSPDungeonGenerator : MonoBehaviour
     [Tooltip("추적")] public EnemySpawnOpction m_chase;
     [Tooltip("원거리")] public EnemySpawnOpction m_Range;
     [Tooltip("탱커")] public EnemySpawnOpction m_Tank;
+    
+    [Header("효과")]
+    [SerializeField] private AudioClip _openSound;
+    
     private void Start()
     {
         GenerateDungeon();
@@ -348,6 +352,7 @@ public class BSPDungeonGenerator : MonoBehaviour
                 manager.floorTile = floorTile;
                 manager.roomRect = room.roomRect;
                 manager.Tiles = _Tiles;
+                manager.openSound = _openSound;
 
                 manager.m_spawnMSG = spawnMSG;
                 manager.MonsterSpawnCount = spawnCount;

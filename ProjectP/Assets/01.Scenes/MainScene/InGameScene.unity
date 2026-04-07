@@ -5454,6 +5454,18 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4172096178212829500, guid: 39a7164ce3e3d6d4b94443df94a94ce9, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1924533719}
+    - target: {fileID: 4172096178212829500, guid: 39a7164ce3e3d6d4b94443df94a94ce9, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnCloseSettingUI
+      objectReference: {fileID: 0}
+    - target: {fileID: 4172096178212829500, guid: 39a7164ce3e3d6d4b94443df94a94ce9, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: StatusUIController, Assembly-CSharp
+      objectReference: {fileID: 0}
     - target: {fileID: 4190238390392174859, guid: 39a7164ce3e3d6d4b94443df94a94ce9, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -12447,6 +12459,10 @@ PrefabInstance:
       propertyPath: mapHeight
       value: 200
       objectReference: {fileID: 0}
+    - target: {fileID: 7703912571587282241, guid: 0c9ee58a652d01f4bae9387192623517, type: 3}
+      propertyPath: _openSound
+      value: 
+      objectReference: {fileID: 8300000, guid: b9ae1b0ec418b134b8cc7488501fcefe, type: 3}
     - target: {fileID: 7703912571587282241, guid: 0c9ee58a652d01f4bae9387192623517, type: 3}
       propertyPath: m_Tank.Max
       value: 9
