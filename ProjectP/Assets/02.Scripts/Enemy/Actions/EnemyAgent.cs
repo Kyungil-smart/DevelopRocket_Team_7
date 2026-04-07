@@ -51,6 +51,7 @@ public class EnemyAgent : MonoBehaviour
 
     private void AddListeners()
     {
+        if (_blackboard == null) return;
         _blackboard.OnIdle += OnPatrol;
         _blackboard.OnAttackDelay += OnAttackDelay;
         _blackboard.OnAttacked += OnAttack;
@@ -60,6 +61,7 @@ public class EnemyAgent : MonoBehaviour
 
     private void RemoveListeners()
     {
+        if (_blackboard == null) return;
         _blackboard.OnIdle -= OnPatrol;
         _blackboard.OnAttackDelay -= OnAttackDelay;
         _blackboard.OnAttacked -= OnAttack;

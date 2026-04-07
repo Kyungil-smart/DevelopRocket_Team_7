@@ -140,7 +140,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4b0b329e16a94ad8a9c08ada55bbc9d6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BulletAnimController
-  _hitSound: {fileID: 8300000, guid: 222b4e3ef9caa774b87ee368709c15fb, type: 3}
+  _hitSound: {fileID: 8300000, guid: 293f90f8ce1cd20499783dfeca57b152, type: 3}
   _hitAnim: {fileID: 7400000, guid: d82d9d5565ddc04428489b9ba2d511ff, type: 2}
 --- !u!50 &1026486519505383846
 Rigidbody2D:

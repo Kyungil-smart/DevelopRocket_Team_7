@@ -1,9 +1,14 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class SettingPanelController : MonoBehaviour
 {
     [Header("Button Sound")]
     [SerializeField] private AudioClip buttonSound;
+    
+    [Header("Button Sound")]
+    [SerializeField] private InputActionAsset _inputAsset;
+    private InputAction _input;
     
     public void OnClickCloseSetting()
     {

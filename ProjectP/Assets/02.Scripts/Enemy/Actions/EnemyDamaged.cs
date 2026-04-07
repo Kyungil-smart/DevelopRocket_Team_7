@@ -37,7 +37,10 @@ public class EnemyDamaged : MonoBehaviour, IDamageable, INeedEnemyBlackboard
 
     public void SetBlackboard(EnemyBlackboard blackboard)
     {
+        if (_effectInDamagedCoroutine != null) StopCoroutine(_effectInDamagedCoroutine);
+        _effectInDamagedCoroutine = null;
         this.blackboard = blackboard;
+        _spriteRenderer.color = new Color(1, 1, 1);
     }
 
     private IEnumerator EffectInDamagedCoroutine()

@@ -100,7 +100,7 @@ public class EnemyMovement : MonoBehaviour
             if (_collider2D != null)
             {
                 _rayPatrol = GetRay(direction);
-                RaycastHit2D hit = Physics2D.Raycast(_rayPatrol.origin, _rayPatrol.direction, 0.5f, _layerMask);
+                RaycastHit2D hit = Physics2D.Raycast(_rayPatrol.origin, _rayPatrol.direction, 1f, _layerMask);
                 if (!hit) yield return _waitFor2Sec;
                 else yield return _waitFor10mSec;
             }

@@ -26,7 +26,7 @@ public class AudioManager : Singleton<AudioManager>
     
     public void SetSfxVolume(int value)
     {
-        bgmVolume = Mathf.Clamp(value, 0, 100);
+        sfxVolume = Mathf.Clamp(value, 0, 100);
         ApplySfxVolume();
     }
 
