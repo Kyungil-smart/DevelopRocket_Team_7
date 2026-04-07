@@ -36,6 +36,7 @@ public class BatteryAnimControl : MonoBehaviour
     // Animation Event
     public void OnDisableBattery()
     {
+        _textUI.enabled = false;
         GameObject parent = transform.parent.gameObject;
         PostManager.Instance.Post(PostMessageKey.BatteryDespawned, parent);
     }
