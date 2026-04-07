@@ -12375,6 +12375,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: Map
       objectReference: {fileID: 0}
+    - target: {fileID: 3235327063803329662, guid: 0c9ee58a652d01f4bae9387192623517, type: 3}
+      propertyPath: m_Layer
+      value: 31
+      objectReference: {fileID: 0}
+    - target: {fileID: 4274984013263003582, guid: 0c9ee58a652d01f4bae9387192623517, type: 3}
+      propertyPath: m_Layer
+      value: 31
+      objectReference: {fileID: 0}
     - target: {fileID: 5973367858277014315, guid: 0c9ee58a652d01f4bae9387192623517, type: 3}
       propertyPath: m_SortingOrder
       value: -32768
