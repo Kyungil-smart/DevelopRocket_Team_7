@@ -34,6 +34,7 @@ public class PlayerController : MonoBehaviour , IDamage
    [Header("Interaction")]
    [SerializeField] private float raycastDistance = 3f;  // 레이캐스트 감지 거리
    [SerializeField] private LayerMask interactLayer; // 레이캐스트가 감지할 레이어
+   [SerializeField] private AudioClip _healSound;
    private RaycastHit2D hit;
    private Ray2D ray;
    private GameObject _interactedGameObject;
@@ -258,6 +259,7 @@ public class PlayerController : MonoBehaviour , IDamage
         if(index ==1)
         {
             _playerStat.FullRecovery();
+            AudioManager.Instance.OnSfxPlayOnShot(_healSound);
         }
         else if(index ==2)
         {
