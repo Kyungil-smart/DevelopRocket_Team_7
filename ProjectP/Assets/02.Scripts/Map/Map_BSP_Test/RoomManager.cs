@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -16,6 +17,7 @@ namespace sadsmile
 
         [Header("방 정보")]
         public RectInt roomRect;   // 맵 생성기에서 넘겨받을 이 방의 크기 정보
+        public AudioClip openSound;
 
         // 찾은 문의 위치를 저장해둘 리스트 (나중에 다시 열어야 하니까)
         private List<Vector3Int> doorPositions = new List<Vector3Int>();
@@ -97,6 +99,7 @@ namespace sadsmile
                 tilemap.SetTile(pos, Tiles[Random.Range(0, Tiles.Count-1)]);
             }
             isCleared = true;
+            AudioManager.Instance.OnSfxPlayOnShot(openSound);
         }
         private void OnEnable()
         {
@@ -117,8 +120,14 @@ namespace sadsmile
             MonsterSpawnCount -= count;
             if (MonsterSpawnCount <= 0)
             {
-                OpenDoors();
+                StartCoroutine(OpenDoorCoroutine());
             }
+        }
+        
+        private IEnumerator OpenDoorCoroutine()
+        {
+            yield return new WaitForSeconds(1f);
+            OpenDoors();
         }
     }
        
