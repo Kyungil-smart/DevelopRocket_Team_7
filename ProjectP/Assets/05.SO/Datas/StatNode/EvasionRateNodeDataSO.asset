@@ -13,8 +13,36 @@ MonoBehaviour:
   m_Name: EvasionRateNodeDataSO
   m_EditorClassIdentifier: Assembly-CSharp::NodeDataSO
   NodeInfos:
-  - <Name>k__BackingField: Node_Stat_Type
-  - <Name>k__BackingField: 'Evasion_Rate '
-  - <Name>k__BackingField: 'Evasion_Rate '
-  - <Name>k__BackingField: 'Evasion_Rate '
+  - _nodeStatType: Node_Stat_Type
+    _nameVariable: Name_Variable
+    _id: 0
+    _nodeLevel: 0
+    _nodeCostPoint: 0
+    _nodeIncrValue: 0
+    _description: description
+    _name: Node_Stat_Type
+  - _nodeStatType: 'Evasion_Rate '
+    _nameVariable: n_evasion_rate
+    _id: 10061
+    _nodeLevel: 1
+    _nodeCostPoint: 1
+    _nodeIncrValue: 10
+    _description: "\uD68C\uD53C\uC728 \uC0C1\uC2B9 +10"
+    _name: 'Evasion_Rate '
+  - _nodeStatType: 'Evasion_Rate '
+    _nameVariable: n_evasion_rate
+    _id: 10062
+    _nodeLevel: 2
+    _nodeCostPoint: 1
+    _nodeIncrValue: 14
+    _description: "\uD68C\uD53C\uC728 \uC0C1\uC2B9 +14"
+    _name: 'Evasion_Rate '
+  - _nodeStatType: 'Evasion_Rate '
+    _nameVariable: n_evasion_rate
+    _id: 10063
+    _nodeLevel: 3
+    _nodeCostPoint: 1
+    _nodeIncrValue: 18
+    _description: "\uD68C\uD53C\uC728 \uC0C1\uC2B9 +18"
+    _name: 'Evasion_Rate '
   SpecialNodeInfos: []

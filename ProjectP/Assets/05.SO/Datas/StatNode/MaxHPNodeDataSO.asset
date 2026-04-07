@@ -13,8 +13,36 @@ MonoBehaviour:
   m_Name: MaxHPNodeDataSO
   m_EditorClassIdentifier: Assembly-CSharp::NodeDataSO
   NodeInfos:
-  - <Name>k__BackingField: Node_Stat_Type
-  - <Name>k__BackingField: Max_HP
-  - <Name>k__BackingField: Max_HP
-  - <Name>k__BackingField: Max_HP
+  - _nodeStatType: Node_Stat_Type
+    _nameVariable: Name_Variable
+    _id: 0
+    _nodeLevel: 0
+    _nodeCostPoint: 0
+    _nodeIncrValue: 0
+    _description: description
+    _name: Node_Stat_Type
+  - _nodeStatType: Max_HP
+    _nameVariable: n_max_hp
+    _id: 10071
+    _nodeLevel: 1
+    _nodeCostPoint: 1
+    _nodeIncrValue: 1
+    _description: "\uCD5C\uB300\uCCB4\uB825 \uC0C1\uC2B9 +1\uCE78"
+    _name: Max_HP
+  - _nodeStatType: Max_HP
+    _nameVariable: n_max_hp
+    _id: 10072
+    _nodeLevel: 2
+    _nodeCostPoint: 1
+    _nodeIncrValue: 1
+    _description: "\uCD5C\uB300\uCCB4\uB825 \uC0C1\uC2B9 +1\uCE78"
+    _name: Max_HP
+  - _nodeStatType: Max_HP
+    _nameVariable: n_max_hp
+    _id: 10073
+    _nodeLevel: 3
+    _nodeCostPoint: 1
+    _nodeIncrValue: 2
+    _description: "\uCD5C\uB300\uCCB4\uB825 \uC0C1\uC2B9 +2\uCE78"
+    _name: Max_HP
   SpecialNodeInfos: []
