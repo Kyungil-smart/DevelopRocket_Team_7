@@ -5,13 +5,13 @@ using UnityEngine;
 public class NodeInfo: ISheetParsable, IIdentifiable
 {
     // 구글 시트에서 가져온 데이터를 저장할 변수
-    private string _nodeStatType;
-    private string _nameVariable;
-    private int _id;
-    private int _nodeLevel;
-    private int _nodeCostPoint;
-    private float _nodeIncrValue;
-    private string _description;
+    [SerializeField] private string _nodeStatType;
+    [SerializeField] private string _nameVariable;
+    [SerializeField] private int _id;
+    [SerializeField] private int _nodeLevel;
+    [SerializeField] private int _nodeCostPoint;
+    [SerializeField] private float _nodeIncrValue;
+    [SerializeField] private string _description;
     
     // getter
     public string NodeStatType => _nodeStatType;
@@ -22,7 +22,9 @@ public class NodeInfo: ISheetParsable, IIdentifiable
     public float NodeIncrValue => _nodeIncrValue;
     public string Description => _description;
     
-    [field: SerializeField] public string Name { get; set; }
+    [SerializeField] private string _name;
+    public string Name { get => _name; set => _name = value; }
+    
     public void ApplyRowData(string[] data)
     {
         // 데이터가 없으면 무시
