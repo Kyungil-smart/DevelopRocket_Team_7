@@ -107,7 +107,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BossBulletMovement
   rb: {fileID: -6040876805582433998}
-  Speed: 6.03
+  Speed: 3.6
   _layerMask:
     serializedVersion: 2
     m_Bits: 2147483712
