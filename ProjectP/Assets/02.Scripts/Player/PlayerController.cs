@@ -79,10 +79,12 @@ public class PlayerController : MonoBehaviour , IDamage
 
    private void FixedUpdate()
    {  // Player 위치 정보 상시 체크를 위한 PostManager Channel 등록 및 데이터 전송.
-      if (Vector2.Distance(_rb.position, prePos) > 0f)
-      {
-         PostManager.Instance.Post<Vector2>(PostMessageKey.PlayerPosition, transform.position);
-      }
+      // if (Vector2.Distance(_rb.position, prePos) > 0f)
+      // {
+      //    PostManager.Instance.Post<Vector2>(PostMessageKey.PlayerPosition, transform.position);
+      // }
+      // 플레이어 움직임이 있을때만으로 하니 이상하게 동작하는 것 같음.
+      PostManager.Instance.Post<Vector2>(PostMessageKey.PlayerPosition, transform.position);
       prePos = transform.position;
 
       _sp.sortingOrder = (int)(transform.position.y * -1);
