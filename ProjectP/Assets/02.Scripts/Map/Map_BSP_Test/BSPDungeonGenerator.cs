@@ -118,6 +118,7 @@ public class BSPDungeonGenerator : MonoBehaviour
         ///  Left Right 에 값을 할당해줌
         ///   이걸 더 나눌수 없을 때 까지 나눔
         ///</summary>
+      
       // 구역 나누기
         if (splitHorizontal)
         {

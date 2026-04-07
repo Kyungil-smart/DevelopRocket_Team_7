@@ -5454,6 +5454,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4170945439519696124, guid: 39a7164ce3e3d6d4b94443df94a94ce9, type: 3}
+      propertyPath: m_Color.a
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4172096178212829500, guid: 39a7164ce3e3d6d4b94443df94a94ce9, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
@@ -5644,6 +5648,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7787168808175249615, guid: 39a7164ce3e3d6d4b94443df94a94ce9, type: 3}
       propertyPath: m_AnchorMin.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8268860298608307167, guid: 39a7164ce3e3d6d4b94443df94a94ce9, type: 3}
+      propertyPath: m_Color.a
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8570422055887231184, guid: 39a7164ce3e3d6d4b94443df94a94ce9, type: 3}
@@ -10221,6 +10229,7 @@ MonoBehaviour:
   interactLayer:
     serializedVersion: 2
     m_Bits: 32768
+  _healSound: {fileID: 0}
   _takeDamagedSound: {fileID: 8300000, guid: f3c649666ffab754487ee5655c79d6bf, type: 3}
   _dashSound: {fileID: 8300000, guid: 7169524c595bd9644b9de0b77eaff533, type: 3}
   _NodeCanvas: {fileID: 5410834239993585605}
