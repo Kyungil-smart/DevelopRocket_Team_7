@@ -38,7 +38,7 @@ public class BossBulletMovement : MonoBehaviour
         if (Utils.CompareLayer(collision.gameObject.layer, _layerMask))
         {
             PostManager.Instance.Post(PostMessageKey.BossBulletDespawned, gameObject);
-            collision.gameObject.GetComponent<IDamage>()?.TakeDamage(2);
+            collision.gameObject.GetComponent<IDamage>()?.TakeDamage(1);
         }
     }
     

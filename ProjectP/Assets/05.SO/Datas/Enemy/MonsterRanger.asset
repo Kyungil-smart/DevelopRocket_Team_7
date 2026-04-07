@@ -15,8 +15,8 @@ MonoBehaviour:
   maxHp: 100
   damage: 1
   speed: 2
-  attackRange: 2.5
+  attackRange: 3
   detectRadius: 5
-  attackDelay: 2.5
-  batteryProbability: 0.2
-  exp: 100
+  attackDelay: 1
+  batteryProbability: 0.1
+  exp: 10
