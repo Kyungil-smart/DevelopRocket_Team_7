@@ -779,6 +779,7 @@ MonoBehaviour:
   _layerMask:
     serializedVersion: 2
     m_Bits: 2147483648
+  _bossController: {fileID: 4483679700780424917}
 --- !u!114 &910287549433743811
 MonoBehaviour:
   m_ObjectHideFlags: 0

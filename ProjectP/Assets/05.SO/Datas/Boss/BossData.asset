@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 97ad238079824d1981d9baf66d40a7f7, type: 3}
   m_Name: BossData
   m_EditorClassIdentifier: Assembly-CSharp::BossData
-  maxHp: 5000
+  maxHp: 3000
   damage: 2
   energyBulletDamage: 1
   speed: 5

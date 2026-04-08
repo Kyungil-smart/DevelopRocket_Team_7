@@ -280,7 +280,7 @@ public class BSPDungeonGenerator : MonoBehaviour
             }
             else
             {
-                leafRooms[i].roomType = Random.value > 0.4f ? RoomType.MiddleNode : RoomType.NULL;
+                leafRooms[i].roomType = RoomType.MiddleNode;
             }
         }
     }
@@ -381,8 +381,6 @@ public class BSPDungeonGenerator : MonoBehaviour
                 }
                 var AddObj = Instantiate(_restRoomsGimmic[CurrentRestRoomGimmicIndex++]);
                 AddObj.transform.SetParent(pos.transform);
-
-
             }
             else if (room.roomType == RoomType.BossNode)
             {
