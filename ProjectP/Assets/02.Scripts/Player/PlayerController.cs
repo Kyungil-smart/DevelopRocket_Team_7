@@ -1,12 +1,17 @@
 using System;
 using System.Collections;
+using System.Diagnostics;
 using Unity.VisualScripting;
  
 using UnityEngine;
 using UnityEngine.InputSystem;
-
+using System.Diagnostics; // 필수
 public class PlayerController : MonoBehaviour , IDamage
 {
+    //테스트
+    public Vector2 bosspos;
+
+    // 테스트
    [Header("Components")]
    [SerializeField] private InputActionReference _inputActionReference;
    [SerializeField] private InputActionAsset _inputActionAsset;
@@ -63,13 +68,19 @@ public class PlayerController : MonoBehaviour , IDamage
       _inputActionAsset["Move"].canceled += MoveStop;
       _inputActionAsset["Dash"].started += OnDash;
       _inputActionAsset["Interact"].started += Interact;
+        //테스트
+        _inputActionAsset["GobossRoom"].started += goboss;
+        //
       PostManager.Instance.Subscribe<Vector2>(PostMessageKey.InitPlayerPosition, UpdatePosition);
       PostManager.Instance.Subscribe<int>(PostMessageKey.PostExp, GetExp);
    }
 
    private void OnDisable()
    {
-      _inputActionAsset["Move"].performed -= Move;
+        //테스트
+        _inputActionAsset["GobossRoom"].started -= goboss;
+        //
+        _inputActionAsset["Move"].performed -= Move;
       _inputActionAsset["Move"].canceled -= MoveStop;
       _inputActionAsset["Dash"].started -= OnDash;
       _inputActionAsset["Interact"].started -= Interact;
@@ -77,7 +88,14 @@ public class PlayerController : MonoBehaviour , IDamage
       PostManager.Instance.Unsubscribe<Vector2>(PostMessageKey.InitPlayerPosition, UpdatePosition);
       PostManager.Instance.Unsubscribe<int>(PostMessageKey.PostExp, GetExp);
    }
-
+    //
+     
+    public void goboss(InputAction.CallbackContext context)
+    {
+     this.transform.position = bosspos;
+        this._playerStat.PlayerHp = 99999;
+    }
+   //
    private void FixedUpdate()
    {  // Player 위치 정보 상시 체크를 위한 PostManager Channel 등록 및 데이터 전송.
       // if (Vector2.Distance(_rb.position, prePos) > 0f)
@@ -205,7 +223,7 @@ public class PlayerController : MonoBehaviour , IDamage
          _interactedGameObject = hit.collider.gameObject;
             Oninteract(_interactedGameObject);
       }
-      Debug.Log(hit);
+      UnityEngine.Debug.Log(hit);
    }
 
    private void UpdatePosition(Vector2 position)
