@@ -1,3 +1,4 @@
+using Newtonsoft.Json.Bson;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -38,7 +39,8 @@ public class BossController : MonoBehaviour, IDamageable
     private WaitForSecondsRealtime _globalCooldown = new WaitForSecondsRealtime(0.1f);
     private float nxHpForRangeAttack;
     private int nxHpRateStep;
-
+    // 다른 스크립트에서 보스가 죽었는지 체크하기 위해 추가
+    public bool isDead => _blackBoard != null && _blackBoard.IsDead;
     private void Awake()
     {
         _animator = GetComponent<Animator>();
@@ -57,6 +59,8 @@ public class BossController : MonoBehaviour, IDamageable
 
     private void Update()
     {
+        if (_blackBoard.IsDead) return;
+
         if (_coroutine == null && _blackBoard.IsAttacking)
         {
             _coroutine = StartCoroutine(SkillCoroutine());
@@ -123,7 +127,7 @@ public class BossController : MonoBehaviour, IDamageable
         yield return new WaitForEndOfFrame();
         Instantiate(_remnant, transform.position, transform.rotation);
         yield return new WaitForEndOfFrame();
-        Destroy(gameObject);
+        Destroy(this.gameObject,0.1f);
     }
 
     private IEnumerator SkillCoroutine()

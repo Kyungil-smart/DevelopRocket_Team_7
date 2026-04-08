@@ -6,26 +6,26 @@ public class CloseNodeUI : MonoBehaviour
     [SerializeField] private GameObject _nodeUI;
     
     [SerializeField] private InputActionAsset _inputAsset;
-    private InputAction _input;
+   // private InputAction _input;
 
     private bool _isActive;
 
     private void Awake()
     {
         _isActive = false;
-        _input = _inputAsset.FindActionMap("UI").FindAction("NodeUIOnOff");
+       // _input = _inputAsset.FindActionMap("UI").FindAction("NodeUIOnOff");
     }
     private void OnEnable()
     {
-        _input.Enable();
-        _input.performed += NodeUIOnOff;
+       // _input.Enable();
+       // _input.performed += NodeUIOnOff;
         Time.timeScale = 0f;
     }
     private void OnDisable()
     {
         Time.timeScale = 1f;
-        _input.performed -= NodeUIOnOff;
-        _input.Disable();
+       // _input.performed -= NodeUIOnOff;
+     //   _input.Disable();
     }
 
     private void NodeUIOnOff(InputAction.CallbackContext context)

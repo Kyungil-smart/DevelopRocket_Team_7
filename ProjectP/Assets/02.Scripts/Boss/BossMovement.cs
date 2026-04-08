@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class BossMovement : MonoBehaviour, INeedBossBlackboard
 {
@@ -22,6 +24,8 @@ public class BossMovement : MonoBehaviour, INeedBossBlackboard
     private WaitForSeconds _waitFor2Sec = new WaitForSeconds(2.0f);
     private WaitForSeconds _waitFor10mSec = new WaitForSeconds(0.01f);
     private Vector2[] _patrolDirections = new Vector2[] { Vector2.right, Vector2.left, Vector2.down, Vector2.up };
+    /// 보스가 죽었을 때 안죽는 버그 발생하여 죽었을 때 업데이트 문 전부 중지 로직 추가
+    [SerializeField]private BossController _bossController;
 
     private void Awake()
     {
@@ -45,6 +49,9 @@ public class BossMovement : MonoBehaviour, INeedBossBlackboard
 
     private void FixedUpdate()
     {
+        //보스 죽으면 업데이트 중지
+        if (_bossController.isDead) return;
+
         if (!_animator.GetBool("IsMoving"))
         {
             _rb.linearVelocity = Vector2.zero;
