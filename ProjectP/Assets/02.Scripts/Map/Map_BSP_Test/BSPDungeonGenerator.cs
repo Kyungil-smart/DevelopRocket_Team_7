@@ -11,8 +11,10 @@ public struct EnemySpawnOpction
     public int Min;
     public int Max;
 }
+
 public class BSPDungeonGenerator : MonoBehaviour
 {
+    public PlayerController player;
     [Header("타일 설정")]
     [SerializeField] private Tilemap tilemap;
     [SerializeField] private TileBase floorTile;
@@ -402,6 +404,7 @@ public class BSPDungeonGenerator : MonoBehaviour
                 var spawnManager = obj.AddComponent<BossMonsterSpawn>();
                 spawnManager.bossMonsterPrefab = _bossMonsterPrefab;
                 spawnManager.spawnPosition = room.roomRect.center;
+                player.bosspos = room.roomRect.center;
             }
             else if (room.roomType == RoomType.NULL)
             {

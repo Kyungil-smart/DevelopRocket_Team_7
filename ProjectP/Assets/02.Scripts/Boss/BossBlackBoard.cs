@@ -9,6 +9,8 @@ public class BossBlackBoard
     // ToDo. State Machine 까지는 안쓰니까.. 좀 더 심플하고 괜찮은 방법이 있으면 고민해보자.
     public bool IsAttacking;  
     public bool IsDead;
+    
+
     private bool _isInvincible = false;
     public bool IsInvincible
     {

@@ -28,6 +28,7 @@ public class BossChangePhase : MonoBehaviour, INeedBossBlackboard
     public void OnBecameInvisible()
     {
         _blackBoard.IsInvincible = true;
+        Debug.Log("보스 무적 상태로 변경");
     }
 
     // 아래 함수는 [BossChangePhase.anim] 에 Animation Event 로 등록됨.
@@ -35,6 +36,7 @@ public class BossChangePhase : MonoBehaviour, INeedBossBlackboard
     {
         _blackBoard.IsInvincible = false;
         // ToDo. Player 에게 밀림 함수 달라고 해야한다.
+        Debug.Log("보스 무적 상태 해제");
     }
 
     // 아래 함수는 [BossChangePhase.anim] 에 Animation Event 로 등록됨.
@@ -42,11 +44,13 @@ public class BossChangePhase : MonoBehaviour, INeedBossBlackboard
     {
         _animator.speed = 1.1f;
         _blackBoard.speed *= _blackBoard.origin.speedRateOnBurning;
+        Debug.Log("보스 화남");
     }
 
     // 아래 함수는 [BossChangePhase.anim] 에 Animation Event 로 등록됨.
     public void OnChangeColor()
     {
+        Debug.Log("보스 색 변경됨");
         _spriteRenderer.color = new Color(1f, 0.588f, 0.588f, 1f);
     }
 
