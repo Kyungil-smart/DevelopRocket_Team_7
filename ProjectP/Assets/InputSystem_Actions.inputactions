@@ -140,6 +140,24 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "rest1",
+                    "type": "Button",
+                    "id": "f5b0a4b5-c351-4284-b6b0-b6b100d49838",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "rest2",
+                    "type": "Button",
+                    "id": "c35aa9fb-c6fd-4c40-ad98-a50e9121e13c",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -591,6 +609,28 @@
                     "processors": "",
                     "groups": "",
                     "action": "GobossRoom",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "50604df0-dd77-4bb9-88f8-f4433e2da786",
+                    "path": "<Keyboard>/f2",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "rest1",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "c3efdc2f-8138-4725-b6ab-0793b809953f",
+                    "path": "<Keyboard>/f3",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "rest2",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

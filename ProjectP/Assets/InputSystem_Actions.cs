@@ -226,6 +226,24 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""rest1"",
+                    ""type"": ""Button"",
+                    ""id"": ""f5b0a4b5-c351-4284-b6b0-b6b100d49838"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""rest2"",
+                    ""type"": ""Button"",
+                    ""id"": ""c35aa9fb-c6fd-4c40-ad98-a50e9121e13c"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -677,6 +695,28 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""GobossRoom"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""50604df0-dd77-4bb9-88f8-f4433e2da786"",
+                    ""path"": ""<Keyboard>/f2"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""rest1"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""c3efdc2f-8138-4725-b6ab-0793b809953f"",
+                    ""path"": ""<Keyboard>/f3"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""rest2"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -1350,6 +1390,8 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         m_Player_TempSniper = m_Player.FindAction("TempSniper", throwIfNotFound: true);
         m_Player_TempNodeUI = m_Player.FindAction("TempNodeUI", throwIfNotFound: true);
         m_Player_GobossRoom = m_Player.FindAction("GobossRoom", throwIfNotFound: true);
+        m_Player_rest1 = m_Player.FindAction("rest1", throwIfNotFound: true);
+        m_Player_rest2 = m_Player.FindAction("rest2", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -1461,6 +1503,8 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_TempSniper;
     private readonly InputAction m_Player_TempNodeUI;
     private readonly InputAction m_Player_GobossRoom;
+    private readonly InputAction m_Player_rest1;
+    private readonly InputAction m_Player_rest2;
     /// <summary>
     /// Provides access to input actions defined in input action map "Player".
     /// </summary>
@@ -1533,6 +1577,14 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         /// </summary>
         public InputAction @GobossRoom => m_Wrapper.m_Player_GobossRoom;
         /// <summary>
+        /// Provides access to the underlying input action "Player/rest1".
+        /// </summary>
+        public InputAction @rest1 => m_Wrapper.m_Player_rest1;
+        /// <summary>
+        /// Provides access to the underlying input action "Player/rest2".
+        /// </summary>
+        public InputAction @rest2 => m_Wrapper.m_Player_rest2;
+        /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
         public InputActionMap Get() { return m_Wrapper.m_Player; }
@@ -1603,6 +1655,12 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
             @GobossRoom.started += instance.OnGobossRoom;
             @GobossRoom.performed += instance.OnGobossRoom;
             @GobossRoom.canceled += instance.OnGobossRoom;
+            @rest1.started += instance.OnRest1;
+            @rest1.performed += instance.OnRest1;
+            @rest1.canceled += instance.OnRest1;
+            @rest2.started += instance.OnRest2;
+            @rest2.performed += instance.OnRest2;
+            @rest2.canceled += instance.OnRest2;
         }
 
         /// <summary>
@@ -1659,6 +1717,12 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
             @GobossRoom.started -= instance.OnGobossRoom;
             @GobossRoom.performed -= instance.OnGobossRoom;
             @GobossRoom.canceled -= instance.OnGobossRoom;
+            @rest1.started -= instance.OnRest1;
+            @rest1.performed -= instance.OnRest1;
+            @rest1.canceled -= instance.OnRest1;
+            @rest2.started -= instance.OnRest2;
+            @rest2.performed -= instance.OnRest2;
+            @rest2.canceled -= instance.OnRest2;
         }
 
         /// <summary>
@@ -2097,6 +2161,20 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnGobossRoom(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "rest1" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnRest1(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "rest2" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnRest2(InputAction.CallbackContext context);
     }
     /// <summary>
     /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "UI" which allows adding and removing callbacks.
