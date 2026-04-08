@@ -69,10 +69,10 @@ public class PlayerController : MonoBehaviour , IDamage
       _inputActionAsset["Move"].canceled += MoveStop;
       _inputActionAsset["Dash"].started += OnDash;
       _inputActionAsset["Interact"].started += Interact;
-        //테스트
-        _inputActionAsset["GobossRoom"].started += goboss;
-        _inputActionAsset["rest1"].started += rest1;
-        _inputActionAsset["rest2"].started += rest2;
+        ////테스트
+        //_inputActionAsset["GobossRoom"].started += goboss;
+        //_inputActionAsset["rest1"].started += rest1;
+        //_inputActionAsset["rest2"].started += rest2;
         //
         PostManager.Instance.Subscribe<Vector2>(PostMessageKey.InitPlayerPosition, UpdatePosition);
       PostManager.Instance.Subscribe<int>(PostMessageKey.PostExp, GetExp);
@@ -81,9 +81,9 @@ public class PlayerController : MonoBehaviour , IDamage
    private void OnDisable()
    {
         //테스트
-        _inputActionAsset["GobossRoom"].started -= goboss;
-        _inputActionAsset["rest1"].started -= rest1;
-        _inputActionAsset["rest2"].started -= rest2;
+        //_inputActionAsset["GobossRoom"].started -= goboss;
+        //_inputActionAsset["rest1"].started -= rest1;
+        //_inputActionAsset["rest2"].started -= rest2;
         //
         _inputActionAsset["Move"].performed -= Move;
       _inputActionAsset["Move"].canceled -= MoveStop;
