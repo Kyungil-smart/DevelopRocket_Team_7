@@ -11,8 +11,10 @@ public struct EnemySpawnOpction
     public int Min;
     public int Max;
 }
+
 public class BSPDungeonGenerator : MonoBehaviour
 {
+    public PlayerController player;
     [Header("타일 설정")]
     [SerializeField] private Tilemap tilemap;
     [SerializeField] private TileBase floorTile;
@@ -373,11 +375,13 @@ public class BSPDungeonGenerator : MonoBehaviour
                 {
                     Tilemap data = pos.GetComponent<Tilemap>();
                     data.color = Color.red;
+                    player.rest1pos = room.roomRect.center-new Vector2(0.5f, 0.5f);
                 }
                 else
                 {
                     Tilemap data = pos.GetComponent<Tilemap>();
                     data.color = new Color(0, 255, 255);
+                    player.rest2pos = room.roomRect.center - new Vector2(0.5f, 0.5f);
                 }
                 var AddObj = Instantiate(_restRoomsGimmic[CurrentRestRoomGimmicIndex++]);
                 AddObj.transform.SetParent(pos.transform);
@@ -402,6 +406,7 @@ public class BSPDungeonGenerator : MonoBehaviour
                 var spawnManager = obj.AddComponent<BossMonsterSpawn>();
                 spawnManager.bossMonsterPrefab = _bossMonsterPrefab;
                 spawnManager.spawnPosition = room.roomRect.center;
+                player.bosspos = room.roomRect.center;
             }
             else if (room.roomType == RoomType.NULL)
             {

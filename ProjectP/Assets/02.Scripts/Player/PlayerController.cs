@@ -1,13 +1,19 @@
 using System;
 using System.Collections;
+using System.Diagnostics;
 using Unity.VisualScripting;
  
 using UnityEngine;
 using UnityEngine.InputSystem;
-
+using System.Diagnostics; // 필수
 public class PlayerController : MonoBehaviour , IDamage
 {
-   [Header("Components")]
+    //테스트
+    public Vector2 bosspos;
+    public Vector2 rest1pos;
+    public Vector2 rest2pos;
+    // 테스트
+    [Header("Components")]
    [SerializeField] private InputActionReference _inputActionReference;
    [SerializeField] private InputActionAsset _inputActionAsset;
    [SerializeField] private Rigidbody2D _rb;
@@ -48,8 +54,8 @@ public class PlayerController : MonoBehaviour , IDamage
    private Vector2 prePos;  // 플레이어 현재 위치 계산용 Cache 값
     [Header("InteractionOBJ")]
     [SerializeField] private GameObject _NodeCanvas;
-    [SerializeField] private bool isDead=false;  
-    
+    [SerializeField] private bool isDead=false;
+    private bool _restRoomHealFlag = false; // 플레이어가 휴게실에서 회복했는지 여부 체크용 플래그
     private void Awake()
    {  
       _rb = GetComponent<Rigidbody2D>();
@@ -63,13 +69,23 @@ public class PlayerController : MonoBehaviour , IDamage
       _inputActionAsset["Move"].canceled += MoveStop;
       _inputActionAsset["Dash"].started += OnDash;
       _inputActionAsset["Interact"].started += Interact;
-      PostManager.Instance.Subscribe<Vector2>(PostMessageKey.InitPlayerPosition, UpdatePosition);
+        ////테스트
+        //_inputActionAsset["GobossRoom"].started += goboss;
+        //_inputActionAsset["rest1"].started += rest1;
+        //_inputActionAsset["rest2"].started += rest2;
+        //
+        PostManager.Instance.Subscribe<Vector2>(PostMessageKey.InitPlayerPosition, UpdatePosition);
       PostManager.Instance.Subscribe<int>(PostMessageKey.PostExp, GetExp);
    }
 
    private void OnDisable()
    {
-      _inputActionAsset["Move"].performed -= Move;
+        //테스트
+        //_inputActionAsset["GobossRoom"].started -= goboss;
+        //_inputActionAsset["rest1"].started -= rest1;
+        //_inputActionAsset["rest2"].started -= rest2;
+        //
+        _inputActionAsset["Move"].performed -= Move;
       _inputActionAsset["Move"].canceled -= MoveStop;
       _inputActionAsset["Dash"].started -= OnDash;
       _inputActionAsset["Interact"].started -= Interact;
@@ -77,7 +93,22 @@ public class PlayerController : MonoBehaviour , IDamage
       PostManager.Instance.Unsubscribe<Vector2>(PostMessageKey.InitPlayerPosition, UpdatePosition);
       PostManager.Instance.Unsubscribe<int>(PostMessageKey.PostExp, GetExp);
    }
-
+    //
+     
+    public void goboss(InputAction.CallbackContext context)
+    {
+     this.transform.position = bosspos;
+        this._playerStat.PlayerHp = 99999;
+    }
+    public void rest1(InputAction.CallbackContext context)
+    {
+        this.transform.position = rest1pos;
+    }
+    public void rest2(InputAction.CallbackContext context)
+    {
+        this.transform.position = rest2pos;
+    }
+   //
    private void FixedUpdate()
    {  // Player 위치 정보 상시 체크를 위한 PostManager Channel 등록 및 데이터 전송.
       // if (Vector2.Distance(_rb.position, prePos) > 0f)
@@ -205,7 +236,7 @@ public class PlayerController : MonoBehaviour , IDamage
          _interactedGameObject = hit.collider.gameObject;
             Oninteract(_interactedGameObject);
       }
-      Debug.Log(hit);
+      UnityEngine.Debug.Log(hit);
    }
 
    private void UpdatePosition(Vector2 position)
@@ -260,8 +291,11 @@ public class PlayerController : MonoBehaviour , IDamage
         var index=obj.GetComponentInChildren<IinteractiveObject>()?.Interact();
         if(index ==1)
         {
+
+            if (_restRoomHealFlag == true) return;
             _playerStat.FullRecovery();
             AudioManager.Instance.OnSfxPlayOnShot(_healSound);
+            _restRoomHealFlag = true;
         }
         else if(index ==2)
         {
@@ -269,6 +303,10 @@ public class PlayerController : MonoBehaviour , IDamage
             {
                 _NodeCanvas.SetActive(!_NodeCanvas.activeSelf);
             }
+        }
+        else
+        {
+
         }
     }
 }

@@ -2,6 +2,7 @@ using Newtonsoft.Json.Bson;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+
 using UnityEngine;
 
 /// <summary>
@@ -40,7 +41,7 @@ public class BossController : MonoBehaviour, IDamageable
     private float nxHpForRangeAttack;
     private int nxHpRateStep;
     // 다른 스크립트에서 보스가 죽었는지 체크하기 위해 추가
-    public bool isDead => _blackBoard != null && _blackBoard.IsDead;
+    public bool isDead => _blackBoard.IsDead;
     private void Awake()
     {
         _animator = GetComponent<Animator>();
@@ -74,7 +75,9 @@ public class BossController : MonoBehaviour, IDamageable
 
     public void TakeDamage(DamageType type, int damage)
     {
+        Debug.Log($"보스 죽었니? : {_blackBoard.IsDead}");
         if (_blackBoard.IsDead) return;
+        Debug.Log($"무적판정 플래그 {!_blackBoard.IsInvincible}");
         if (!_blackBoard.IsInvincible)
         {
             _blackBoard.currentHp -= damage;
@@ -118,8 +121,9 @@ public class BossController : MonoBehaviour, IDamageable
     public void OnDeath()
     {
         PostManager.Instance.Post(PostMessageKey.PostExp, _blackBoard.origin.experience);
-        // PostManager.Instance.Post<Vector2>(PostMessageKey.BatterySpawned, transform.position);
-        StartCoroutine(DestroyCoroutine());
+        
+     // PostManager.Instance.Post<Vector2>(PostMessageKey.BatterySpawned, transform.position);
+     StartCoroutine(DestroyCoroutine());
     }
 
     private IEnumerator DestroyCoroutine()
@@ -132,15 +136,20 @@ public class BossController : MonoBehaviour, IDamageable
 
     private IEnumerator SkillCoroutine()
     {
+        Debug.Log($"보스 뒤짐?:{_blackBoard.IsDead}");
         while (!_blackBoard.IsDead)
         {
+
             float hpRate = _blackBoard.currentHp / _blackBoard.origin.maxHp;
+            Debug.Log($"보스 다음 원거리 공격 체력 단계 : {nxHpForRangeAttack}");
             if (hpRate <= _burningPhaseHpRate && !_blackBoard.IsBurnning)
             {
                 OnChangePhase();
                 _blackBoard.IsBurnning = true;
-                yield return new WaitForSeconds(GetAnimationClip("BossChangePhase").length);
-            } else if (_blackBoard.currentHp > 0 && _blackBoard.currentHp <= nxHpForRangeAttack)
+                yield return new WaitForSeconds(GetAnimationClip("BossChangePhase").length+0.5f);
+                _blackBoard.IsInvincible = false; // 애니메이션 이벤트로도 켜지지만, 혹시나 하는 마음에 한 번 더 켜줌.
+            }
+            else if (_blackBoard.currentHp > 0 && _blackBoard.currentHp <= nxHpForRangeAttack)
             {   
                 OnRangeAttack();
                 SetHpStepForRangeAttack();
