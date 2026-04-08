@@ -1,3 +1,4 @@
+using Newtonsoft.Json.Bson;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -38,8 +39,8 @@ public class BossController : MonoBehaviour, IDamageable
     private WaitForSecondsRealtime _globalCooldown = new WaitForSecondsRealtime(0.1f);
     private float nxHpForRangeAttack;
     private int nxHpRateStep;
-    private bool isDead;
-
+    // 다른 스크립트에서 보스가 죽었는지 체크하기 위해 추가
+    public bool isDead => _blackBoard != null && _blackBoard.IsDead;
     private void Awake()
     {
         _animator = GetComponent<Animator>();
@@ -58,6 +59,8 @@ public class BossController : MonoBehaviour, IDamageable
 
     private void Update()
     {
+        if (_blackBoard.IsDead) return;
+
         if (_coroutine == null && _blackBoard.IsAttacking)
         {
             _coroutine = StartCoroutine(SkillCoroutine());
@@ -71,11 +74,20 @@ public class BossController : MonoBehaviour, IDamageable
 
     public void TakeDamage(DamageType type, int damage)
     {
-        if (isDead) return;
+        if (_blackBoard.IsDead) return;
+        if (!_blackBoard.IsInvincible)
+        {
+            _blackBoard.currentHp -= damage;
+            Debug.Log($"[Boss] 아프다 닝겐: 남은 체력 {_blackBoard.currentHp}");
+        }
+
+        if (_blackBoard.currentHp <= 0)
+        {
+            OnDead();
+            return;
+        }
         if (_effectInDamagedCoroutine == null) StartCoroutine(EffectInDamagedCoroutine());
-        if (!_blackBoard.IsInvincible) _blackBoard.currentHp -= damage;
         if (!_movementScript.IsChaseForce) _movementScript.OnChaseForce();
-        if (_blackBoard.currentHp <= 0) OnDead();
     }
     
     private void OnBasicAttack()
@@ -98,24 +110,24 @@ public class BossController : MonoBehaviour, IDamageable
 
     private void OnDead()
     {
+        _blackBoard.IsDead = true;
         _animator.SetBool("IsMoving", false);
         _animator.SetTrigger("OnDead");
-        isDead = true;
     }
 
     public void OnDeath()
     {
-        _blackBoard.IsDead = true;
         PostManager.Instance.Post(PostMessageKey.PostExp, _blackBoard.origin.experience);
         // PostManager.Instance.Post<Vector2>(PostMessageKey.BatterySpawned, transform.position);
-        Instantiate(_remnant, transform.position, transform.rotation);
         StartCoroutine(DestroyCoroutine());
     }
 
     private IEnumerator DestroyCoroutine()
     {
-        yield return new WaitForSeconds(0.1f);
-        Destroy(gameObject);
+        yield return new WaitForEndOfFrame();
+        Instantiate(_remnant, transform.position, transform.rotation);
+        yield return new WaitForEndOfFrame();
+        Destroy(this.gameObject,0.1f);
     }
 
     private IEnumerator SkillCoroutine()

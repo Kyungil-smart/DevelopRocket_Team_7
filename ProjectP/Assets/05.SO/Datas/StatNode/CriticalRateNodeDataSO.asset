@@ -13,8 +13,36 @@ MonoBehaviour:
   m_Name: CriticalRateNodeDataSO
   m_EditorClassIdentifier: Assembly-CSharp::NodeDataSO
   NodeInfos:
-  - <Name>k__BackingField: Node_Stat_Type
-  - <Name>k__BackingField: Critical_Rate
-  - <Name>k__BackingField: Critical_Rate
-  - <Name>k__BackingField: Critical_Rate
+  - _nodeStatType: Node_Stat_Type
+    _nameVariable: Name_Variable
+    _id: 0
+    _nodeLevel: 0
+    _nodeCostPoint: 0
+    _nodeIncrValue: 0
+    _description: description
+    _name: Node_Stat_Type
+  - _nodeStatType: Critical_Rate
+    _nameVariable: n_crit_rate
+    _id: 10031
+    _nodeLevel: 1
+    _nodeCostPoint: 1
+    _nodeIncrValue: 0.01
+    _description: "\uD06C\uB9AC\uD2F0\uCEEC \uD655\uB960 \uC0C1\uC2B9 +1%"
+    _name: Critical_Rate
+  - _nodeStatType: Critical_Rate
+    _nameVariable: n_crit_rate
+    _id: 10032
+    _nodeLevel: 2
+    _nodeCostPoint: 1
+    _nodeIncrValue: 0.02
+    _description: "\uD06C\uB9AC\uD2F0\uCEEC \uD655\uB960 \uC0C1\uC2B9 +2%"
+    _name: Critical_Rate
+  - _nodeStatType: Critical_Rate
+    _nameVariable: n_crit_rate
+    _id: 10033
+    _nodeLevel: 3
+    _nodeCostPoint: 1
+    _nodeIncrValue: 0.03
+    _description: "\uD06C\uB9AC\uD2F0\uCEEC \uD655\uB960 \uC0C1\uC2B9 +3%"
+    _name: Critical_Rate
   SpecialNodeInfos: []

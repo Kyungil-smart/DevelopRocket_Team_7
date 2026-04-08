@@ -69,12 +69,14 @@ public class StatusUIController : MonoBehaviour
         if (_isStatusViewing) Time.timeScale = 0;
         else Time.timeScale = 1;
     }
-    
-    private void OnControlSettingUI(InputAction.CallbackContext context)
+
+    public void OnCloseSettingUI()
     {
         _isSettingViewing = !_isSettingViewing;
         _settingUI.SetActive(_isSettingViewing);
         if (_isSettingViewing) Time.timeScale = 0;
         else Time.timeScale = 1;
     }
+    
+    private void OnControlSettingUI(InputAction.CallbackContext context) => OnCloseSettingUI();
 }

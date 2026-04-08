@@ -13,8 +13,36 @@ MonoBehaviour:
   m_Name: MovementSpeedNodeDataSO
   m_EditorClassIdentifier: Assembly-CSharp::NodeDataSO
   NodeInfos:
-  - <Name>k__BackingField: Node_Stat_Type
-  - <Name>k__BackingField: Movement_Speed
-  - <Name>k__BackingField: Movement_Speed
-  - <Name>k__BackingField: Movement_Speed
+  - _nodeStatType: Node_Stat_Type
+    _nameVariable: Name_Variable
+    _id: 0
+    _nodeLevel: 0
+    _nodeCostPoint: 0
+    _nodeIncrValue: 0
+    _description: description
+    _name: Node_Stat_Type
+  - _nodeStatType: Movement_Speed
+    _nameVariable: n_move_speed
+    _id: 10051
+    _nodeLevel: 1
+    _nodeCostPoint: 1
+    _nodeIncrValue: 0.1
+    _description: "\uC774\uB3D9\uC18D\uB3C4 \uC0C1\uC2B9 +10%"
+    _name: Movement_Speed
+  - _nodeStatType: Movement_Speed
+    _nameVariable: n_move_speed
+    _id: 10052
+    _nodeLevel: 2
+    _nodeCostPoint: 1
+    _nodeIncrValue: 0.15
+    _description: "\uC774\uB3D9\uC18D\uB3C4 \uC0C1\uC2B9 +15%"
+    _name: Movement_Speed
+  - _nodeStatType: Movement_Speed
+    _nameVariable: n_move_speed
+    _id: 10053
+    _nodeLevel: 3
+    _nodeCostPoint: 1
+    _nodeIncrValue: 0.2
+    _description: "\uC774\uB3D9\uC18D\uB3C4 \uC0C1\uC2B9 +20%"
+    _name: Movement_Speed
   SpecialNodeInfos: []

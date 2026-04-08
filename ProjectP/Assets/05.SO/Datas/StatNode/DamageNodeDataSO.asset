@@ -13,8 +13,36 @@ MonoBehaviour:
   m_Name: DamageNodeDataSO
   m_EditorClassIdentifier: Assembly-CSharp::NodeDataSO
   NodeInfos:
-  - <Name>k__BackingField: Node_Stat_Type
-  - <Name>k__BackingField: Damage
-  - <Name>k__BackingField: Damage
-  - <Name>k__BackingField: Damage
+  - _nodeStatType: Node_Stat_Type
+    _nameVariable: Name_Variable
+    _id: 0
+    _nodeLevel: 0
+    _nodeCostPoint: 0
+    _nodeIncrValue: 0
+    _description: description
+    _name: Node_Stat_Type
+  - _nodeStatType: Damage
+    _nameVariable: n_atk_power
+    _id: 10001
+    _nodeLevel: 1
+    _nodeCostPoint: 1
+    _nodeIncrValue: 0.1
+    _description: "\uACF5\uACA9\uB825 \uC0C1\uC2B9 +10%"
+    _name: Damage
+  - _nodeStatType: Damage
+    _nameVariable: n_atk_power
+    _id: 10002
+    _nodeLevel: 2
+    _nodeCostPoint: 1
+    _nodeIncrValue: 0.2
+    _description: "\uACF5\uACA9\uB825 \uC0C1\uC2B9 +20%"
+    _name: Damage
+  - _nodeStatType: Damage
+    _nameVariable: n_atk_power
+    _id: 10003
+    _nodeLevel: 3
+    _nodeCostPoint: 1
+    _nodeIncrValue: 0.3
+    _description: "\uACF5\uACA9\uB825 \uC0C1\uC2B9 +30%"
+    _name: Damage
   SpecialNodeInfos: []

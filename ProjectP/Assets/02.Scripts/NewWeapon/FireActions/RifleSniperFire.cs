@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.InputSystem;
+using UnityEngine.EventSystems;
 
 namespace NewWeaponSystem
 {
@@ -20,11 +21,13 @@ namespace NewWeaponSystem
 
         public override void Fire(InputAction.CallbackContext context)
         {
+            if (EventSystem.current.IsPointerOverGameObject()) return;
             if (_fireCoroutine == null) _fireCoroutine = StartCoroutine(FireCoroutine());
         }
 
         public override void FireStop(InputAction.CallbackContext context)
         {
+            if (EventSystem.current.IsPointerOverGameObject()) return;
             if (_fireCoroutine != null) StopCoroutine(_fireCoroutine);
             _fireCoroutine = null;
         }

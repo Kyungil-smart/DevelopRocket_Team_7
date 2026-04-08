@@ -23,7 +23,7 @@ public class BSPDungeonGenerator : MonoBehaviour
     public int mapHeight;
     public int minRoomSize;
     public int maxRoomSize;
-
+    public int roomPadding;
     [Header("최대 생성할 방의 개수")]
     public int maxRooms;
     //분할 추적하기 위한 카운터
@@ -42,6 +42,10 @@ public class BSPDungeonGenerator : MonoBehaviour
     [Tooltip("추적")] public EnemySpawnOpction m_chase;
     [Tooltip("원거리")] public EnemySpawnOpction m_Range;
     [Tooltip("탱커")] public EnemySpawnOpction m_Tank;
+    
+    [Header("효과")]
+    [SerializeField] private AudioClip _openSound;
+    
     private void Start()
     {
         GenerateDungeon();
@@ -63,35 +67,40 @@ public class BSPDungeonGenerator : MonoBehaviour
 
     private void Divide(BSPNode node)
     {
+        //방 최대 개수 넘어가면 종료
         if (currentRoomCount >= maxRooms) return;
-        // 방의 가로 세로 길이가 minRoomSize*2 보다 작거나 같으면 그만 재귀하고 돌아가라
-        // can_not_Divide_Further : 더 이상 나눌 수 없습니다
-        bool can_not_Divide_Further = node.rect.width <= minRoomSize * 2 && node.rect.height <= minRoomSize * 2;
-        if (can_not_Divide_Further) return;
+        
+        // 노드가 가져야 할 최소 공간 = 방 최소 크기(10) + 양쪽 여백(2+2=4) = 14
+        int minNodeSize = minRoomSize + (roomPadding * 2);
+
+        // 노드의 가로/세로가 (최소 공간 * 2) 보다 작으면 더 이상 반으로 나눌 수 없음
+        bool canDivideWidth = node.rect.width >= minNodeSize * 2;
+        bool canDivideHeight = node.rect.height >= minNodeSize * 2;
+
+        // 더 이상 나눌 수 없다면 종료
+        if (!canDivideWidth && !canDivideHeight) return;
 
         //공간을 가로 또는 세로 로 자를건지 랜덤으로 정함
         bool splitHorizontal = Random.value > 0.5f;
-        //가로가 세로보다 1.5배 이상 엄청 길다면?
-        //무조건 세로로 잘라서(splitHorizontal = false) 뚱뚱해진 가로 길이를 반토막 냅니다.
-        if (node.rect.width > node.rect.height * 1.5f)
+
+        // 비율에 따라 자르는 방향 보정 (자를 수 있는 공간이 있는지 확인 포함)
+        if (node.rect.width > node.rect.height * 1.5f && canDivideWidth)
         {
             splitHorizontal = false;
         }
-        else if (node.rect.height > node.rect.width * 1.5f)
+        else if (node.rect.height > node.rect.width * 1.5f && canDivideHeight)
         {
-            //반대로 세로로 너무 길쭉하다면?
-            //무조건 가로로 잘라서(splitHorizontal = true) 위아래 길이를 줄여줍니다.
             splitHorizontal = true;
         }
 
-        ///</summary> 
-        ///Random.Range(minRoomSize, node.rect.height - minRoomSize) 있는데
-        ///가로 방향으로 자르게 될 때 최소사이즈인 minRoomsize를 최소로 만큼 그리고
-        /// 추가 작성 바람
-        ///</summary>
-        int splitPos = splitHorizontal//가로 방향으로 자를거면 true //세로는 false
-            ? Random.Range(minRoomSize, node.rect.height - minRoomSize)//true
-            : Random.Range(minRoomSize, node.rect.width - minRoomSize);//false
+        // 선택된 방향으로 자를 수 없다면 방향 강제 반전
+        if (splitHorizontal && !canDivideHeight) splitHorizontal = false;
+        else if (!splitHorizontal && !canDivideWidth) splitHorizontal = true;
+
+        // splitPos 계산: 최소 노드 크기(minNodeSize)를 보장하는 선에서 자르는 위치 결정
+        int splitPos = splitHorizontal
+            ? Random.Range(minNodeSize, node.rect.height - minNodeSize)
+            : Random.Range(minNodeSize, node.rect.width - minNodeSize);
         ///</summary> 
         /// 밑에 코드들이 이제 실제로 구역을 나누는 로직이라고 보면 된다.
         ///  수평으로 자르게 되면 if문에 걸리고
@@ -109,12 +118,14 @@ public class BSPDungeonGenerator : MonoBehaviour
         ///  Left Right 에 값을 할당해줌
         ///   이걸 더 나눌수 없을 때 까지 나눔
         ///</summary>
-        if (splitHorizontal)//수평 자르기 인가
+      
+      // 구역 나누기
+        if (splitHorizontal)
         {
             node.left = new BSPNode(new RectInt(node.rect.x, node.rect.y, node.rect.width, splitPos), node);
             node.right = new BSPNode(new RectInt(node.rect.x, node.rect.y + splitPos, node.rect.width, node.rect.height - splitPos), node);
         }
-        else//수직 자르기 인가
+        else
         {
             node.left = new BSPNode(new RectInt(node.rect.x, node.rect.y, splitPos, node.rect.height), node);
             node.right = new BSPNode(new RectInt(node.rect.x + splitPos, node.rect.y, node.rect.width - splitPos, node.rect.height), node);
@@ -132,23 +143,16 @@ public class BSPDungeonGenerator : MonoBehaviour
     {
         if (node.IsLeaf())
         {
-            //  방 상하좌우에 둘 여백(Padding)을 설정합니다.
-            // 이 값을 늘릴수록 방 사이의 간격이 넓어집니다. (추천: 2 ~ 3)
-            int padding = 4;
+            // 1. 할당된 노드 크기에서 여백을 뺀 최대 크기 계산
+            int maxW = Mathf.Min(maxRoomSize, node.rect.width - (roomPadding * 2));
+            int maxH = Mathf.Min(maxRoomSize, node.rect.height - (roomPadding * 2));
 
-            // 1. 최대 크기 계산 시, 노드 크기에서 양옆/위아래 패딩(padding * 2)만큼 뺍니다.
-            int maxW = Mathf.Min(maxRoomSize, node.rect.width - (padding * 2));
-            int maxH = Mathf.Min(maxRoomSize, node.rect.height - (padding * 2));
+            // 2. 최소 10칸(minRoomSize) 보장 ~ 최대 15칸(maxRoomSize) 이하로 랜덤 크기 결정
+            // (Random.Range에서 int를 사용할 때 최대값은 제외되므로 +1)
+            int roomWidth = Random.Range(minRoomSize, maxW + 1);
+            int roomHeight = Random.Range(minRoomSize, maxH + 1);
 
-            // 2. 최소 크기(minRoomSize)가 최대 크기(max)를 초과하지 않도록 안전장치를 둡니다.
-            int minW = Mathf.Min(minRoomSize, maxW);
-            int minH = Mathf.Min(minRoomSize, maxH);
-
-            // 3. 제한된 최소/최대값 안에서 방의 크기를 랜덤으로 결정합니다.
-            int roomWidth = Random.Range(minW, maxW);
-            int roomHeight = Random.Range(minH, maxH);
-
-            // 방을 노드의 중앙에 배치합니다. (패딩을 빼고 계산했으므로 자동으로 중앙 정렬되며 여백이 생깁니다)
+            // 3. 방을 노드의 중앙에 배치
             int x = node.rect.x + (node.rect.width - roomWidth) / 2;
             int y = node.rect.y + (node.rect.height - roomHeight) / 2;
 
@@ -276,7 +280,7 @@ public class BSPDungeonGenerator : MonoBehaviour
             }
             else
             {
-                leafRooms[i].roomType = Random.value > 0.4f ? RoomType.MiddleNode : RoomType.NULL;
+                leafRooms[i].roomType = RoomType.MiddleNode;
             }
         }
     }
@@ -348,6 +352,7 @@ public class BSPDungeonGenerator : MonoBehaviour
                 manager.floorTile = floorTile;
                 manager.roomRect = room.roomRect;
                 manager.Tiles = _Tiles;
+                manager.openSound = _openSound;
 
                 manager.m_spawnMSG = spawnMSG;
                 manager.MonsterSpawnCount = spawnCount;
@@ -376,8 +381,6 @@ public class BSPDungeonGenerator : MonoBehaviour
                 }
                 var AddObj = Instantiate(_restRoomsGimmic[CurrentRestRoomGimmicIndex++]);
                 AddObj.transform.SetParent(pos.transform);
-
-
             }
             else if (room.roomType == RoomType.BossNode)
             {

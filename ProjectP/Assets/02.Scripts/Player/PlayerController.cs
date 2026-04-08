@@ -34,6 +34,7 @@ public class PlayerController : MonoBehaviour , IDamage
    [Header("Interaction")]
    [SerializeField] private float raycastDistance = 3f;  // 레이캐스트 감지 거리
    [SerializeField] private LayerMask interactLayer; // 레이캐스트가 감지할 레이어
+   [SerializeField] private AudioClip _healSound;
    private RaycastHit2D hit;
    private Ray2D ray;
    private GameObject _interactedGameObject;
@@ -79,10 +80,12 @@ public class PlayerController : MonoBehaviour , IDamage
 
    private void FixedUpdate()
    {  // Player 위치 정보 상시 체크를 위한 PostManager Channel 등록 및 데이터 전송.
-      if (Vector2.Distance(_rb.position, prePos) > 0f)
-      {
-         PostManager.Instance.Post<Vector2>(PostMessageKey.PlayerPosition, transform.position);
-      }
+      // if (Vector2.Distance(_rb.position, prePos) > 0f)
+      // {
+      //    PostManager.Instance.Post<Vector2>(PostMessageKey.PlayerPosition, transform.position);
+      // }
+      // 플레이어 움직임이 있을때만으로 하니 이상하게 동작하는 것 같음.
+      PostManager.Instance.Post<Vector2>(PostMessageKey.PlayerPosition, transform.position);
       prePos = transform.position;
 
       _sp.sortingOrder = (int)(transform.position.y * -1);
@@ -258,6 +261,7 @@ public class PlayerController : MonoBehaviour , IDamage
         if(index ==1)
         {
             _playerStat.FullRecovery();
+            AudioManager.Instance.OnSfxPlayOnShot(_healSound);
         }
         else if(index ==2)
         {
