@@ -138,6 +138,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::BossBulletSpawner
   bulletPrefab: {fileID: 3478186313151010062, guid: 294c8c29734519b46870478f4edbf6c0, type: 3}
   _spriteRenderer: {fileID: 2544579125017293727}
+  _bulletOnceSize: 24
 --- !u!212 &2544579125017293727
 SpriteRenderer:
   serializedVersion: 2

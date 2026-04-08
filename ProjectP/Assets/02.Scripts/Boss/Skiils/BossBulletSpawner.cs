@@ -5,6 +5,7 @@ public class BossBulletSpawner : MonoBehaviour
 {
     [SerializeField] private GameObject bulletPrefab;
     [SerializeField] private SpriteRenderer _spriteRenderer;
+    [SerializeField] [Range (12, 32)] private int _bulletOnceSize;
     private Queue<GameObject> _bullets = new();
 
     private void Awake()
@@ -29,7 +30,7 @@ public class BossBulletSpawner : MonoBehaviour
     
     private void Init()
     {
-        for (int i = 0; i < 32 * 5; i++)
+        for (int i = 0; i < _bulletOnceSize * 6; i++)
         {
             GameObject bullet = Instantiate(bulletPrefab, transform, true);
             bullet.SetActive(false);
@@ -39,7 +40,7 @@ public class BossBulletSpawner : MonoBehaviour
 
     public void SpawnBullets()
     {
-        foreach(var direction in GetDirections(32))
+        foreach(var direction in GetDirections(_bulletOnceSize))
         {
             GameObject bullet = _bullets.Dequeue();
             bullet.SetActive(true);
