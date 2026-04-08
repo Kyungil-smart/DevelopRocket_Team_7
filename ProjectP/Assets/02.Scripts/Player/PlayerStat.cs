@@ -77,6 +77,7 @@ public class PlayerStat : MonoBehaviour
     {
         _AddStat.PlayerHp = 0;
         _AddStat.moveSpeed = 0;
+        PlayerHp = MAX_Hp;
     }
     public void FullRecovery()
     {
