@@ -27,16 +27,16 @@ public class BossChangePhase : MonoBehaviour, INeedBossBlackboard
 
     public void OnBecameInvisible()
     {
-        _blackBoard.IsInvincible = true;
-        Debug.Log("보스 무적 상태로 변경");
+        //_blackBoard.IsInvincible = true;
+        //Debug.Log("보스 무적 상태로 변경");
     }
 
     // 아래 함수는 [BossChangePhase.anim] 에 Animation Event 로 등록됨.
     public void OnImpulseWave()
     {
-        _blackBoard.IsInvincible = false;
-        // ToDo. Player 에게 밀림 함수 달라고 해야한다.
-        Debug.Log("보스 무적 상태 해제");
+        //_blackBoard.IsInvincible = false;
+        //// ToDo. Player 에게 밀림 함수 달라고 해야한다.
+        //Debug.Log("보스 무적 상태 해제");
     }
 
     // 아래 함수는 [BossChangePhase.anim] 에 Animation Event 로 등록됨.

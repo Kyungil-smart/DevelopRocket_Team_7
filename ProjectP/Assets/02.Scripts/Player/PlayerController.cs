@@ -10,9 +10,10 @@ public class PlayerController : MonoBehaviour , IDamage
 {
     //테스트
     public Vector2 bosspos;
-
+    public Vector2 rest1pos;
+    public Vector2 rest2pos;
     // 테스트
-   [Header("Components")]
+    [Header("Components")]
    [SerializeField] private InputActionReference _inputActionReference;
    [SerializeField] private InputActionAsset _inputActionAsset;
    [SerializeField] private Rigidbody2D _rb;
@@ -53,8 +54,8 @@ public class PlayerController : MonoBehaviour , IDamage
    private Vector2 prePos;  // 플레이어 현재 위치 계산용 Cache 값
     [Header("InteractionOBJ")]
     [SerializeField] private GameObject _NodeCanvas;
-    [SerializeField] private bool isDead=false;  
-    
+    [SerializeField] private bool isDead=false;
+    private bool _restRoomHealFlag = false; // 플레이어가 휴게실에서 회복했는지 여부 체크용 플래그
     private void Awake()
    {  
       _rb = GetComponent<Rigidbody2D>();
@@ -68,17 +69,21 @@ public class PlayerController : MonoBehaviour , IDamage
       _inputActionAsset["Move"].canceled += MoveStop;
       _inputActionAsset["Dash"].started += OnDash;
       _inputActionAsset["Interact"].started += Interact;
-        //테스트
-        _inputActionAsset["GobossRoom"].started += goboss;
+        ////테스트
+        //_inputActionAsset["GobossRoom"].started += goboss;
+        //_inputActionAsset["rest1"].started += rest1;
+        //_inputActionAsset["rest2"].started += rest2;
         //
-      PostManager.Instance.Subscribe<Vector2>(PostMessageKey.InitPlayerPosition, UpdatePosition);
+        PostManager.Instance.Subscribe<Vector2>(PostMessageKey.InitPlayerPosition, UpdatePosition);
       PostManager.Instance.Subscribe<int>(PostMessageKey.PostExp, GetExp);
    }
 
    private void OnDisable()
    {
         //테스트
-        _inputActionAsset["GobossRoom"].started -= goboss;
+        //_inputActionAsset["GobossRoom"].started -= goboss;
+        //_inputActionAsset["rest1"].started -= rest1;
+        //_inputActionAsset["rest2"].started -= rest2;
         //
         _inputActionAsset["Move"].performed -= Move;
       _inputActionAsset["Move"].canceled -= MoveStop;
@@ -94,6 +99,14 @@ public class PlayerController : MonoBehaviour , IDamage
     {
      this.transform.position = bosspos;
         this._playerStat.PlayerHp = 99999;
+    }
+    public void rest1(InputAction.CallbackContext context)
+    {
+        this.transform.position = rest1pos;
+    }
+    public void rest2(InputAction.CallbackContext context)
+    {
+        this.transform.position = rest2pos;
     }
    //
    private void FixedUpdate()
@@ -278,8 +291,11 @@ public class PlayerController : MonoBehaviour , IDamage
         var index=obj.GetComponentInChildren<IinteractiveObject>()?.Interact();
         if(index ==1)
         {
+
+            if (_restRoomHealFlag == true) return;
             _playerStat.FullRecovery();
             AudioManager.Instance.OnSfxPlayOnShot(_healSound);
+            _restRoomHealFlag = true;
         }
         else if(index ==2)
         {
@@ -287,6 +303,10 @@ public class PlayerController : MonoBehaviour , IDamage
             {
                 _NodeCanvas.SetActive(!_NodeCanvas.activeSelf);
             }
+        }
+        else
+        {
+
         }
     }
 }

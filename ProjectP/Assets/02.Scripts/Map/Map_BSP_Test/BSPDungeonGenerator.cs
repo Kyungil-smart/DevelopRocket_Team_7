@@ -375,11 +375,13 @@ public class BSPDungeonGenerator : MonoBehaviour
                 {
                     Tilemap data = pos.GetComponent<Tilemap>();
                     data.color = Color.red;
+                    player.rest1pos = room.roomRect.center-new Vector2(0.5f, 0.5f);
                 }
                 else
                 {
                     Tilemap data = pos.GetComponent<Tilemap>();
                     data.color = new Color(0, 255, 255);
+                    player.rest2pos = room.roomRect.center - new Vector2(0.5f, 0.5f);
                 }
                 var AddObj = Instantiate(_restRoomsGimmic[CurrentRestRoomGimmicIndex++]);
                 AddObj.transform.SetParent(pos.transform);

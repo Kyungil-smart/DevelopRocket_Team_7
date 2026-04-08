@@ -121,8 +121,9 @@ public class BossController : MonoBehaviour, IDamageable
     public void OnDeath()
     {
         PostManager.Instance.Post(PostMessageKey.PostExp, _blackBoard.origin.experience);
-        // PostManager.Instance.Post<Vector2>(PostMessageKey.BatterySpawned, transform.position);
-        StartCoroutine(DestroyCoroutine());
+        
+     // PostManager.Instance.Post<Vector2>(PostMessageKey.BatterySpawned, transform.position);
+     StartCoroutine(DestroyCoroutine());
     }
 
     private IEnumerator DestroyCoroutine()
